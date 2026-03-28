@@ -1,0 +1,136 @@
+;Protocolo 6: 2 emociones (neutro-feliz 80%-20% oddball)
+;neutral_spa_F1_voy.wav contiene la sílaba "voy" emitida por locutora femenina con tono neutro y dura 500ms
+;joy_spa_F1_voy.wav contiene la sílaba "voy" emitida por locutora femenina con tono triste y dura 500ms
+; (neutral) => Marca 1
+; (joy) => Marca 2
+;ESPERAR 300
+USE_EEG true
+
+
+
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+MARCAR 1
+SONAR "ma_normalized.wav"
+ESPERAR 1000
+
+
+
+
+
+TERMINAR
