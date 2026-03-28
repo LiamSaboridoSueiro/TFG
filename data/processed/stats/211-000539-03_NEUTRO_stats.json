@@ -1,0 +1,11 @@
+{
+  "file": "211-000539-03_NEUTRO",
+  "emotion": "NEUTRO",
+  "epochs_final": 44,
+  "epochs_rejected": 3,
+  "bad_channels": [],
+  "ica_components_excluded": [
+    3
+  ],
+  "sampling_rate_hz": 250.0
+}

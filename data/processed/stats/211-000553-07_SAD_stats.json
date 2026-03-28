@@ -1,0 +1,15 @@
+{
+  "file": "211-000553-07_SAD",
+  "emotion": "SAD",
+  "epochs_final": 31,
+  "epochs_rejected": 17,
+  "bad_channels": [],
+  "ica_components_excluded": [
+    0,
+    2,
+    3,
+    4,
+    6
+  ],
+  "sampling_rate_hz": 250.0
+}

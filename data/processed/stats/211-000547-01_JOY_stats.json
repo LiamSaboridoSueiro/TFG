@@ -1,0 +1,14 @@
+{
+  "file": "211-000547-01_JOY",
+  "emotion": "JOY",
+  "epochs_final": 49,
+  "epochs_rejected": 0,
+  "bad_channels": [
+    "PO8"
+  ],
+  "ica_components_excluded": [
+    1,
+    5
+  ],
+  "sampling_rate_hz": 250.0
+}
