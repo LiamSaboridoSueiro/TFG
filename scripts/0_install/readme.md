@@ -1,0 +1,1 @@
+# uso de script de instalacion
