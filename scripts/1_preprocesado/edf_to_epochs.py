@@ -19,7 +19,7 @@ from scipy.stats import kurtosis
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def procesar_edf(edf_path: Path):
+def process_edf(edf_path: Path):
 
     print(f"Preprocesando EEG: {edf_path.name}")
 
@@ -373,7 +373,7 @@ def procesar_edf(edf_path: Path):
 
 if __name__ == "__main__":
     if len(sys.argv) >= 2:
-        procesar_edf(Path(sys.argv[1]).resolve())
+        process_edf(Path(sys.argv[1]).resolve())
     else:
         RAW_BASE_DIR = ROOT / "data/raw/edf"
         EMOTIONS = ["Joy", "Sad", "Neutro"]
@@ -397,7 +397,7 @@ if __name__ == "__main__":
             for edf_path in edf_files:
 
                 try:
-                    procesar_edf(edf_path)
+                    process_edf(edf_path)
                     processed += 1
 
                 except Exception:
