@@ -360,8 +360,10 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
     Para cada sujeto aplica log10 -> delta -> zscore y ensambla las matrices
     globales X, y y el DataFrame de metadatos.
 
-    Shape final de X: (n_epocas_total, n_features_totales)
+    Shape final de X_norm: (n_epocas_total, n_features_totales)
+    Shape final de X_log:  (n_epocas_total, n_canales * n_bandas)  — sin normalizar
     """
+    X_log_lista = []   # log10(PSD) sin delta ni zscore — para el CV sin leakage
     X_lista    = []
     y_lista    = []
     meta_lista = []
@@ -420,13 +422,17 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
             if cond not in deltas:
                 continue
 
+            # log10(PSD) sin normalizar — (n_ep, n_ch * n_bands)
+            psd_log = apply_log10(datos[sujeto][cond]["psd_lineal"])
+            n_ep    = psd_log.shape[0]
+            X_log_lista.append(psd_log.reshape(n_ep, -1))
+
             # juntamos todos los bloques z-scored de esta condición
             bloques_cond = []
             for block_name, _, _ in bloques:
                 bloques_cond.append(bloques_z[block_name][cond])
 
             features_2d = np.concatenate(bloques_cond, axis=1)     # (n_ep, n_features_totales)
-            n_ep        = features_2d.shape[0]
             label       = LABEL_MAP[cond]
 
             X_lista.append(features_2d)
@@ -447,16 +453,18 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
 
         print(f"{sujeto}: {n_ep_sujeto} épocas procesadas")
 
-    X    = np.concatenate(X_lista, axis=0).astype(np.float32)
-    y    = np.concatenate(y_lista, axis=0)
-    meta = pd.DataFrame(meta_lista)
+    X_log = np.concatenate(X_log_lista, axis=0).astype(np.float32)
+    X     = np.concatenate(X_lista,     axis=0).astype(np.float32)
+    y     = np.concatenate(y_lista,     axis=0)
+    meta  = pd.DataFrame(meta_lista)
 
-    return X, y, meta, zscore_params, feature_names_ref, feature_blocks_ref
+    return X_log, X, y, meta, zscore_params, feature_names_ref, feature_blocks_ref
 
 
 # ---------------------------------------------------------------------- Guardado
 def save_results(
-    X,
+    X_log,
+    X_norm,
     y,
     meta,
     zscore_params,
@@ -468,7 +476,8 @@ def save_results(
     FEATURES_DIR.mkdir(parents=True, exist_ok=True)
 
     # Arrays y metadatos
-    np.save(FEATURES_DIR / "features_X.npy", X)
+    np.save(FEATURES_DIR / "features_X.npy",      X_log)   # log10(PSD) sin normalizar — para CV
+    np.save(FEATURES_DIR / "features_X_norm.npy", X_norm)  # log10 + delta + zscore — para exploración
     np.save(FEATURES_DIR / "features_y.npy", y)
     meta.to_csv(FEATURES_DIR / "features_meta.csv", index=False)
 
@@ -482,8 +491,8 @@ def save_results(
         bandas_lista[k] = list(v)
 
     info = {
-        "n_epocas":   int(X.shape[0]),
-        "n_features": int(X.shape[1]),
+        "n_epocas":   int(X_norm.shape[0]),
+        "n_features": int(X_norm.shape[1]),
         "n_canales":  n_canales,
         "n_bandas":   N_BANDS,
         "bandas":     bandas_lista,
@@ -512,7 +521,8 @@ def save_results(
         json.dump(info, f, indent=2)
 
     # Resumen de archivos generados
-    print(f"features_X.npy      {X.shape}  float32")
+    print(f"features_X.npy      {X_log.shape}   float32  (log10 sin normalizar — para CV)")
+    print(f"features_X_norm.npy {X_norm.shape}  float32  (log10 + delta + zscore — para exploración)")
     print(f"features_y.npy      {y.shape}  int8")
     print(f"features_meta.csv   {len(meta)} filas")
     print(f"features_info.json  {len(feature_names)} features, {len(sujetos)} sujetos")
@@ -527,7 +537,7 @@ def feature_diagnostics(X, y, meta):
     print("DIAGNÓSTICO DE FEATURES!!!!!!!!!")
 
     # Dimensiones
-    print(f"Shape X: {X.shape}   dtype: {X.dtype}")
+    print(f"Shape X: {X_norm.shape}   dtype: {X_norm.dtype}")
     print(f"Shape y: {y.shape}   valores únicos: {np.unique(y)}")
     print(f"Normalización: {ZSCORE_MODE}")
 
@@ -607,16 +617,16 @@ if __name__ == "__main__":
 
     #  Pasos 3-5: log10 -> delta -> zscore -> ensamblar 
     print("\n[2/3] Aplicando log10 -> delta log-ratio vs NEUTRO -> z-score...")
-    X, y, meta, zscore_params, feature_names, feature_blocks = assemble_dataset(sujetos, datos)
+    X_log, X_norm, y, meta, zscore_params, feature_names, feature_blocks = assemble_dataset(sujetos, datos)
 
-    #  Guardado 
+    #  Guardado
     print("\n[3/3] Guardando resultados...")
     save_results(
-        X, y, meta, zscore_params,
+        X_log, X_norm, y, meta, zscore_params,
         sujetos, n_canales, feature_names, feature_blocks
     )
 
-    feature_diagnostics(X, y, meta)
+    feature_diagnostics(X_norm, y, meta)
 
     print()
 
