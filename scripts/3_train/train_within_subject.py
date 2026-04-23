@@ -541,23 +541,18 @@ def save_json(resultados):
     print(f"\n  ✓ Resultados: {out.name}")
 
 
-# ── MAIN ─────────────────────────────────────────────────────────────────────
+# MAIN
 
 if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("\n" + "=" * 65)
-    print("CLASIFICACIÓN WITHIN-SUBJECT  ")
-    print("=" * 65)
+    print("CLASIFICACIÓN WITHIN-SUBJECT!!!!!!!!!!!!!!!!")
     print(f"  Estrategia: Stratified {N_FOLDS}-Fold CV por sujeto")
-    print(f"  Baseline NEUTRO y z-score calculados DENTRO de cada fold")
-    print(f"  Chance level: 0.333  (3 clases)")
+    print(f"  Chance level: 0.333  (3 clases)        :o")
 
     # Cargar datos en escala log (sin normalizar)
-    print("\n  Cargando datos log10(PSD)...")
+    print("\n  Cargando datos...")
     X_log, y, meta, ch_names = load_dataset()
-    print(f"  X_log shape: {X_log.shape}")
-    print(f"  Canales EEG: {len(ch_names)}")
 
     # Verificar que el shape de X_log es coherente con los canales y bandas
     if len(ch_names) > 0 and X_log.shape[1] != len(ch_names) * N_BANDS:
@@ -580,9 +575,7 @@ if __name__ == "__main__":
     save_json(resultados)
 
     # Tabla comparativa
-    print("\n" + "=" * 65)
-    print("TABLA COMPARATIVA POR SUJETO")
-    print("=" * 65)
+    print("TABLA COMPARATIVA POR SUJETO!!!!!")
     sujetos = sorted(meta["subject_id"].unique())
     nombres = list(CLASIFICADORES.keys())
     print(f"\n  {'Sujeto':<20}", end="")
@@ -608,6 +601,4 @@ if __name__ == "__main__":
         else:
             print(f"  {n_ep:>6}  —")
 
-    print("\n" + "=" * 65)
-    print("✓ COMPLETADO — resultados en data/results/")
-    print("=" * 65)
+    print("Terminado — resultados en data/results/")
