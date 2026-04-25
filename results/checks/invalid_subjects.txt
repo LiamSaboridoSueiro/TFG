@@ -1,0 +1,3 @@
+# Sujetos descartados - generado por check_valid_subjects.py
+# Formato: subject_id | motivo | detalle
+211-000542 | spectrum_outlier | NEUTRO:sin_pico_alpha_suficiente alpha_beta=1.192 slope=794.784
