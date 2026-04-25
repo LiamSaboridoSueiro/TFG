@@ -52,6 +52,10 @@ RANDOM_STATE = 42       # semilla de aleatoriedad para reproducibilidad
 N_TOP_FEAT   = 20       # n de features que se muestran en el gráfico de importancia 20/398
 SAVE_MODELS  = True     # si True guarda un modelo final por sujeto del mejor clasificador
 
+SUBJECT_COL_WIDTH = 18
+METRIC_COL_WIDTH  = 18
+N_EP_COL_WIDTH    = 6
+
 CLASIFICADORES = {
     "LogReg": LogisticRegression(
         penalty="elasticnet",
@@ -228,6 +232,11 @@ def build_feature_names(ch_names):
     return feat_names
 
 
+def format_metric(mean_value, std_value):
+    """Formatea media y desviación para tablas de consola."""
+    return f"{mean_value:.3f} +/- {std_value:.2f}"
+
+
 def save_subject_model(X_log_suj, y_suj, clf, ch_names, clf_name, sid):
     """Entrena con todas las épocas del sujeto y guarda modelo + preprocesado."""
     X_train, preprocessing = fit_normalization_pipeline(X_log_suj, y_suj, ch_names)
@@ -333,11 +342,11 @@ def classify_all_subjects(X_log, y, meta, ch_names):
     resultados = {nombre: [] for nombre in CLASIFICADORES}
 
     # cabecera de la tabla
-    print(f"\n  {'Sujeto':<20}", end="")
+    print(f"\n  {'Sujeto':<{SUBJECT_COL_WIDTH}}", end="")
     for nombre in CLASIFICADORES:
-        print(f"  {nombre:>17}", end="")
-    print(f"  {'N_ep':>6}")
-    print("  " + "-" * (20 + 19 * len(CLASIFICADORES) + 8))
+        print(f"  {nombre:>{METRIC_COL_WIDTH}}", end="")
+    print(f"  {'N_ep':>{N_EP_COL_WIDTH}}")
+    print("  " + "-" * (SUBJECT_COL_WIDTH + (METRIC_COL_WIDTH + 2) * len(CLASIFICADORES) + N_EP_COL_WIDTH + 2))
 
     for sid in sujetos:
         mask      = (meta["subject_id"] == sid).values
@@ -349,7 +358,7 @@ def classify_all_subjects(X_log, y, meta, ch_names):
         clases, counts = np.unique(y_suj, return_counts=True)
         min_clase = counts.min()
         if min_clase < N_FOLDS:
-            print(f"  {sid:<20}  saltando ({min_clase} épocas en clase mínima)")
+            print(f"  {sid:<{SUBJECT_COL_WIDTH}}  saltando ({min_clase} épocas en clase mínima)")
             for nombre in CLASIFICADORES:
                 resultados[nombre].append({
                     "subject_id": sid, "acc_media": np.nan,
@@ -359,7 +368,7 @@ def classify_all_subjects(X_log, y, meta, ch_names):
                 })
             continue
 
-        print(f"  {sid:<20}", end="", flush=True)
+        print(f"  {sid:<{SUBJECT_COL_WIDTH}}", end="", flush=True)
 
         for nombre, clf in CLASIFICADORES.items():
             accs, f1s, y_true, y_pred, imp = evaluate_subject(
@@ -376,9 +385,9 @@ def classify_all_subjects(X_log, y, meta, ch_names):
                 "y_pred":      y_pred,
                 "importancias": imp,
             })
-            print(f"  {accs.mean():>6.3f}±{accs.std():.2f}", end="", flush=True)
+            print(f"  {format_metric(accs.mean(), accs.std()):>{METRIC_COL_WIDTH}}", end="", flush=True)
 
-        print(f"  {n_ep:>6}")
+        print(f"  {n_ep:>{N_EP_COL_WIDTH}}")
 
     return resultados
 
@@ -649,14 +658,14 @@ if __name__ == "__main__":
     print("TABLA COMPARATIVA POR SUJETO!!!!!")
     sujetos = sorted(meta["subject_id"].unique())
     nombres = list(CLASIFICADORES.keys())
-    print(f"\n  {'Sujeto':<20}", end="")
+    print(f"\n  {'Sujeto':<{SUBJECT_COL_WIDTH}}", end="")
     for n in nombres:
-        print(f"  {n:>17}", end="")
-    print(f"  {'N_ep':>6}  Mejor")
-    print("  " + "-" * (20 + 19*len(nombres) + 16))
+        print(f"  {n:>{METRIC_COL_WIDTH}}", end="")
+    print(f"  {'N_ep':>{N_EP_COL_WIDTH}}  Mejor")
+    print("  " + "-" * (SUBJECT_COL_WIDTH + (METRIC_COL_WIDTH + 2) * len(nombres) + N_EP_COL_WIDTH + 10))
 
     for sid in sujetos:
-        print(f"  {sid.replace('211-000',''):<20}", end="")
+        print(f"  {sid.replace('211-000',''):<{SUBJECT_COL_WIDTH}}", end="")
         accs_suj, n_ep = {}, 0
         for nombre in nombres:
             r = next((r for r in resultados[nombre]
@@ -664,12 +673,12 @@ if __name__ == "__main__":
             if r and not np.isnan(r["acc_media"]):
                 accs_suj[nombre] = r["acc_media"]
                 n_ep = r["n_epocas"]
-                print(f"  {r['acc_media']:>6.3f}±{r['acc_std']:.2f}", end="")
+                print(f"  {format_metric(r['acc_media'], r['acc_std']):>{METRIC_COL_WIDTH}}", end="")
             else:
-                print(f"  {'—':>17}", end="")
+                print(f"  {'-':>{METRIC_COL_WIDTH}}", end="")
         if accs_suj:
-            print(f"  {n_ep:>6}  {max(accs_suj, key=accs_suj.get)}")
+            print(f"  {n_ep:>{N_EP_COL_WIDTH}}  {max(accs_suj, key=accs_suj.get)}")
         else:
-            print(f"  {n_ep:>6}  —")
+            print(f"  {n_ep:>{N_EP_COL_WIDTH}}  -")
 
     print("Terminado — resultados en data/results/")

@@ -7,6 +7,7 @@ Script de entrenamiento all-subjects:
     - LogisticRegression elastic-net  (interpretable con SHAP)
     - Random Forest
     - SVM RBF
+    - LDA
 
 Salida:
   results/all_subjects/all_subjects_results.json             métricas e hiperparámetros por clasificador
@@ -28,6 +29,7 @@ import joblib
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedGroupKFold, ParameterGrid
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
@@ -53,6 +55,9 @@ N_TOP_FEAT   = 20       # n de features que se muestran en el gráfico de import
 SAVE_MODEL   = True     # si True guarda el mejor modelo final entrenado con todos los sujetos
 SCORING      = "f1_macro"
 
+CLF_COL_WIDTH    = 20
+METRIC_COL_WIDTH = 10
+
 CLASIFICADORES = {
     "LogReg": LogisticRegression(
         penalty="elasticnet",
@@ -71,23 +76,38 @@ CLASIFICADORES = {
         class_weight="balanced",
         random_state=RANDOM_STATE,
     ),
+    "LDA": LinearDiscriminantAnalysis(),
 }
 
 PARAM_GRIDS = {
     "LogReg": {
-        "C": [0.01, 0.1, 1.0, 10.0],
-        "l1_ratio": [0.15, 0.5, 0.85],
+        "C": [0.01, 0.1, 1.0],
+        "l1_ratio": [0.15, 0.85],
     },
     "RandomForest": {
         "n_estimators": [200, 400],
         "max_depth": [None, 10, 20],
-        "min_samples_leaf": [1, 3],
+        "min_samples_leaf": [3],
         "max_features": ["sqrt"],
     },
     "SVM_RBF": {
-        "C": [0.1, 1.0, 10.0, 30.0],
-        "gamma": ["scale", 0.01, 0.001],
+        "C": [1.0, 10.0, 30.0],
+        "gamma": ["scale", 0.001],
     },
+    "LDA": [
+        {
+            "solver": ["svd"],
+            "shrinkage": [None],
+        },
+        {
+            "solver": ["lsqr"],
+            "shrinkage": [None, "auto", 0.1, 0.5],
+        },
+        {
+            "solver": ["eigen"],
+            "shrinkage": ["auto"],
+        },
+    ],
 }
 
 # Bandas y configuración de features derivadas
@@ -240,6 +260,11 @@ def build_feature_names(ch_names):
     return feat_names
 
 
+def format_metric(mean_value, std_value):
+    """Formatea media y desviación para tablas de consola."""
+    return f"{mean_value:.3f} +/- {std_value:.2f}"
+
+
 # ---------------------------------------------------------------------- Búsqueda de hiperparámetros
 
 def evaluate_params(X_log, y, groups, ch_names, clf, params, n_folds=N_FOLDS):
@@ -323,8 +348,8 @@ def hyperparameter_search(X_log, y, meta, ch_names):
 
             print(
                 f"    [{idx:02d}/{len(grid):02d}] "
-                f"F1={r['f1_media']:.3f}±{r['f1_std']:.2f}  "
-                f"Acc={r['acc_media']:.3f}±{r['acc_std']:.2f}  "
+                f"F1={format_metric(r['f1_media'], r['f1_std']):>14}  "
+                f"Acc={format_metric(r['acc_media'], r['acc_std']):>14}  "
                 f"{params}",
                 flush=True,
             )
@@ -348,7 +373,7 @@ def classifier_summary(resultados):
     print("=" * 76)
     print("RESUMEN GLOBAL ALL-SUBJECTS  (GroupKFold por sujeto, sin mezclar sujetos)")
     print("=" * 76)
-    print(f"\n{'Clasificador':<20} {'F1 macro':>10} {'F1 std':>8} {'Acc media':>10} {'Acc std':>8}  Mejora")
+    print(f"\n{'Clasificador':<{CLF_COL_WIDTH}} {'F1 macro':>{METRIC_COL_WIDTH}} {'Acc media':>{METRIC_COL_WIDTH}}  Mejora")
     print("-" * 76)
 
     mejor_nombre, mejor_f1 = None, -np.inf
@@ -359,8 +384,10 @@ def classifier_summary(resultados):
         barra  = "█" * int(best["f1_media"] * 35)
 
         print(
-            f"{nombre:<20} {best['f1_media']:>10.3f} {best['f1_std']:>8.3f} "
-            f"{best['acc_media']:>10.3f} {best['acc_std']:>8.3f}  {mejora:+.1f}pp  {barra}"
+            f"{nombre:<{CLF_COL_WIDTH}} "
+            f"{format_metric(best['f1_media'], best['f1_std']):>{METRIC_COL_WIDTH + 7}} "
+            f"{format_metric(best['acc_media'], best['acc_std']):>{METRIC_COL_WIDTH + 7}}  "
+            f"{mejora:+.1f}pp  {barra}"
         )
 
         if best["f1_media"] > mejor_f1:
@@ -638,13 +665,13 @@ if __name__ == "__main__":
 
     # Tabla comparativa
     print("TABLA COMPARATIVA GLOBAL!!!!!")
-    print(f"\n  {'Clasificador':<20} {'F1 macro':>10} {'Acc media':>10}  Params")
+    print(f"\n  {'Clasificador':<{CLF_COL_WIDTH}} {'F1 macro':>{METRIC_COL_WIDTH}} {'Acc media':>{METRIC_COL_WIDTH}}  Params")
     print("  " + "-" * 92)
 
     for nombre, data in resultados.items():
         best = data["best"]
         print(
-            f"  {nombre:<20} {best['f1_media']:>10.3f} {best['acc_media']:>10.3f}  "
+            f"  {nombre:<{CLF_COL_WIDTH}} {best['f1_media']:>{METRIC_COL_WIDTH}.3f} {best['acc_media']:>{METRIC_COL_WIDTH}.3f}  "
             f"{best['params']}"
         )
 
