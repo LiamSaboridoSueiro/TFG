@@ -9,10 +9,11 @@ Script de entrenamiento within-subject:
     - SVM RBF
 
 Salida:
-  data/results/train_within_subject/within_subject_results.json             métricas por sujeto y clasificador
-  data/results/train_within_subject/01_accuracy_<clf>.png                   accuracy por sujeto (mejor clasificador)
-  data/results/train_within_subject/02_confusion_<clf>.png                  matriz de confusión agregada
-  data/results/train_within_subject/03_importancia_<clf>.png                importancia de features
+  results/within_subject/within_subject_results.json             métricas por sujeto y clasificador
+  results/within_subject/01_accuracy_<clf>.png                   accuracy por sujeto (mejor clasificador)
+  results/within_subject/02_confusion_<clf>.png                  matriz de confusión agregada
+  results/within_subject/03_importancia_<clf>.png                importancia de features
+  models/within_subject/<sujeto>.joblib                          modelo final por sujeto
 
 """
 
@@ -30,13 +31,15 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
+from sklearn.base import clone
 
 
 warnings.filterwarnings("ignore")
 
 # ---------------------------------------------------------------------- Configuración
 FEATURES_DIR = Path("data/features")
-RESULTS_DIR  = Path("data/results/train_within_subject")
+RESULTS_DIR  = Path("results/within_subject")
+FINAL_MODELS_DIR = Path("models/within_subject")
 CONDITIONS   = ["JOY", "NEUTRO", "SAD"]
 LABEL_MAP    = {"JOY": 0, "NEUTRO": 1, "SAD": 2}
 
@@ -47,7 +50,7 @@ for label, cond in LABEL_MAP.items():
 N_FOLDS      = 5
 RANDOM_STATE = 42       # semilla de aleatoriedad para reproducibilidad
 N_TOP_FEAT   = 20       # n de features que se muestran en el gráfico de importancia 20/398
-SAVE_MODELS  = True     # si True guarda cada modelo entrenado en data/results/train_within_subject/models/
+SAVE_MODELS  = True     # si True guarda un modelo final por sujeto del mejor clasificador
 
 CLASIFICADORES = {
     "LogReg": LogisticRegression(
@@ -114,60 +117,29 @@ def load_dataset():
     with open(FEATURES_DIR / "features_info.json") as f:
         info = json.load(f)
     ch_names = info.get("ch_names_eeg", [])
+    if not ch_names:
+        raise ValueError(
+            "features_info.json no contiene 'ch_names_eeg'. "
+            "Vuelve a ejecutar epochs_to_features.py con el guardado de canales actualizado."
+        )
 
     return X_log, y, meta, ch_names
 
 
 # ---------------------------------------------------------------------- Normalización dentro del fold
-def apply_normalization_pipeline(X_log_train, y_train, X_log_test, ch_names):
-    """
-    Aplica el pipeline completo de normalización usando SOLO datos de train.
+def _build_feature_matrix(delta_2d, ch_names):
+    """Añade las features derivadas al bloque bandpower ya normalizado."""
 
-    Return:
-        X_train_feat y X_test_feat ya normalizados.
-    """
     n_ch = len(ch_names)
+    delta_3d = delta_2d.reshape(len(delta_2d), n_ch, N_BANDS)
 
-    # Reshape a (n_ep, n_ch, n_bands) para operar por canal y banda
-    X_tr = X_log_train.reshape(-1, n_ch, N_BANDS)
-    X_te = X_log_test.reshape(-1, n_ch, N_BANDS)
-
-    # Baseline Neutro -----------------------------------------------------------
-    neutro_mask = (y_train == LABEL_MAP["NEUTRO"])
-    if neutro_mask.sum() == 0:
-        baseline = X_tr.mean(axis=0)               # fallback: media de todo train
-    else:
-        baseline = X_tr[neutro_mask].mean(axis=0)  # (n_ch, n_bands)
-
-    # Resta el baseline para ver la diferencia de Neutro ------------------------
-    delta_tr = X_tr - baseline[np.newaxis, :, :]
-    delta_te = X_te - baseline[np.newaxis, :, :]
-
-    # Estandarizar (Z-score) -----------------------------------------------------
-    delta_tr_2d = delta_tr.reshape(len(delta_tr), -1)   # (n_ep, n_ch*n_bands)
-    delta_te_2d = delta_te.reshape(len(delta_te), -1)
-
-    scaler      = StandardScaler()
-    delta_tr_2d = scaler.fit_transform(delta_tr_2d)
-    delta_te_2d = scaler.transform(delta_te_2d)
-
-    # Volver a 3D para calcular features derivadas
-    delta_tr_3d = delta_tr_2d.reshape(len(delta_tr), n_ch, N_BANDS)
-    delta_te_3d = delta_te_2d.reshape(len(delta_te), n_ch, N_BANDS)
-
-    # Features derivadas (ratio y asimetria) -------------------------------------
-    bloques_tr = [delta_tr_2d]
-    bloques_te = [delta_te_2d]
+    bloques = [delta_2d]
 
     if INCLUDE_THETA_ALPHA_RATIO and ch_names:
         theta_idx = BAND_IDX["Theta"]
         alpha_idx = BAND_IDX["Alpha"]
-
-        ratio_tr = delta_tr_3d[:, :, theta_idx] - delta_tr_3d[:, :, alpha_idx]
-        ratio_te = delta_te_3d[:, :, theta_idx] - delta_te_3d[:, :, alpha_idx]
-
-        bloques_tr.append(ratio_tr)
-        bloques_te.append(ratio_te)
+        ratio = delta_3d[:, :, theta_idx] - delta_3d[:, :, alpha_idx]
+        bloques.append(ratio)
 
     if INCLUDE_ALPHA_ASYMMETRY and ch_names:
         ch_idx_map = {}
@@ -180,21 +152,124 @@ def apply_normalization_pipeline(X_log_train, y_train, X_log_test, ch_names):
                 pares_validos.append((l, r, ch_idx_map[l], ch_idx_map[r]))
 
         if pares_validos:
-            alpha_idx  = BAND_IDX["Alpha"]
-
-            asym_tr_cols = []
-            asym_te_cols = []
+            alpha_idx = BAND_IDX["Alpha"]
+            asym_cols = []
             for _, _, li, ri in pares_validos:
-                asym_tr_cols.append(delta_tr_3d[:, ri, alpha_idx] - delta_tr_3d[:, li, alpha_idx])
-                asym_te_cols.append(delta_te_3d[:, ri, alpha_idx] - delta_te_3d[:, li, alpha_idx])
+                asym_cols.append(delta_3d[:, ri, alpha_idx] - delta_3d[:, li, alpha_idx])
+            bloques.append(np.column_stack(asym_cols))
 
-            bloques_tr.append(np.column_stack(asym_tr_cols))
-            bloques_te.append(np.column_stack(asym_te_cols))
+    return np.concatenate(bloques, axis=1).astype(np.float32)
 
-    X_train_feat = np.concatenate(bloques_tr, axis=1).astype(np.float32)
-    X_test_feat  = np.concatenate(bloques_te, axis=1).astype(np.float32)
 
+def fit_normalization_pipeline(X_log_train, y_train, ch_names):
+    """Ajusta baseline + scaler usando solo los datos recibidos."""
+    n_ch = len(ch_names)
+
+    # Reshape a (n_ep, n_ch, n_bands) para operar por canal y banda
+    X_tr = X_log_train.reshape(-1, n_ch, N_BANDS)
+
+    # Baseline Neutro -----------------------------------------------------------
+    neutro_mask = (y_train == LABEL_MAP["NEUTRO"])
+    if neutro_mask.sum() == 0:
+        baseline = X_tr.mean(axis=0)               # fallback: media de todo train
+    else:
+        baseline = X_tr[neutro_mask].mean(axis=0)  # (n_ch, n_bands)
+
+    # Resta el baseline para ver la diferencia de Neutro ------------------------
+    delta_tr = X_tr - baseline[np.newaxis, :, :]
+
+    # Estandarizar (Z-score) -----------------------------------------------------
+    delta_tr_2d = delta_tr.reshape(len(delta_tr), -1)   # (n_ep, n_ch*n_bands)
+
+    scaler      = StandardScaler()
+    delta_tr_2d = scaler.fit_transform(delta_tr_2d)
+
+    preprocessing = {
+        "baseline": baseline,
+        "scaler": scaler,
+    }
+
+    return _build_feature_matrix(delta_tr_2d, ch_names), preprocessing
+
+
+def transform_normalization_pipeline(X_log, ch_names, preprocessing):
+    """Aplica una normalización ya ajustada a nuevas épocas."""
+    n_ch = len(ch_names)
+    X = X_log.reshape(-1, n_ch, N_BANDS)
+    delta = X - preprocessing["baseline"][np.newaxis, :, :]
+    delta_2d = delta.reshape(len(delta), -1)
+    delta_2d = preprocessing["scaler"].transform(delta_2d)
+    return _build_feature_matrix(delta_2d, ch_names)
+
+
+def apply_normalization_pipeline(X_log_train, y_train, X_log_test, ch_names):
+    """
+    Aplica el pipeline completo de normalización usando SOLO datos de train.
+
+    Return:
+        X_train_feat y X_test_feat ya normalizados.
+    """
+    X_train_feat, preprocessing = fit_normalization_pipeline(X_log_train, y_train, ch_names)
+    X_test_feat = transform_normalization_pipeline(X_log_test, ch_names, preprocessing)
     return X_train_feat, X_test_feat
+
+
+def build_feature_names(ch_names):
+    feat_names = [f"{ch}_{b}" for ch in ch_names for b in BANDS]
+    if INCLUDE_THETA_ALPHA_RATIO:
+        feat_names += [f"ThetaAlphaRatio_{ch}" for ch in ch_names]
+    if INCLUDE_ALPHA_ASYMMETRY:
+        ch_idx_map = {ch: i for i, ch in enumerate(ch_names)}
+        feat_names += [
+            f"AlphaAsym_{r}-{l}"
+            for l, r in ALPHA_ASYMMETRY_PAIRS
+            if l in ch_idx_map and r in ch_idx_map
+        ]
+    return feat_names
+
+
+def save_subject_model(X_log_suj, y_suj, clf, ch_names, clf_name, sid):
+    """Entrena con todas las épocas del sujeto y guarda modelo + preprocesado."""
+    X_train, preprocessing = fit_normalization_pipeline(X_log_suj, y_suj, ch_names)
+    final_clf = clone(clf)
+    final_clf.fit(X_train, y_suj)
+
+    FINAL_MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    joblib.dump(
+        {
+            "classifier": final_clf,
+            "preprocessing": preprocessing,
+            "subject_id": sid,
+            "classifier_name": clf_name,
+            "ch_names_eeg": ch_names,
+            "feature_names": build_feature_names(ch_names),
+            "bands": BANDS,
+            "label_map": LABEL_MAP,
+            "conditions": CONDITIONS,
+        },
+        FINAL_MODELS_DIR / f"{sid}.joblib",
+    )
+
+
+def save_best_subject_models(X_log, y, meta, ch_names, clf_name):
+    """Guarda un único modelo final por sujeto usando el mejor clasificador global."""
+    if not SAVE_MODELS:
+        return
+
+    clf = CLASIFICADORES[clf_name]
+    sujetos = sorted(meta["subject_id"].unique())
+
+    for sid in sujetos:
+        mask = (meta["subject_id"] == sid).values
+        y_suj = y[mask]
+
+        clases, counts = np.unique(y_suj, return_counts=True)
+        if len(clases) < len(CONDITIONS) or counts.min() < N_FOLDS:
+            continue
+
+        save_subject_model(X_log[mask], y_suj, clf, ch_names, clf_name, sid)
+
+    print(f"Modelos finales por sujeto: {FINAL_MODELS_DIR}")
 
 
 
@@ -210,7 +285,7 @@ def evaluate_subject(X_log_suj, y_suj, clf, ch_names, clf_name="", sid="", n_fol
     y_pred_all   = []
     importancias = []
 
-    for fold_idx, (train_idx, test_idx) in enumerate(skf.split(X_log_suj, y_suj)):
+    for train_idx, test_idx in skf.split(X_log_suj, y_suj):
         X_log_train = X_log_suj[train_idx]
         X_log_test  = X_log_suj[test_idx]
         y_train     = y_suj[train_idx]
@@ -222,23 +297,19 @@ def evaluate_subject(X_log_suj, y_suj, clf, ch_names, clf_name="", sid="", n_fol
             X_log_test,  ch_names
         )
 
-        clf.fit(X_train, y_train)
-        y_pred = clf.predict(X_test)
+        fold_clf = clone(clf)
+        fold_clf.fit(X_train, y_train)
+        y_pred = fold_clf.predict(X_test)
 
         accs.append(accuracy_score(y_test, y_pred))
         f1s.append(f1_score(y_test, y_pred, average="macro", zero_division=0))
         y_true_all.extend(y_test)
         y_pred_all.extend(y_pred)
 
-        if hasattr(clf, "coef_"):
-            importancias.append(np.abs(clf.coef_).mean(axis=0))
-        elif hasattr(clf, "feature_importances_"):
-            importancias.append(clf.feature_importances_)
-
-        if SAVE_MODELS and clf_name and sid:
-            model_dir = RESULTS_DIR / "models" / clf_name
-            model_dir.mkdir(parents=True, exist_ok=True)
-            joblib.dump(clf, model_dir / f"{sid}_fold{fold_idx}.joblib")
+        if hasattr(fold_clf, "coef_"):
+            importancias.append(np.abs(fold_clf.coef_).mean(axis=0))
+        elif hasattr(fold_clf, "feature_importances_"):
+            importancias.append(fold_clf.feature_importances_)
 
     imp_media = np.mean(importancias, axis=0) if importancias else None
 
@@ -393,7 +464,7 @@ def plot_accuracy(resultados, mejor_clf):
     plt.tight_layout()
     fname = RESULTS_DIR / f"01_accuracy_{mejor_clf}.png"
     plt.savefig(fname, dpi=120)
-    print(f"\n  ✓ {fname.name}")
+    print(f"\n {fname.name}")
     plt.show()
 
 
@@ -434,7 +505,7 @@ def plot_confusion(resultados, mejor_clf):
     plt.tight_layout()
     fname = RESULTS_DIR / f"02_confusion_{mejor_clf}.png"
     plt.savefig(fname, dpi=120)
-    print(f"  ✓ {fname.name}")
+    print(f" {fname.name}")
     plt.show()
 
     y_true_all = np.concatenate([d["y_true"] for d in resultados[mejor_clf]
@@ -509,7 +580,7 @@ def plot_feature_importance(resultados, mejor_clf, ch_names, n_top=N_TOP_FEAT):
     plt.tight_layout()
     fname = RESULTS_DIR / f"03_importancia_{mejor_clf}.png"
     plt.savefig(fname, dpi=120)
-    print(f"  ✓ {fname.name}")
+    print(f" {fname.name}")
     plt.show()
 
 
@@ -538,11 +609,10 @@ def save_json(resultados):
     out = RESULTS_DIR / "within_subject_results.json"
     with open(out, "w") as f:
         json.dump(resumen, f, indent=2)
-    print(f"\n  ✓ Resultados: {out.name}")
+    print(f"\n Resultados: {out.name}")
 
 
 # MAIN
-
 if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -567,6 +637,7 @@ if __name__ == "__main__":
     resultados = classify_all_subjects(X_log, y, meta, ch_names)
 
     mejor_clf = classifier_summary(resultados)
+    save_best_subject_models(X_log, y, meta, ch_names, mejor_clf)
 
     print("\n  Generando figuras...")
     plot_accuracy(resultados, mejor_clf)
