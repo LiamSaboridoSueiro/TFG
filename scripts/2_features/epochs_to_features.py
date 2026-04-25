@@ -22,7 +22,7 @@ mne.set_log_level("ERROR")
 # ---------------------------------------------------------------------- CONFIGURACIÓN INICIAL
 EPOCHS_DIR   = Path("data/processed/epochs")
 FEATURES_DIR = Path("data/features")
-SUBJECT_FILE = Path("results/check/valid_subjects.txt")   # generado por check_valid_subjects.py
+SUBJECT_FILE = Path("results/checks/valid_subjects.txt")   # generado por check_valid_subjects.py
 
 CONDITIONS  = ["JOY", "NEUTRO", "SAD"]
 LABEL_MAP   = {"JOY": 0, "NEUTRO": 1, "SAD": 2}
