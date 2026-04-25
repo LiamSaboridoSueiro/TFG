@@ -1,0 +1,84 @@
+{
+  "global": {
+    "original_condition": {
+      "silhouette": -0.0048415218479931355,
+      "centroid_ratio": 0.10485395131729396
+    },
+    "original_subject": {
+      "silhouette": 0.2514752149581909,
+      "centroid_ratio": 2.0268991572323545
+    },
+    "pca_2d_condition": {
+      "silhouette": -0.0168110653758049,
+      "centroid_ratio": 0.08575255534816427
+    },
+    "pca_2d_subject": {
+      "silhouette": -0.12959811091423035,
+      "centroid_ratio": 2.3500595326982467
+    },
+    "lda_2d_condition": {
+      "silhouette": 0.21863163170476296,
+      "centroid_ratio": 1.8061197295011746
+    },
+    "lda_2d_subject": {
+      "silhouette": -0.15744582411733538,
+      "centroid_ratio": 0.31806423231468256
+    }
+  },
+  "within_subject_mean": {
+    "original": {
+      "silhouette": 0.08921659551560879,
+      "centroid_ratio": 0.9018010690063069
+    },
+    "pca_2d": {
+      "silhouette": 0.1707209391600412,
+      "centroid_ratio": 1.5987152878753135
+    },
+    "lda_2d": {
+      "silhouette": 0.8911999670255899,
+      "centroid_ratio": 21.845582483657825
+    }
+  },
+  "within_subject_top_lda": [
+    {
+      "subject_id": "211-000550",
+      "silhouette": 0.9579769183448901,
+      "centroid_ratio": 41.39820149667409
+    },
+    {
+      "subject_id": "211-000531",
+      "silhouette": 0.9649448524075909,
+      "centroid_ratio": 40.79410593174554
+    },
+    {
+      "subject_id": "211-000546",
+      "silhouette": 0.9413700431752384,
+      "centroid_ratio": 39.82772320760098
+    },
+    {
+      "subject_id": "211-000548",
+      "silhouette": 0.8815032467378984,
+      "centroid_ratio": 39.6376446683769
+    },
+    {
+      "subject_id": "211-000539",
+      "silhouette": 0.9211865029809584,
+      "centroid_ratio": 26.68442557919833
+    },
+    {
+      "subject_id": "211-000540",
+      "silhouette": 0.9407159781322081,
+      "centroid_ratio": 25.89383641873217
+    },
+    {
+      "subject_id": "211-000537",
+      "silhouette": 0.9247160778280884,
+      "centroid_ratio": 25.561901697427036
+    },
+    {
+      "subject_id": "211-000552",
+      "silhouette": 0.9027540585451359,
+      "centroid_ratio": 22.557739837581536
+    }
+  ]
+}
