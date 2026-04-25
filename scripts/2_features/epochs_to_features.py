@@ -22,7 +22,7 @@ mne.set_log_level("ERROR")
 # ---------------------------------------------------------------------- CONFIGURACIÓN INICIAL
 EPOCHS_DIR   = Path("data/processed/epochs")
 FEATURES_DIR = Path("data/features")
-SUJETOS_FILE = Path("data/checks/valid_subjects.txt")   # generado por check_valid_subjects.py
+SUBJECT_FILE = Path("results/check/valid_subjects.txt")   # generado por check_valid_subjects.py
 
 CONDITIONS  = ["JOY", "NEUTRO", "SAD"]
 LABEL_MAP   = {"JOY": 0, "NEUTRO": 1, "SAD": 2}
@@ -92,13 +92,13 @@ ALPHA_ASYMMETRY_PAIRS = [
 
 def load_valid_subjects() -> list[str]:
     """Lee la lista de sujetos aptos generada por check_valid_subjects.py."""
-    if not SUJETOS_FILE.exists():
+    if not SUBJECT_FILE.exists():
         raise FileNotFoundError(
-            f"No se encontró {SUJETOS_FILE}. "
-            "Ejecuta primero check_valid_subjects.py"
+            f"No se encontró {SUBJECT_FILE}. "
+            "Ejecuta primero scripts/1_preprocesado/check/check_valid_subjects.py"
         )
     sujetos = []
-    with open(SUJETOS_FILE) as f:
+    with open(SUBJECT_FILE) as f:
         for linea in f:
             linea = linea.strip()
             if linea and not linea.startswith("#"):
