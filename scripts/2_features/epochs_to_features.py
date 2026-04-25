@@ -371,6 +371,7 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
     zscore_params      = {}     # mu/sigma por sujeto y bloque, para poder invertir la normalización
     feature_names_ref  = None   # nombres de columna de referencia (se fijan con el primer sujeto)
     feature_blocks_ref = None
+    ch_names_ref       = None
 
     for sujeto in sujetos:
         if sujeto not in datos or "NEUTRO" not in datos[sujeto]:
@@ -397,6 +398,7 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
         if feature_names_ref is None:
             # primer sujeto: fijamos la referencia de nombres y bloques
             feature_names_ref  = feature_names_sujeto
+            ch_names_ref       = list(ch_names)
             feature_blocks_ref = []
             for bloque, _, nombres in bloques:
                 feature_blocks_ref.append({"name": bloque, "n_features": len(nombres)})
@@ -458,7 +460,7 @@ def assemble_dataset(sujetos: list[str], datos: dict) -> tuple:
     y     = np.concatenate(y_lista,     axis=0)
     meta  = pd.DataFrame(meta_lista)
 
-    return X_log, X, y, meta, zscore_params, feature_names_ref, feature_blocks_ref
+    return X_log, X, y, meta, zscore_params, feature_names_ref, feature_blocks_ref, ch_names_ref
 
 
 # ---------------------------------------------------------------------- Guardado
@@ -470,6 +472,7 @@ def save_results(
     zscore_params,
     sujetos,
     n_canales,
+    ch_names_eeg,
     feature_names,
     feature_blocks,
 ):
@@ -494,6 +497,7 @@ def save_results(
         "n_epocas":   int(X_norm.shape[0]),
         "n_features": int(X_norm.shape[1]),
         "n_canales":  n_canales,
+        "ch_names_eeg": ch_names_eeg,
         "n_bandas":   N_BANDS,
         "bandas":     bandas_lista,
         "label_map":  LABEL_MAP,
@@ -530,7 +534,7 @@ def save_results(
 
 
 # ---------------------------------------------------------------------- Diagnóstico rápido post-extracción
-def feature_diagnostics(X, y, meta):
+def feature_diagnostics(X_norm, y, meta):
     """Imprime estadísticas básicas para verificar que las features tienen sentido."""
 
 
@@ -617,13 +621,13 @@ if __name__ == "__main__":
 
     #  Pasos 3-5: log10 -> delta -> zscore -> ensamblar 
     print("\n[2/3] Aplicando log10 -> delta log-ratio vs NEUTRO -> z-score...")
-    X_log, X_norm, y, meta, zscore_params, feature_names, feature_blocks = assemble_dataset(sujetos, datos)
+    X_log, X_norm, y, meta, zscore_params, feature_names, feature_blocks, ch_names_eeg = assemble_dataset(sujetos, datos)
 
     #  Guardado
     print("\n[3/3] Guardando resultados...")
     save_results(
         X_log, X_norm, y, meta, zscore_params,
-        sujetos, n_canales, feature_names, feature_blocks
+        sujetos, n_canales, ch_names_eeg, feature_names, feature_blocks
     )
 
     feature_diagnostics(X_norm, y, meta)
@@ -632,5 +636,4 @@ if __name__ == "__main__":
 
     print("EXTRACCIÓN COMPLETADA!!!!!!!!")
     print(f"Archivos en: {FEATURES_DIR.resolve()}")
-
 
