@@ -563,13 +563,13 @@ def feature_diagnostics(X_norm, y, meta):
     # Estadísticas de X por condición 
     print("\nEstadísticas de X por condición:")
     for cond, lbl in LABEL_MAP.items():
-        x_cond = X[y == lbl]
+        x_cond = X_norm[y == lbl]
         print(f"  {cond}: media={x_cond.mean():+.4f}  std={x_cond.std():.4f}  "
               f"min={x_cond.min():.3f}  max={x_cond.max():.3f}")
 
     # Comprobación de NaN / Inf 
-    n_nan = np.isnan(X).sum()
-    n_inf = np.isinf(X).sum()
+    n_nan = np.isnan(X_norm).sum()
+    n_inf = np.isinf(X_norm).sum()
     print()
     if n_nan > 0 or n_inf > 0:
         print(f"ADVERTENCIA: {n_nan} NaN y {n_inf} Inf en X — revisar épocas con potencia cero")
@@ -578,7 +578,7 @@ def feature_diagnostics(X_norm, y, meta):
 
     #  Verificación del delta NEUTRO 
     # Δ(NEUTRO - baseline_NEUTRO) ≈ 0 antes del z-score, y ~0 después
-    x_neutro     = X[y == LABEL_MAP["NEUTRO"]]
+    x_neutro     = X_norm[y == LABEL_MAP["NEUTRO"]]
     media_neutro = x_neutro.mean()
     print(f"Media de features NEUTRO: {media_neutro:+.4f}  (esperado: ~0.0)")
     if abs(media_neutro) > 0.5:
@@ -636,4 +636,3 @@ if __name__ == "__main__":
 
     print("EXTRACCIÓN COMPLETADA!!!!!!!!")
     print(f"Archivos en: {FEATURES_DIR.resolve()}")
-
