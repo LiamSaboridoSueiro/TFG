@@ -32,6 +32,7 @@ mne.set_log_level("ERROR")
 # ---------------------------------------------------------------------- CONFIGURACIÓN INICIAL
 EPOCHS_DIR  = Path("data/processed/epochs")
 STATS_DIR   = Path("data/processed/stats")
+CHECKS_DIR  = Path("data/checks")
 RESULTS_DIR = Path("results/checks")
 
 RAW_DIRS = {
@@ -40,8 +41,8 @@ RAW_DIRS = {
     "SAD":    Path("data/raw/edf/Sad"),
 }
 
-VALID_SUBJECTS_FILE = RESULTS_DIR / "valid_subjects.txt"
-INVALID_SUBJECTS_FILE = RESULTS_DIR / "invalid_subjects.txt"
+VALID_SUBJECTS_FILE = CHECKS_DIR / "valid_subjects.txt"
+INVALID_SUBJECTS_FILE = CHECKS_DIR / "invalid_subjects.txt"
 
 CONDITIONS = ["JOY", "NEUTRO", "SAD"]
 

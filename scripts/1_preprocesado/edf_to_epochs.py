@@ -15,6 +15,8 @@ from pathlib import Path
 import numpy as np
 import json
 from scipy.stats import kurtosis
+import warnings
+warnings.filterwarnings("ignore")
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -366,9 +368,6 @@ def process_edf(edf_path: Path):
     with open(stats_path, "w") as f:
         json.dump(stats, f, indent=2)
 
-
-    print(f"Epochs guardados: {output_path}")
-    print(f"Estadísticas:     {stats_path}")
 
 
 if __name__ == "__main__":
