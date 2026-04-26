@@ -1,8 +1,8 @@
 {
   "LogReg": {
-    "acc_media_global": 0.964604516445065,
-    "acc_std_global": 0.042831579417563784,
-    "f1_media_global": 0.9630925927864166,
+    "acc_media_global": 0.9630655823774591,
+    "acc_std_global": 0.043098345130190834,
+    "f1_media_global": 0.9614879229075651,
     "por_sujeto": [
       {
         "subject_id": "211-000531",
@@ -66,13 +66,6 @@
         "acc_std": 0.0,
         "f1_media": 1.0,
         "n_epocas": 127
-      },
-      {
-        "subject_id": "211-000542",
-        "acc_media": 1.0,
-        "acc_std": 0.0,
-        "f1_media": 1.0,
-        "n_epocas": 86
       },
       {
         "subject_id": "211-000543",
@@ -175,9 +168,9 @@
     ]
   },
   "RandomForest": {
-    "acc_media_global": 0.9379647098743735,
-    "acc_std_global": 0.06693548797717866,
-    "f1_media_global": 0.9356236184170911,
+    "acc_media_global": 0.9352675233471722,
+    "acc_std_global": 0.06708622979553489,
+    "f1_media_global": 0.9328246453047907,
     "por_sujeto": [
       {
         "subject_id": "211-000531",
@@ -241,13 +234,6 @@
         "acc_std": 0.016000000000000014,
         "f1_media": 0.9921568627450981,
         "n_epocas": 127
-      },
-      {
-        "subject_id": "211-000542",
-        "acc_media": 1.0,
-        "acc_std": 0.0,
-        "f1_media": 1.0,
-        "n_epocas": 86
       },
       {
         "subject_id": "211-000543",
@@ -350,9 +336,9 @@
     ]
   },
   "SVM_RBF": {
-    "acc_media_global": 0.9215007044964126,
-    "acc_std_global": 0.0622731889436381,
-    "f1_media_global": 0.9170394727202789,
+    "acc_media_global": 0.919110709551244,
+    "acc_std_global": 0.06252572882822009,
+    "f1_media_global": 0.9151358138082608,
     "por_sujeto": [
       {
         "subject_id": "211-000531",
@@ -416,13 +402,6 @@
         "acc_std": 0.019352843315097103,
         "f1_media": 0.9759477124183007,
         "n_epocas": 127
-      },
-      {
-        "subject_id": "211-000542",
-        "acc_media": 0.9764705882352942,
-        "acc_std": 0.028817526385684453,
-        "f1_media": 0.9608236276966927,
-        "n_epocas": 86
       },
       {
         "subject_id": "211-000543",
