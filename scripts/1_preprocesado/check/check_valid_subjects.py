@@ -8,8 +8,8 @@ Checks:
     - Espectro: clasifica automáticamente sujetos con PSD anómala
 
 Salida:
-  data/checks/valid_subjects.txt               lista de sujetos aptos para epochs_to_features.py
-  data/checks/invalid_subjects.txt             lista de sujetos descartados y motivo
+  results/checks/valid_subjects.txt               lista de sujetos aptos para epochs_to_features.py
+  results/checks/invalid_subjects.txt             lista de sujetos descartados y motivo
   results/checks/check_valid_subjects_results.json resumen automático del check
   results/checks/01_balance_epochs.png         balance de épocas por sujeto
   results/checks/02_spectrum_<cond>.png        espectro PSD por sujeto y condición
