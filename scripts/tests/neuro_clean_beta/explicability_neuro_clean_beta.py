@@ -1,37 +1,30 @@
 """
-Explicabilidad del test within-subject neuro_clean:
+Explicabilidad del test within-subject neuro_clean_beta:
 
     CV por sujeto -> SHAP lineal out-of-fold -> agregación por feature/canal/banda -> topomaps
 
-Este script explica el modelo conservador de scripts/tests/train_within_neuro_clean.py:
-  - sin Beta
+Este script explica la tanda pedida por el tutor:
   - sin Gamma
+  - con Delta, Theta, Alpha y Beta
   - sin canales periféricos sospechosos
 
-La diferencia importante respecto al SHAP del modelo final es que aquí se recalculan
-los folds de CV y se explican solo las épocas de test de cada fold. Así la
-explicabilidad queda alineada con la métrica CV del test neuro_clean.
-
 Salida:
-  scripts/tests/neuro_clean/shap_topomap/shap_subject_summary.csv
-  scripts/tests/neuro_clean/shap_topomap/shap_feature_importance_by_subject.csv
-  scripts/tests/neuro_clean/shap_topomap/shap_feature_importance.csv
-  scripts/tests/neuro_clean/shap_topomap/shap_channel_band_importance.csv
-  scripts/tests/neuro_clean/shap_topomap/shap_band_importance.csv
-  scripts/tests/neuro_clean/shap_topomap/explicability_summary.json
-  scripts/tests/neuro_clean/shap_topomap/01_top_features_global.png
-  scripts/tests/neuro_clean/shap_topomap/02_band_importance_by_class.png
-  scripts/tests/neuro_clean/shap_topomap/03_topomap_abs_<COND>.png
-  scripts/tests/neuro_clean/shap_topomap/04_topomap_signed_<COND>.png
+  scripts/tests/neuro_clean_beta/results/shap_topomap/shap_subject_summary.csv
+  scripts/tests/neuro_clean_beta/results/shap_topomap/shap_feature_importance_by_subject.csv
+  scripts/tests/neuro_clean_beta/results/shap_topomap/shap_feature_importance.csv
+  scripts/tests/neuro_clean_beta/results/shap_topomap/shap_channel_band_importance.csv
+  scripts/tests/neuro_clean_beta/results/shap_topomap/shap_band_importance.csv
+  scripts/tests/neuro_clean_beta/results/shap_topomap/explicability_summary.json
+  scripts/tests/neuro_clean_beta/results/shap_topomap/01_top_features_global.png
+  scripts/tests/neuro_clean_beta/results/shap_topomap/02_band_importance_by_class.png
+  scripts/tests/neuro_clean_beta/results/shap_topomap/03_topomap_abs_<COND>.png
+  scripts/tests/neuro_clean_beta/results/shap_topomap/04_topomap_signed_<COND>.png
 """
 
-import os
 import json
+import os
 import warnings
-from pathlib import Path
 
-# MNE y Matplotlib pueden intentar escribir configuración/caché en $HOME.
-# En algunos entornos del proyecto $HOME no es escribible, así que usamos /tmp.
 os.environ.setdefault("MNE_DONTWRITE_HOME", "true")
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
 os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/numba_cache")
@@ -41,23 +34,23 @@ import mne
 import numpy as np
 import pandas as pd
 from sklearn.base import clone
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.model_selection import StratifiedKFold
 
-from within_ablation_common import (
-    BANDS,
+from neuro_clean_beta_common import (
     BAND_COLORS,
-    BAND_IDX,
-    CLASIFICADORES,
     CONDITIONS,
+    EXCLUDED_BANDS,
     FEATURES_DIR,
     LABEL_INV,
-    LABEL_MAP,
     N_BANDS,
     N_FOLDS,
+    OUTPUT_DIR,
     PERIPHERAL_CHANNELS,
+    PLOT_BANDS,
     RANDOM_STATE,
-    TESTS_DIR,
+    SHAP_DIR,
     apply_normalization_pipeline,
     build_feature_names,
     build_selected_feature_indices,
@@ -72,13 +65,6 @@ warnings.filterwarnings("ignore")
 mne.set_log_level("ERROR")
 
 # ---------------------------------------------------------------------- Configuración
-TEST_NAME = "neuro_clean"
-OUTPUT_DIR = TESTS_DIR / TEST_NAME / "shap_topomap"
-
-EXCLUDED_BANDS = {"Beta", "Gamma"}
-EXCLUDED_CHANNELS = PERIPHERAL_CHANNELS
-PLOT_BANDS = [band for band in BANDS if band not in EXCLUDED_BANDS]
-
 SFREQ = 250
 N_TOP_FEATURES = 25
 N_TOP_FEATURES_JSON = 12
@@ -117,7 +103,15 @@ def compute_linear_shap_values(classifier, X_background, X_explain):
 def evaluate_subject_oof(X_log_subject, y_subject, ch_names, selected_indices):
     """Entrena folds CV y devuelve métricas + SHAP solo sobre test."""
     skf = StratifiedKFold(n_splits=N_FOLDS, shuffle=True, random_state=RANDOM_STATE)
-    classifier = CLASIFICADORES["LogReg"]
+    classifier = LogisticRegression(
+        penalty="elasticnet",
+        solver="saga",
+        l1_ratio=0.5,
+        C=1.0,
+        max_iter=3000,
+        class_weight="balanced",
+        random_state=RANDOM_STATE,
+    )
 
     y_true_all = []
     y_pred_all = []
@@ -310,7 +304,7 @@ def compute_band_importance(channel_band_df):
 # ---------------------------------------------------------------------- Plots
 def plot_top_features(feature_summary_df):
     """Dibuja las features más importantes promediando clases y sujetos."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SHAP_DIR.mkdir(parents=True, exist_ok=True)
 
     global_importance = (
         feature_summary_df
@@ -334,7 +328,7 @@ def plot_top_features(feature_summary_df):
     ax.set_yticks(y_pos)
     ax.set_yticklabels(top_names[::-1], fontsize=9)
     ax.set_xlabel("SHAP medio absoluto out-of-fold")
-    ax.set_title(f"Top {N_TOP_FEATURES} features - neuro_clean within-subject")
+    ax.set_title(f"Top {N_TOP_FEATURES} features - neuro_clean_beta within-subject")
     ax.grid(True, axis="x", alpha=0.3)
 
     from matplotlib.patches import Patch
@@ -354,7 +348,7 @@ def plot_top_features(feature_summary_df):
     )
 
     plt.tight_layout()
-    output_path = OUTPUT_DIR / "01_top_features_global.png"
+    output_path = SHAP_DIR / "01_top_features_global.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
     print(f"  {output_path.name}")
@@ -362,10 +356,10 @@ def plot_top_features(feature_summary_df):
 
 def plot_band_importance(band_importance_df):
     """Dibuja la importancia relativa de bandas por clase."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SHAP_DIR.mkdir(parents=True, exist_ok=True)
 
     x = np.arange(len(CONDITIONS))
-    width = 0.22
+    width = 0.18
     offsets = np.linspace(
         -width * (len(PLOT_BANDS) - 1) / 2,
         width * (len(PLOT_BANDS) - 1) / 2,
@@ -397,12 +391,12 @@ def plot_band_importance(band_importance_df):
     ax.set_xticks(x)
     ax.set_xticklabels(CONDITIONS, fontsize=11)
     ax.set_ylabel("% SHAP absoluto dentro de bandpower")
-    ax.set_title("Importancia relativa por banda y clase - neuro_clean")
+    ax.set_title("Importancia relativa por banda y clase - neuro_clean_beta")
     ax.legend(fontsize=9)
     ax.grid(True, axis="y", alpha=0.3)
 
     plt.tight_layout()
-    output_path = OUTPUT_DIR / "02_band_importance_by_class.png"
+    output_path = SHAP_DIR / "02_band_importance_by_class.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
     print(f"  {output_path.name}")
@@ -444,7 +438,7 @@ def plot_topomap_compat(data, info, ax, cmap, vmin, vmax):
 
 def plot_topomap_grid(topomap_values, topomap_ch_names, mode):
     """Genera una figura de topomaps por clase y banda."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SHAP_DIR.mkdir(parents=True, exist_ok=True)
     info = create_topomap_info(topomap_ch_names)
 
     for condition in CONDITIONS:
@@ -468,10 +462,10 @@ def plot_topomap_grid(topomap_values, topomap_ch_names, mode):
             title_prefix = "SHAP firmado OOF"
             output_name = f"04_topomap_signed_{condition}.png"
 
-        fig, axes = plt.subplots(1, len(PLOT_BANDS), figsize=(12, 4))
+        fig, axes = plt.subplots(1, len(PLOT_BANDS), figsize=(15, 4))
         fig.patch.set_facecolor("#f8f9fa")
         fig.suptitle(
-            f"{title_prefix} - {condition} - neuro_clean",
+            f"{title_prefix} - {condition} - neuro_clean_beta",
             fontsize=13,
             fontweight="bold",
         )
@@ -488,7 +482,7 @@ def plot_topomap_grid(topomap_values, topomap_ch_names, mode):
             cbar.ax.tick_params(labelsize=8)
 
         plt.tight_layout(rect=[0, 0, 1, 0.92])
-        output_path = OUTPUT_DIR / output_name
+        output_path = SHAP_DIR / output_name
         plt.savefig(output_path, dpi=120)
         plt.close(fig)
         print(f"  {output_path.name}")
@@ -497,7 +491,7 @@ def plot_topomap_grid(topomap_values, topomap_ch_names, mode):
 # ---------------------------------------------------------------------- Guardado
 def save_tables(subject_summary, feature_subject_df, feature_summary_df, channel_band_df, band_importance_df):
     """Guarda todas las tablas de explicabilidad."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SHAP_DIR.mkdir(parents=True, exist_ok=True)
 
     paths = {
         "shap_subject_summary.csv": pd.DataFrame(subject_summary),
@@ -508,7 +502,7 @@ def save_tables(subject_summary, feature_subject_df, feature_summary_df, channel
     }
 
     for filename, df in paths.items():
-        output_path = OUTPUT_DIR / filename
+        output_path = SHAP_DIR / filename
         df.to_csv(output_path, index=False)
         print(f"  {output_path.name}")
 
@@ -550,7 +544,7 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, s
         cm_total += np.asarray(item["confusion"], dtype=int)
 
     summary = {
-        "test_name": TEST_NAME,
+        "test_name": "neuro_clean_beta",
         "method": "out_of_fold_linear_shap_for_logistic_regression",
         "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
         "cv": {
@@ -560,7 +554,7 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, s
             "shap_scope": "test_fold_only",
         },
         "excluded_bands": sorted(EXCLUDED_BANDS),
-        "excluded_channels": sorted(EXCLUDED_CHANNELS),
+        "excluded_channels": sorted(PERIPHERAL_CHANNELS),
         "n_features_selected": len(selected_feature_names),
         "selected_feature_blocks": feature_block_counts(selected_feature_names),
         "n_subjects": int(subject_df["subject_id"].nunique()) if len(subject_df) else 0,
@@ -575,7 +569,7 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, s
         "band_percentages": band_percentages,
     }
 
-    output_path = OUTPUT_DIR / "explicability_summary.json"
+    output_path = SHAP_DIR / "explicability_summary.json"
     with open(output_path, "w") as f:
         json.dump(summary, f, indent=2)
 
@@ -588,7 +582,7 @@ def print_console_summary(subject_summary, feature_summary_df, band_importance_d
     subject_df = pd.DataFrame(subject_summary)
 
     print("\n" + "=" * 75)
-    print("RESUMEN EXPLICABILIDAD NEURO CLEAN")
+    print("RESUMEN EXPLICABILIDAD NEURO CLEAN + BETA")
     print("=" * 75)
 
     if len(subject_df):
@@ -617,7 +611,7 @@ def print_console_summary(subject_summary, feature_summary_df, band_importance_d
 
     print("\n  Importancia por banda (% dentro de bandpower):")
     print(f"  {'Clase':<10} " + " ".join(f"{band:>9}" for band in PLOT_BANDS))
-    print("  " + "-" * 42)
+    print("  " + "-" * 52)
     for condition in CONDITIONS:
         values = []
         for band in PLOT_BANDS:
@@ -631,15 +625,16 @@ def print_console_summary(subject_summary, feature_summary_df, band_importance_d
 
 # ---------------------------------------------------------------------- MAIN
 if __name__ == "__main__":
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SHAP_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("EXPLICABILIDAD TEST NEURO CLEAN CON SHAP LINEAL OOF!!!!!!!!!!")
+    print("EXPLICABILIDAD TEST NEURO CLEAN + BETA CON SHAP LINEAL OOF!!!!!!!!!!")
     print(f"  Features: {FEATURES_DIR}")
-    print(f"  Salida:   {OUTPUT_DIR}")
+    print(f"  Test:     {OUTPUT_DIR}")
+    print(f"  Salida:   {SHAP_DIR}")
     print("  Método:   SHAP lineal exacto para LogisticRegression")
     print("  Validación: SHAP sobre test fold, referencia calculada con train fold")
     print(f"  Excluir bandas: {sorted(EXCLUDED_BANDS)}")
-    print(f"  Excluir canales: {len(EXCLUDED_CHANNELS)}")
+    print(f"  Excluir canales: {len(PERIPHERAL_CHANNELS)}")
 
     print("\n  Cargando datos...")
     X_log, y, meta, ch_names = load_dataset()
@@ -651,12 +646,8 @@ if __name__ == "__main__":
         )
 
     full_feature_names = build_feature_names(ch_names)
-    selected_indices, selected_feature_names = build_selected_feature_indices(
-        full_feature_names,
-        excluded_bands=EXCLUDED_BANDS,
-        excluded_channels=EXCLUDED_CHANNELS,
-    )
-    topomap_ch_names = [ch for ch in ch_names if ch not in EXCLUDED_CHANNELS]
+    selected_indices, selected_feature_names = build_selected_feature_indices(full_feature_names)
+    topomap_ch_names = [ch for ch in ch_names if ch not in PERIPHERAL_CHANNELS]
 
     print(f"  Épocas:  {len(y)}")
     print(f"  Sujetos: {meta['subject_id'].nunique()}")
@@ -764,6 +755,6 @@ if __name__ == "__main__":
         print(f"\n  Sujetos omitidos: {skipped_subjects}")
 
     print("\n" + "=" * 75)
-    print("EXPLICABILIDAD NEURO CLEAN COMPLETADA!!!!!!!!!!")
-    print(f"Resultados en: {OUTPUT_DIR}")
+    print("EXPLICABILIDAD NEURO CLEAN + BETA COMPLETADA!!!!!!!!!!")
+    print(f"Resultados en: {SHAP_DIR}")
     print("=" * 75)

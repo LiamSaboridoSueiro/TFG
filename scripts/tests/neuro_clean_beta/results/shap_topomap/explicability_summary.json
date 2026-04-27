@@ -1,0 +1,421 @@
+{
+  "test_name": "neuro_clean_beta",
+  "method": "out_of_fold_linear_shap_for_logistic_regression",
+  "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
+  "cv": {
+    "type": "StratifiedKFold",
+    "n_splits": 5,
+    "scope": "within_subject",
+    "shap_scope": "test_fold_only"
+  },
+  "excluded_bands": [
+    "Gamma"
+  ],
+  "excluded_channels": [
+    "AF3",
+    "AF4",
+    "AF7",
+    "AF8",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "FC5",
+    "FC6",
+    "FT7",
+    "FT8",
+    "Fp1",
+    "Fp2",
+    "Fpz",
+    "O1",
+    "O2",
+    "Oz",
+    "PO5",
+    "PO6",
+    "PO7",
+    "PO8",
+    "T7",
+    "T8",
+    "TP7",
+    "TP8"
+  ],
+  "n_features_selected": 195,
+  "selected_feature_blocks": {
+    "bandpower": 144,
+    "theta_alpha_ratio": 36,
+    "alpha_asymmetry": 15,
+    "other": 0
+  },
+  "n_subjects": 23,
+  "mean_subject_accuracy_oof": 0.9024921106241657,
+  "mean_subject_f1_oof": 0.9002699447759489,
+  "confusion_matrix_oof": [
+    [
+      919,
+      37,
+      32
+    ],
+    [
+      45,
+      777,
+      77
+    ],
+    [
+      26,
+      65,
+      776
+    ]
+  ],
+  "top_features_by_class": {
+    "JOY": [
+      {
+        "feature_name": "FC4_Beta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.14303578155827054,
+        "mean_signed_shap": 0.1178224379194728
+      },
+      {
+        "feature_name": "F4_Beta",
+        "feature_type": "bandpower",
+        "channel": "F4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.12819406105590786,
+        "mean_signed_shap": 0.08837939942802811
+      },
+      {
+        "feature_name": "F3_Beta",
+        "feature_type": "bandpower",
+        "channel": "F3",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.12412969334589431,
+        "mean_signed_shap": 0.11139152557013812
+      },
+      {
+        "feature_name": "POz_Beta",
+        "feature_type": "bandpower",
+        "channel": "POz",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.10574938195125666,
+        "mean_signed_shap": 0.06007378375365584
+      },
+      {
+        "feature_name": "CP2_Beta",
+        "feature_type": "bandpower",
+        "channel": "CP2",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.0912998063500415,
+        "mean_signed_shap": 0.08422385492665493
+      },
+      {
+        "feature_name": "P7_Beta",
+        "feature_type": "bandpower",
+        "channel": "P7",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.09119032876731206,
+        "mean_signed_shap": 0.05421634192897539
+      },
+      {
+        "feature_name": "FC1_Beta",
+        "feature_type": "bandpower",
+        "channel": "FC1",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.08731436372182114,
+        "mean_signed_shap": 0.04987594712224824
+      },
+      {
+        "feature_name": "AlphaAsym_FC4-FC3",
+        "feature_type": "AlphaAsym",
+        "channel": "",
+        "band": "",
+        "pair": "FC4-FC3",
+        "mean_abs_shap": 0.0872310978344986,
+        "mean_signed_shap": 0.07812406021660746
+      },
+      {
+        "feature_name": "F2_Beta",
+        "feature_type": "bandpower",
+        "channel": "F2",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.07784576224543388,
+        "mean_signed_shap": 0.05210926828447283
+      },
+      {
+        "feature_name": "PO4_Beta",
+        "feature_type": "bandpower",
+        "channel": "PO4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.07376306842421604,
+        "mean_signed_shap": 0.05584429734809507
+      },
+      {
+        "feature_name": "FC4_Theta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Theta",
+        "pair": "",
+        "mean_abs_shap": 0.07310589519336287,
+        "mean_signed_shap": 0.06297265483754426
+      },
+      {
+        "feature_name": "Cz_Beta",
+        "feature_type": "bandpower",
+        "channel": "Cz",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.07234865652640803,
+        "mean_signed_shap": 0.04108746949384416
+      }
+    ],
+    "NEUTRO": [
+      {
+        "feature_name": "FC4_Beta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.2321854988019784,
+        "mean_signed_shap": 0.18567374272305945
+      },
+      {
+        "feature_name": "F2_Beta",
+        "feature_type": "bandpower",
+        "channel": "F2",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.11942547039298738,
+        "mean_signed_shap": 0.08570802655839709
+      },
+      {
+        "feature_name": "Pz_Beta",
+        "feature_type": "bandpower",
+        "channel": "Pz",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.10861547592314484,
+        "mean_signed_shap": 0.09690567923142654
+      },
+      {
+        "feature_name": "FC4_Alpha",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Alpha",
+        "pair": "",
+        "mean_abs_shap": 0.10051977606106924,
+        "mean_signed_shap": 0.07941367820597826
+      },
+      {
+        "feature_name": "AlphaAsym_FC4-FC3",
+        "feature_type": "AlphaAsym",
+        "channel": "",
+        "band": "",
+        "pair": "FC4-FC3",
+        "mean_abs_shap": 0.08309655523263727,
+        "mean_signed_shap": 0.06802263970780478
+      },
+      {
+        "feature_name": "F1_Beta",
+        "feature_type": "bandpower",
+        "channel": "F1",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.08183232241276171,
+        "mean_signed_shap": 0.05967621112230303
+      },
+      {
+        "feature_name": "P1_Beta",
+        "feature_type": "bandpower",
+        "channel": "P1",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.07907256800293858,
+        "mean_signed_shap": 0.0460145685770115
+      },
+      {
+        "feature_name": "FC4_Theta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Theta",
+        "pair": "",
+        "mean_abs_shap": 0.07472117697444763,
+        "mean_signed_shap": 0.049747780875812574
+      },
+      {
+        "feature_name": "C5_Beta",
+        "feature_type": "bandpower",
+        "channel": "C5",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.07221102427265809,
+        "mean_signed_shap": 0.046600622341091504
+      },
+      {
+        "feature_name": "F2_Theta",
+        "feature_type": "bandpower",
+        "channel": "F2",
+        "band": "Theta",
+        "pair": "",
+        "mean_abs_shap": 0.0701992186223152,
+        "mean_signed_shap": 0.050038295165471744
+      },
+      {
+        "feature_name": "P8_Beta",
+        "feature_type": "bandpower",
+        "channel": "P8",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.06769237275129478,
+        "mean_signed_shap": 0.04738357045801116
+      },
+      {
+        "feature_name": "F2_Delta",
+        "feature_type": "bandpower",
+        "channel": "F2",
+        "band": "Delta",
+        "pair": "",
+        "mean_abs_shap": 0.06744586218583264,
+        "mean_signed_shap": 0.03930352746892664
+      }
+    ],
+    "SAD": [
+      {
+        "feature_name": "C6_Beta",
+        "feature_type": "bandpower",
+        "channel": "C6",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.16572818857713062,
+        "mean_signed_shap": 0.14837939869496877
+      },
+      {
+        "feature_name": "FC4_Beta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.13652617047195195,
+        "mean_signed_shap": 0.11083848420953803
+      },
+      {
+        "feature_name": "PO3_Beta",
+        "feature_type": "bandpower",
+        "channel": "PO3",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.12177220167265747,
+        "mean_signed_shap": 0.07777524724065182
+      },
+      {
+        "feature_name": "C5_Beta",
+        "feature_type": "bandpower",
+        "channel": "C5",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.10050608880152895,
+        "mean_signed_shap": 0.08519143362820354
+      },
+      {
+        "feature_name": "CP2_Beta",
+        "feature_type": "bandpower",
+        "channel": "CP2",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.09905435594867243,
+        "mean_signed_shap": 0.07776441202114351
+      },
+      {
+        "feature_name": "F2_Beta",
+        "feature_type": "bandpower",
+        "channel": "F2",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.0820751075032571,
+        "mean_signed_shap": 0.06237500992531087
+      },
+      {
+        "feature_name": "FC4_Delta",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Delta",
+        "pair": "",
+        "mean_abs_shap": 0.0783702251313797,
+        "mean_signed_shap": 0.04830184168663096
+      },
+      {
+        "feature_name": "F4_Beta",
+        "feature_type": "bandpower",
+        "channel": "F4",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.0776225977140574,
+        "mean_signed_shap": 0.052315724091207175
+      },
+      {
+        "feature_name": "AlphaAsym_CP4-CP3",
+        "feature_type": "AlphaAsym",
+        "channel": "",
+        "band": "",
+        "pair": "CP4-CP3",
+        "mean_abs_shap": 0.06882587085694843,
+        "mean_signed_shap": 0.05531566490118856
+      },
+      {
+        "feature_name": "CP6_Beta",
+        "feature_type": "bandpower",
+        "channel": "CP6",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.06412253871524799,
+        "mean_signed_shap": 0.014288328450691863
+      },
+      {
+        "feature_name": "AlphaAsym_C6-C5",
+        "feature_type": "AlphaAsym",
+        "channel": "",
+        "band": "",
+        "pair": "C6-C5",
+        "mean_abs_shap": 0.06162094819197791,
+        "mean_signed_shap": 0.036260491570547074
+      },
+      {
+        "feature_name": "CP3_Beta",
+        "feature_type": "bandpower",
+        "channel": "CP3",
+        "band": "Beta",
+        "pair": "",
+        "mean_abs_shap": 0.06150737060399396,
+        "mean_signed_shap": 0.0521313490691222
+      }
+    ]
+  },
+  "band_percentages": {
+    "JOY": {
+      "Delta": 19.483685020306634,
+      "Theta": 18.561869320109885,
+      "Alpha": 14.544354381416518,
+      "Beta": 47.41009127816698
+    },
+    "NEUTRO": {
+      "Delta": 21.79155884388619,
+      "Theta": 18.114991661682215,
+      "Alpha": 16.60965648050055,
+      "Beta": 43.483793013931056
+    },
+    "SAD": {
+      "Delta": 22.314918696014484,
+      "Theta": 19.857616668993053,
+      "Alpha": 16.597501441873934,
+      "Beta": 41.229963193118536
+    }
+  }
+}
