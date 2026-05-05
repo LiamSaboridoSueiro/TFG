@@ -1,75 +1,45 @@
 \chapter{Introducción}
-\label{cap:capitulo1}
+\label{cap:introduccion}
 \setcounter{page}{1}
 
-\begin{flushright}
-\begin{minipage}[]{10cm}
-\emph{Quizás algún fragmento de libro inspirador...}\\
-\end{minipage}\\
+Este capítulo presenta la idea general del trabajo, la motivación detrás del tema y los conceptos principales en los que se basa. Se habla de la electroencefalografía como fuente de información para detectar emociones, del reconocimiento automático de emociones y de la importancia de usar modelos que se puedan interpretar. Por último, se explica cómo está organizada la memoria.
 
-Autor, \textit{Título}\\
-\end{flushright}
 
-\vspace{1cm}
+\section{Contexto y motivación}
 
-Escribe aquí un párrafo explicando brevemente lo que vas a contar en este capítulo. En este primer capítulo, el de introducción, se trata de dar un contexto amplio y atractivo del trabajo. Comienza hablando de un contexto general y acaba hablando del contexto más específico en el que se enmarca el proyecto. Es el capítulo idóneo para incluir todas las referencias bibliográficas que hayan tratado este tema; suponen un fuerte respaldo al trabajo.\\
+La electroencefalografía destaca por su capacidad para extraer datos de un órgano tan delicado como el cerebro sin necesidad de realizar una intervención invasiva. Esto la convierte en una herramienta muy valiosa en la neurología, ya sea para diagnosticar tumores y lesiones cerebrales, evaluar el deterioro cognitivo o incluso detectar emociones \cite{1}.
 
-\section{La primera sección}
-\label{sec:miseccion} % etiqueta para luego referenciar esta sección
+Cuando era pequeño me hicieron una prueba del sueño en la que me colocaron electrodos con una pasta adhesiva bastante difícil de quitar y me monitorizaron durante toda la noche. Me llamó mucho la atención: ¿cómo podía un médico mirar todos esos “garabatos” llamados señales y entender qué pasaba en mi cabeza?
 
-En los textos puedes poner palabras en \textit{cursiva}, para aquellas expresiones en sentido \textit{figurado}, palabras como \textit{robota}, que está fuera del diccionario castellano, o bien para resaltar palabras de una colección: \textit{(a)} es la primera letra del abecedario, \textit{(b)} es la segunda, etc.\\
+Con el tiempo, esa curiosidad se juntó con mi interés por la inteligencia artificial y su uso en la medicina. Al ver cómo otras personas creaban modelos capaces de detectar tumores, me pregunté si también sería posible hacer algo parecido con electroencefalogramas. La idea no es sustituir a los médicos, sino crear una herramienta que pueda ayudarles a interpretar mejor grandes cantidades de datos y aportar información útil de forma automática y fiable.
 
-Al poner las dos líneas del anterior párrafo, este aparecerá separado del anterior. Si no las pongo, los párrafos aparecerán pegados. Sigue el criterio que consideres más oportuno.
+Por ello, este trabajo se centra en el reconocimiento de emociones mediante señales EEG, dando importancia no solo a los resultados obtenidos, sino también a la interpretación de los modelos. En el ámbito biomédico, no basta con que un modelo clasifique bien: también es necesario entender qué información está utilizando y si sus decisiones pueden explicarse de forma clara.
 
-\section{Segunda sección}
-\label{sec:segundaseccion}
 
-No olvides incluir imágenes y referenciarlas, como la Figura \ref{fig:roomba}.
+\section{Electroencefalografía como fuente de información afectiva}
 
-\begin{figure} [h!]
-  \begin{center}
-    \includegraphics[width=8cm]{figs/roomba.jpg}
-  \end{center}
-  \caption{Robot aspirador Roomba de iRobot.}
-  \label{fig:roomba}
-\end{figure}\
+La electroencefalografía (EEG) permite medir la actividad eléctrica del cerebro colocando electrodos sobre el cuero cabelludo. Esto no muestra directamente lo que ocurre en cada neurona, ofrece información sobre la actividad cerebral general, la cual puede cambiar según el estado mental o emocional de una persona. Por ello, estas señales se han convertido en una fuente de información relevante para el estudio de emociones.
 
-Ni tampoco olvides de poner las URLs como notas al pie. Por ejemplo, si hablo de la Robocup\footnote{\url{http://www.robocup.org}}.
+A diferencia de otras señales fisiológicas, el EEG proporciona información directamente relacionada con la actividad cerebral, lo que resulta especialmente interesante en el ámbito de la computación afectiva. Las emociones no siempre se manifiestan de forma clara a través de expresiones faciales, voz o comportamiento externo, por lo que el análisis de señales cerebrales puede aportar una perspectiva complementaria y menos dependiente de respuestas observables.
 
-\subsection{Números}
-\label{sec:subseccion}
+Sin embargo, trabajar con EEG presenta importantes dificultades. Las señales son ruidosas, tienen baja amplitud y pueden verse afectadas por movimientos, parpadeos, actividad muscular o diferencias entre sujetos. Además, la relación entre una emoción concreta y un patrón cerebral no suele ser directa ni evidente. Por este motivo, es necesario aplicar técnicas de preprocesamiento, extracción de características y aprendizaje automático que permitan identificar patrones relevantes dentro de la señal.
 
-En lugar de tener secciones interminables, como la Sección \ref{sec:miseccion}, divídelas en subsecciones.
+En este trabajo, el EEG se considera una fuente de información afectiva porque permite explorar la relación entre la actividad cerebral y los estados emocionales. Su análisis mediante modelos automáticos ofrece la posibilidad de clasificar emociones a partir de datos fisiológicos, manteniendo el interés en comprender qué componentes de la señal resultan más importantes para dicha clasificación.
 
-Para hablar de números, mételos en el entorno \textit{math} de \LaTeX, por ejemplo, $1.5Kg$. También puedes usar el símbolo del Euro como aquí: 1.500\euro.
 
-\subsection{Listas}
+\section{Reconocimiento automático de emociones}
+\label{sec:reconocimiento_automatico_emociones}
 
-Cuando describas una colección, usa \texttt{itemize} para ítems o \texttt{enumerate} para enumerados. Por ejemplo:
+% Presentar el problema de clasificar emociones automáticamente y situar las tres
+% condiciones consideradas en el trabajo: alegría, tristeza y estado neutro.
 
-\begin{itemize}
- \item \textit{Entorno de simulación.} Hemos usado dos entornos de simulación: uno en 3D y otro en 2D.
- \item \textit{Entornos reales.} Dentro del campus, hemos realizado experimentos en Biblioteca y en el edificio de Gestión.
-\end{itemize}\
+\section{IA de caja blanca e interpretabilidad en señales biomédicas}
+\label{sec:ia_caja_blanca_interpretabilidad}
 
-\begin{enumerate}
- \item Primer elemento de la colección.
- \item Segundo elemento de la colección.
-\end{enumerate}\
+% Justificar por qué en señales biomédicas no basta con obtener una buena métrica,
+% sino que también interesa comprender qué variables, canales o bandas utiliza el modelo.
 
-\paragraph{Referencias bibliográficas}
-\label{sec:referencias}
+\section{Estructura de la memoria}
+\label{sec:estructura_memoria}
 
-Cita, sobre todo en este capítulo, referencias bibliográficas que respalden tu argumento. Para citarlas basta con poner la instrucción \verb|\cite| con el identificador de la cita. Por ejemplo: libros como \cite{vega12e}, artículos como \cite{vega19b}, URLs como \cite{vega19a}, tesis como \cite{vega18b}, congresos como \cite{vega18a}, u otros trabajos fin de grado como \cite{vega08b}.
-
-Las referencias, con todo su contenido, están recogidas en el fichero \texttt{bibliografia.bib}. El contenido de estas referencias está en formato \texttt{BibTex}. Este formato se puede obtener en muchas ocasiones directamente, desde plataformas como \texttt{Google Scholar} u otros repositorios de recursos científicos.
-
-Existen numerosos estilos para reflejar una referencia bibliográfica. El estilo establecido por defecto en este documento es APA, que es uno de los estilos más comunes, pero lo puedes modificar en el archivo \texttt{memoria.tex}; concretamente, cambiando el campo \verb|apalike| a otro en la instrucción \verb|\bibliographystyle{apalike}|. 
-
-\
-
-\
-
-\
-
-Y, para terminar este capítulo, resume brevemente qué vas a contar en los siguientes.
+% Resumir brevemente qué contiene cada capítulo de la memoria.

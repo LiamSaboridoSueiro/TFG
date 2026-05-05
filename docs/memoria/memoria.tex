@@ -1,6 +1,6 @@
-\documentclass[oneside,a4paper,12pt]{book} % TODO: cambia "oneside" por "twoside" a la hora de imprimirlo. EMCR: esta línea debe estar antes de todo y fuera del fichero estilo, sino no compila en overleaf
+\documentclass[oneside,a4paper,12pt]{book} % TODO: cambia "oneside" por "twoside" a la hora de imprimirlo. EMCR: esta lï¿½nea debe estar antes de todo y fuera del fichero estilo, sino no compila en overleaf
 
-\input{estilo.tex} % archivo de configuración de estilo
+\input{estilo.tex} % archivo de configuraciï¿½n de estilo
 
 \makeindex
 
@@ -9,9 +9,9 @@
 
 \frontmatter
 
-\input{portada/indice.tex} % aquí se cargan todas las "primeras páginas"
+\input{portada/indice.tex} % aquï¿½ se cargan todas las "primeras pï¿½ginas"
 
-% Bibliografía
+% Bibliografï¿½a
 \let\OLDthebibliography=\thebibliography
 \def\thebibliography#1{\OLDthebibliography{#1}
   \addcontentsline{toc}{chapter}{\bibname}}
@@ -34,6 +34,7 @@
 
 \printindex \nocite{*}
 \appendix
-\bibliographystyle{apalike} \bibliography{bibliografia}
+\bibliographystyle{unsrt}
+\bibliography{bibliografia}
 
 \end{document}
