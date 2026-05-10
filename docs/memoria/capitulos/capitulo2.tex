@@ -1,39 +1,76 @@
-\chapter{Objetivos}
+\chapter{Objetivos y planificación}
 \label{cap:capitulo2}
 
-\begin{flushright}
-\begin{minipage}[]{10cm}
-\emph{Quizás algún fragmento de libro inspirador...}\\
-\end{minipage}\\
 
-Autor, \textit{Título}\\
-\end{flushright}
+En este capítulo se presenta el planteamiento del problema que se quiere abordar, así como los objetivos principales. También se describen los requisitos que debe cumplir la solución desarrollada, la metodología seguida durante el proyecto y la planificación utilizada para organizar las distintas fases del trabajo. De esta forma, se establece una visión general de qué se pretende conseguir y cómo se ha llevado a cabo.\\
 
-\vspace{1cm}
 
-Escribe aquí un párrafo explicando brevemente lo que vas a contar en este capítulo. En este capítulo lo ideal es explicar cuáles han sido los objetivos que te has fijado conseguir con tu trabajo, qué requisitos ha de respetar el resultado final, y cómo lo has llevado a cabo; esto es, cuál ha sido tu plan de trabajo.\\
+\section{Descripción y objetivo}
 
-\section{Descripción del problema}
-\label{sec:descripcion}
+Tras haber presentado el contexto general del reconocimiento de emociones mediante señales de \ac{EEG}, este trabajo se centra en llevar esa idea a un caso concreto. El objetivo es desarrollar un sistema capaz de analizar señales cerebrales y utilizarlas para distinguir entre tres estados emocionales: alegría, tristeza y estado neutro.
 
-Cuenta aquí el objetivo u objetivos generales y, a continuación, concrétalos mediante objetivos específicos.
+La elección de estas tres clases permite comparar una emoción positiva, una emoción negativa y una situación más neutral. A partir de las señales registradas, se pretende aplicar un proceso completo que incluya el tratamiento de los datos, la extracción de información relevante y el entrenamiento de modelos de aprendizaje automático.
+
+El objetivo principal no es únicamente obtener un modelo que clasifique correctamente las emociones, sino también analizar qué información de la señal influye más en esa clasificación. Para ello, se dará importancia a la interpretabilidad de los modelos, con el fin de estudiar qué características de la señales pueden estar más relacionadas con cada estado emocional.
+
 
 \section{Requisitos}
-\label{sec:requisitos}
 
-Describe los requisitos que ha de cumplir tu trabajo.
+Para alcanzar los objetivos planteados, el trabajo debe cumplir una serie de requisitos relacionados con el funcionamiento del sistema y con la interpretación de los resultados obtenidos. Por un lado, el sistema debe ser capaz de procesar señales de \ac{EEG} y entrenar modelos de clasificación. Por otro lado, debe permitir analizar qué información de la señal influye en las decisiones tomadas por dichos modelos.
 
-\section{Competencias}
-\label{sec:competencias}
+\subsection*{Requisitos funcionales}
 
-Enumera las competencias generales adquiridas y empleadas. Es decir, las que consideres que has adquirido durante la realización de tu TFG (las podrás encontrar en la guía docente de la asignatura TFG), así como las que creas que has adquirido en las distintas asignaturas del grado (descritas en sus respectivas guías docentes) y que has empleado para llevarlo a cabo.
- 
-\section{Metodología}
-\label{sec:metodologia}
+\begin{itemize}
+    \item El sistema debe permitir trabajar con señales de \ac{EEG} asociadas a los estados emocionales considerados en el trabajo: alegría, tristeza y estado neutro.
 
-Qué paradigma de desarrollo software has seguido para alcanzar tus objetivos.
+    \item Debe permitir organizar los datos tanto de forma general como separando la información correspondiente a cada sujeto.
 
-\section{Plan de trabajo}
-\label{sec:plantrabajo}
+    \item Debe incluir una fase de preprocesado de las señales de \ac{EEG}, con el objetivo de eliminar el ruido y preparar los datos antes de su análisis.
 
-Qué agenda has seguido. Si has ido manteniendo reuniones semanales, cumplimentando objetivos parciales, si has ido afinando poco a poco un producto final completo, etc.
+    \item Debe permitir extraer características relevantes de las señales, teniendo en cuenta la información procedente de distintos canales y bandas espectrales.
+
+    \item Debe entrenar y evaluar un modelo general utilizando datos de varios sujetos, con el objetivo de analizar el comportamiento global del sistema.
+
+    \item Debe entrenar y evaluar modelos individuales por sujeto, debido a la variabilidad existente entre las señales de distintas personas.
+
+    \item Debe permitir comparar los resultados obtenidos entre el enfoque general y el enfoque individual.
+
+    \item Debe evaluar el rendimiento de los modelos mediante métricas adecuadas para tareas de clasificación.
+\end{itemize}
+
+\subsection*{Requisitos de explicabilidad e interpretación}
+
+\begin{itemize}
+    \item El sistema debe permitir analizar qué características de la señal tienen mayor importancia en la clasificación de emociones.
+
+    \item Debe permitir estudiar la influencia de los distintos canales de \ac{EEG} utilizados durante el entrenamiento.
+
+    \item Debe permitir analizar la importancia de las bandas espectrales extraídas de la señal.
+
+    \item Debe generar una representación topográfica general que ayude a visualizar qué zonas del cuero cabelludo tienen mayor relevancia en el análisis realizado.
+
+    \item Los resultados obtenidos deben presentarse de forma comprensible, no solo como métricas numéricas, sino también mediante análisis que ayuden a interpretar el comportamiento del modelo.
+\end{itemize}
+
+
+\section{Metodología de trabajo}
+
+La metodología seguida en este trabajo se ha organizado de forma progresiva, comenzando por una revisión de la literatura relacionada con el reconocimiento de emociones mediante señales de \ac{EEG}, el preprocesado de este tipo de señales, la extracción de características y el uso de modelos interpretables. Esta revisión permitió entender mejor el problema y tomar decisiones sobre las técnicas más adecuadas para aplicar en el desarrollo del trabajo.
+
+Una vez situado el contexto, se llevó a cabo un análisis inicial del conjunto de datos proporcionado por el tutor, el cual fue registrado previamente con sujetos reales. En esta fase se estudió la estructura de los datos, los sujetos disponibles, las clases emocionales consideradas y la forma en la que estaban organizadas las señales. A partir de este análisis, se prepararon los datos para poder trabajar con ellos de forma adecuada en las siguientes fases.
+
+Se realizó el preprocesado de las señales de \ac{EEG}, con el objetivo de preparar los datos antes de su análisis. Después se llevó a cabo la extracción de características, teniendo en cuenta información procedente de distintos canales y bandas espectrales. Estas características fueron utilizadas como entrada para los modelos de aprendizaje automático.
+
+Antes del entrenamiento de los modelos, se aplicaron técnicas de análisis de datos y algoritmos de separabilidad para estudiar si las características extraídas permitían diferenciar entre las emociones consideradas. Esta fase sirvió para comprender mejor la distribución de los datos y valorar qué información podía ser más útil para la clasificación.
+
+Finalmente, se entrenaron y evaluaron distintos clasificadores, comparando su rendimiento y analizando sus resultados. Además de estudiar la capacidad de los modelos para clasificar las emociones, también se prestó atención a la interpretabilidad, con el objetivo de entender qué características, canales o bandas tenían mayor influencia en las decisiones tomadas por los modelos.
+
+\section{Planificación y seguimiento}
+
+La planificación del trabajo se organizó en distintas tareas principales: revisión bibliográfica, análisis del conjunto de datos, preprocesado de las señales, extracción de características, análisis de separabilidad, entrenamiento de modelos e interpretación de los resultados. Esta división permitió avanzar de forma ordenada y controlar mejor el progreso del proyecto.
+
+El seguimiento del trabajo se realizó mediante revisiones semanales con el tutor. En ellas comentaba los avances realizados, se resolvían dudas y se validaban las decisiones tomadas en cada fase. El proceso seguido consistía primero en leer y estudiar la información necesaria para ubicarme en cada parte del proyecto; después, comentar con el tutor las ideas aprendidas y el plan de acción propuesto; y, finalmente, implementar la solución y corregirla en función de los resultados obtenidos y del feedback recibido.
+
+Para organizar las tareas se siguió una metodología inspirada en el método \textit{Getting Things Done}. Las tareas se dividieron en acciones concretas y manejables, de forma que cada fase del trabajo tuviera objetivos claros. Así, el proyecto fue avanzando por bloques: primero el preprocesado, después la extracción de características, el análisis de separabilidad, el entrenamiento de modelos y, por último, la interpretación y documentación de los resultados.
+
+Esta forma de trabajo permitió mantener un seguimiento continuo del proyecto, detectar problemas de forma temprana y ajustar el planteamiento cuando fue necesario. Además, las reuniones periódicas ayudaron a comprobar que cada decisión técnica estuviera alineada con los objetivos del trabajo.
