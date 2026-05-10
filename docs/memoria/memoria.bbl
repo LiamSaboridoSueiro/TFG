@@ -1,0 +1,38 @@
+\begin{thebibliography}{1}
+
+\bibitem{mayo2024eeg}
+{Mayo Clinic}.
+\newblock Electroencefalograf{\'i}a ({EEG}), 2024.
+\newblock \url{https://www.mayoclinic.org/es/tests-procedures/eeg/about/pac-20393875}.
+
+\bibitem{alarcao2019eeg}
+Soraia~M. Alarc{\~a}o and Manuel~J. Fonseca.
+\newblock Emotions recognition using eeg signals: A survey.
+\newblock {\em IEEE Transactions on Affective Computing}, 10(3):374--393, 2019.
+\newblock \url{https://ieeexplore.ieee.org/abstract/document/7946165}.
+
+\bibitem{martindiego2006emociones}
+Isaac Mart{\'i}n~de Diego, {\'A}ngel Serrano, Cristina Conde, and Enrique Cabello.
+\newblock T{\'e}cnicas de reconocimiento autom{\'a}tico de emociones.
+\newblock {\em Teor{\'i}a de la Educaci{\'o}n: Educaci{\'o}n y Cultura en la Sociedad de la Informaci{\'o}n}, 7(2):92--106, 2006.
+\newblock \url{https://revistas.usal.es/tres/index.php/eks/article/view/19413/19414}.
+
+\bibitem{shu2018physiological}
+Lin Shu, Jinyan Xie, Mingyue Yang, Ziyi Li, Zhenqi Li, Dan Liao, Xiangmin Xu, and Xinyi Yang.
+\newblock A review of emotion recognition using physiological signals.
+\newblock {\em Sensors}, 18(7):2074, 2018.
+\newblock \url{https://www.mdpi.com/1424-8220/18/7/2074}.
+
+\bibitem{molnar2022interpretable}
+Christoph Molnar.
+\newblock {\em Interpretable Machine Learning}.
+\newblock 2 edition, 2022.
+\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
+
+\bibitem{rudin2019interpretable}
+Cynthia Rudin.
+\newblock Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead.
+\newblock {\em Nature Machine Intelligence}, 1:206--215, 2019.
+\newblock \url{https://www.nature.com/articles/s42256-019-0048-x}.
+
+\end{thebibliography}
