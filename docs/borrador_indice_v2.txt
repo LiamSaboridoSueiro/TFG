@@ -23,7 +23,7 @@ Lista de acrónimos
    2.4. Metodología de trabajo
    2.5. Planificación y seguimiento
 
-3. Fundamentos #y estado del arte? (creo q esto no)
+3. Fundamentos teóricos
    3.1. Señales EEG y sistema internacional de posicionamiento de electrodos
    3.2. Bandas espectrales de EEG: delta, theta, alpha, beta y gamma
    3.3. Emociones y actividad cerebral: alegría, tristeza y estado neutro

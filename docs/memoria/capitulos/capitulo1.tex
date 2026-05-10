@@ -1,3 +1,4 @@
+% !TEX root = ../memoria.tex
 
 \chapter{Introducción}
 \label{cap:introduccion}
@@ -29,7 +30,6 @@ El interés de utilizar señales de \ac{EEG} está en que permiten observar cóm
 
 
 \section{Reconocimiento automático de emociones}
-\label{sec:reconocimiento_automatico_emociones}
 
 El reconocimiento automático de emociones consiste en utilizar datos y modelos computacionales para identificar el estado emocional de una persona. Con ese objetivo, primero se obtiene algún tipo de información del usuario, después se procesan esos datos y finalmente se entrena un modelo capaz de asociar ciertos patrones con una emoción concreta. 
 
@@ -41,8 +41,6 @@ Esta información puede obtenerse de distintas formas. Algunos enfoques se basan
 El problema se plantea como una tarea de clasificación a partir de señales de \ac{EEG}. En concreto, se busca distinguir entre tres estados emocionales: alegría, tristeza y estado neutro. Estas clases permiten comparar una emoción positiva, una emoción negativa y una situación sin una carga emocional tan marcada, con el objetivo de analizar si existen diferencias en la señal cerebral que ayuden a separarlas.
 
 \section{IA de caja blanca e interpretabilidad en señales biomédicas}
-\label{sec:ia_caja_blanca_interpretabilidad}
-
 En el análisis de señales biomédicas, obtener una buena métrica no siempre es suficiente. Un modelo puede conseguir una alta precisión, pero si no se entiende en qué información se basa para tomar sus decisiones, resulta más difícil confiar en sus resultados. Esto es especialmente importante en contextos médicos, donde interesa saber si el modelo está utilizando patrones coherentes de la señal o si, por el contrario, está aprendiendo ruido, artefactos o relaciones poco fiables.
 
 Las inteligencias artificiales de caja blanca o explicables son modelos de aprendizaje automático cuyo funcionamiento puede analizarse de forma más directa. A diferencia de los modelos de caja negra, en los que normalmente solo se observan la entrada y la salida, estos modelos permiten entender mejor qué variables han influido en la decisión final. Esto no significa que sean simples o poco útiles, sino que su estructura facilita interpretar cómo se llega a una predicción. Un clasificador que todos conocemos y no lo sabemos es el árbol de decisión, esta "inteligencia" es la que usa el conocido juego Akinator\footnote{\url{https://akinator.com/}}, donde va tomando decisiones a partir de una serie de condiciones. En este tipo de modelos es más fácil seguir el razonamiento que lleva a una determinada salida \cite{molnar2022interpretable}.
@@ -51,6 +49,3 @@ Las inteligencias artificiales de caja blanca o explicables son modelos de apren
 Por este motivo, la interpretabilidad tiene un papel importante, no se busca únicamente entrenar un modelo capaz de clasificar emociones, sino también comprender qué información de la señal está utilizando para hacerlo. En el caso de señales de \ac{EEG}, esto resulta especialmente útil, ya que permite estudiar qué canales, bandas espectrales o características de la señal tienen más peso en la clasificación de una emoción. Esta idea está relacionada con la necesidad de emplear modelos interpretables en decisiones de alto impacto, especialmente en áreas como la salud, donde entender el comportamiento del modelo puede ser tan importante como el resultado obtenido \cite{rudin2019interpretable}.
 
 \section{Estructura de la memoria}
-\label{sec:estructura_memoria}
-
-% Resumir brevemente qué contiene cada capítulo de la memoria.
