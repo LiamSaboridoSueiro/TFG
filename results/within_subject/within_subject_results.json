@@ -1,6 +1,6 @@
 {
   "test_name": "alpha_beta",
-  "title": "WITHIN-SUBJECT ALPHA + BETA LANGUAGE",
+  "title": "WITHIN-SUBJECT Alpha/Beta",
   "description": "Modelo within-subject Alpha/Beta con CV temporal: folds por tramos contiguos de epoch_idx dentro de cada condicion y sujeto.",
   "selected_bands": [
     "Alpha",

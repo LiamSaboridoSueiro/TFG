@@ -2,7 +2,7 @@
 Analisis de separabilidad de las features EEG:
 
     Usa el mismo espacio de features que el pipeline principal:
-    Alpha + Beta + AlphaAsym.
+    Alpha/Beta + AlphaAsym.
 
     - PCA global: condicion vs sujeto
     - LDA global: condicion vs sujeto

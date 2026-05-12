@@ -1,0 +1,190 @@
+{
+  "title": "LDA subject-to-subject transferability",
+  "description": "Entrena LDA en un sujeto y evalua en otro para buscar compatibilidad funcional de patrones EEG Alpha/Beta.",
+  "selected_bands": [
+    "Alpha",
+    "Beta"
+  ],
+  "excluded_bands": [
+    "Delta",
+    "Theta",
+    "Gamma"
+  ],
+  "n_features_selected": 150,
+  "selected_feature_blocks": {
+    "bandpower": 124,
+    "alpha_asymmetry": 26,
+    "other": 0
+  },
+  "chance_level": 0.3333333333333333,
+  "modes": {
+    "strict": "Normalizacion del sujeto modelo aplicada directamente al sujeto destino.",
+    "calibrated": "Sujeto destino normalizado con su propia referencia NEUTRO; diagnostico con calibracion."
+  },
+  "n_subjects": 23,
+  "subjects": [
+    "211-000531",
+    "211-000532",
+    "211-000533",
+    "211-000535",
+    "211-000536",
+    "211-000537",
+    "211-000539",
+    "211-000540",
+    "211-000541",
+    "211-000543",
+    "211-000544",
+    "211-000545",
+    "211-000546",
+    "211-000547",
+    "211-000548",
+    "211-000549",
+    "211-000550",
+    "211-000552",
+    "211-000553",
+    "211-000554",
+    "211-000555",
+    "211-000556",
+    "211-000557"
+  ],
+  "global": {
+    "strict": {
+      "accuracy_mean": 0.32983227161440026,
+      "accuracy_std": 0.1053481643420251,
+      "f1_macro_mean": 0.21764855204112704,
+      "f1_macro_std": 0.09743794535253945
+    },
+    "calibrated": {
+      "accuracy_mean": 0.35206347197336996,
+      "accuracy_std": 0.14387078630080075,
+      "f1_macro_mean": 0.3248032291700039,
+      "f1_macro_std": 0.13731685958918638
+    }
+  },
+  "top_pairs_by_f1_macro": {
+    "strict": [
+      {
+        "model_subject": "211-000536",
+        "predict_subject": "211-000540",
+        "accuracy": 0.7941176470588235,
+        "f1_macro": 0.5976102394012842
+      },
+      {
+        "model_subject": "211-000541",
+        "predict_subject": "211-000531",
+        "accuracy": 0.6774193548387096,
+        "f1_macro": 0.5959950132460652
+      },
+      {
+        "model_subject": "211-000545",
+        "predict_subject": "211-000540",
+        "accuracy": 0.6176470588235294,
+        "f1_macro": 0.5737964351157755
+      },
+      {
+        "model_subject": "211-000533",
+        "predict_subject": "211-000546",
+        "accuracy": 0.6595744680851063,
+        "f1_macro": 0.5515873015873015
+      },
+      {
+        "model_subject": "211-000552",
+        "predict_subject": "211-000546",
+        "accuracy": 0.5390070921985816,
+        "f1_macro": 0.5395321637426901
+      },
+      {
+        "model_subject": "211-000545",
+        "predict_subject": "211-000546",
+        "accuracy": 0.6453900709219859,
+        "f1_macro": 0.5364331723027376
+      },
+      {
+        "model_subject": "211-000550",
+        "predict_subject": "211-000556",
+        "accuracy": 0.5490196078431373,
+        "f1_macro": 0.5235659481183778
+      },
+      {
+        "model_subject": "211-000531",
+        "predict_subject": "211-000544",
+        "accuracy": 0.5583333333333333,
+        "f1_macro": 0.5235144682970544
+      },
+      {
+        "model_subject": "211-000549",
+        "predict_subject": "211-000546",
+        "accuracy": 0.6028368794326241,
+        "f1_macro": 0.5088383838383838
+      },
+      {
+        "model_subject": "211-000531",
+        "predict_subject": "211-000546",
+        "accuracy": 0.5673758865248227,
+        "f1_macro": 0.5069636957114271
+      }
+    ],
+    "calibrated": [
+      {
+        "model_subject": "211-000535",
+        "predict_subject": "211-000550",
+        "accuracy": 0.9012345679012346,
+        "f1_macro": 0.8773946360153256
+      },
+      {
+        "model_subject": "211-000545",
+        "predict_subject": "211-000546",
+        "accuracy": 0.7659574468085106,
+        "f1_macro": 0.7643936300530828
+      },
+      {
+        "model_subject": "211-000539",
+        "predict_subject": "211-000545",
+        "accuracy": 0.7708333333333334,
+        "f1_macro": 0.7372078143080798
+      },
+      {
+        "model_subject": "211-000547",
+        "predict_subject": "211-000555",
+        "accuracy": 0.7293233082706767,
+        "f1_macro": 0.7195286195286196
+      },
+      {
+        "model_subject": "211-000546",
+        "predict_subject": "211-000552",
+        "accuracy": 0.7155172413793104,
+        "f1_macro": 0.7189478896117998
+      },
+      {
+        "model_subject": "211-000539",
+        "predict_subject": "211-000546",
+        "accuracy": 0.6808510638297872,
+        "f1_macro": 0.6794152046783625
+      },
+      {
+        "model_subject": "211-000546",
+        "predict_subject": "211-000545",
+        "accuracy": 0.6666666666666666,
+        "f1_macro": 0.6663860830527497
+      },
+      {
+        "model_subject": "211-000539",
+        "predict_subject": "211-000540",
+        "accuracy": 0.6862745098039216,
+        "f1_macro": 0.6588176442613978
+      },
+      {
+        "model_subject": "211-000541",
+        "predict_subject": "211-000535",
+        "accuracy": 0.6633663366336634,
+        "f1_macro": 0.6504119080709811
+      },
+      {
+        "model_subject": "211-000540",
+        "predict_subject": "211-000557",
+        "accuracy": 0.6466165413533834,
+        "f1_macro": 0.6384996161150847
+      }
+    ]
+  }
+}

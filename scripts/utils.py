@@ -1,5 +1,5 @@
 """
-Funciones comunes para la tanda alpha_beta_language.
+Funciones comunes para la tanda alpha_beta.
 
 Esta prueba sigue la lectura neurofisiologica del tutor:
   - usar Alpha y Beta como bandas principales
@@ -59,7 +59,7 @@ ALPHA_ASYMMETRY_PAIRS = [
 ]
 
 # Clusters sugeridos por el tutor. Se usan para agregar SHAP, no para recortar canales.
-LANGUAGE_CLUSTERS = {
+EEG_CLUSTERS = {
     "temporal_left": ["T7", "TP7", "CP5", "CP3", "FT7", "C5", "P7", "P5"],
     "temporal_right": ["T8", "TP8", "CP6", "CP4", "FT8", "C6", "P8", "P6"],
     "frontal_inferior_left": ["F7", "FC5", "F5"],
@@ -234,7 +234,7 @@ def feature_color(feature_name):
 
 def channel_cluster(channel):
     """Devuelve el primer cluster que contiene un canal."""
-    for cluster_name, channels in LANGUAGE_CLUSTERS.items():
+    for cluster_name, channels in EEG_CLUSTERS.items():
         if channel in channels:
             return cluster_name
     return "other"
@@ -244,6 +244,6 @@ def available_clusters(ch_names):
     """Lista canales disponibles por cluster para documentar la tanda."""
     available = {}
     ch_set = set(ch_names)
-    for cluster_name, channels in LANGUAGE_CLUSTERS.items():
+    for cluster_name, channels in EEG_CLUSTERS.items():
         available[cluster_name] = [ch for ch in channels if ch in ch_set]
     return available

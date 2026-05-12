@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-05-12T23:46:34",
+  "mode": "calibrated",
+  "subject_model": "211-000545",
+  "subject_predict": "211-000546",
+  "classifier": "LogisticRegression elastic-net",
+  "classifier_params": {
+    "penalty": "elasticnet",
+    "solver": "saga",
+    "l1_ratio": 0.5,
+    "C": 1.0,
+    "class_weight": "balanced",
+    "max_iter": 5000
+  },
+  "normalization": "calibrated: baseline/scaler del sujeto destino usando NEUTRO propio",
+  "selected_bands": [
+    "Alpha",
+    "Beta"
+  ],
+  "excluded_bands": [
+    "Delta",
+    "Theta",
+    "Gamma"
+  ],
+  "n_features_selected": 150,
+  "selected_feature_blocks": {
+    "bandpower": 124,
+    "alpha_asymmetry": 26,
+    "other": 0
+  },
+  "accuracy": 0.7872340425531915,
+  "f1_macro": 0.7724280308351105,
+  "chance_level": 0.3333333333333333,
+  "chance_improvement": 0.4539007092198582,
+  "n_train": 96,
+  "n_predict": 141,
+  "train_joy": 44,
+  "train_neutro": 23,
+  "train_sad": 29,
+  "predict_joy": 48,
+  "predict_neutro": 47,
+  "predict_sad": 46,
+  "classification_report": {
+    "JOY": {
+      "precision": 0.7230769230769231,
+      "recall": 0.9791666666666666,
+      "f1-score": 0.831858407079646,
+      "support": 48.0
+    },
+    "NEUTRO": {
+      "precision": 0.7884615384615384,
+      "recall": 0.8723404255319149,
+      "f1-score": 0.8282828282828283,
+      "support": 47.0
+    },
+    "SAD": {
+      "precision": 0.9583333333333334,
+      "recall": 0.5,
+      "f1-score": 0.6571428571428571,
+      "support": 46.0
+    },
+    "accuracy": 0.7872340425531915,
+    "macro avg": {
+      "precision": 0.8232905982905984,
+      "recall": 0.7838356973995272,
+      "f1-score": 0.7724280308351105,
+      "support": 141.0
+    },
+    "weighted avg": {
+      "precision": 0.8216221131114749,
+      "recall": 0.7872340425531915,
+      "f1-score": 0.7736671482105487,
+      "support": 141.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      47,
+      0,
+      1
+    ],
+    [
+      6,
+      41,
+      0
+    ],
+    [
+      12,
+      11,
+      23
+    ]
+  ]
+}

@@ -253,7 +253,7 @@ def classify_all_subjects_temporal(X_log, y, meta, ch_names):
 def classifier_summary(results):
     """Imprime resumen global por clasificador."""
     print("=" * 75)
-    print("RESUMEN WITHIN-SUBJECT ALPHA + BETA LANGUAGE")
+    print("RESUMEN WITHIN-SUBJECT Alpha/Beta")
     print("=" * 75)
     print(f"\n{'Clasificador':<20} {'Acc media':>10} {'Acc std':>9} {'F1 macro':>10}  Mejora")
     print("-" * 75)
@@ -377,7 +377,7 @@ def save_results(results, best_clf, feature_names):
     summary_rows = []
     json_summary = {
         "test_name": "alpha_beta",
-        "title": "WITHIN-SUBJECT ALPHA + BETA LANGUAGE",
+        "title": "WITHIN-SUBJECT Alpha/Beta",
         "description": (
             "Modelo within-subject Alpha/Beta con CV temporal: folds por tramos "
             "contiguos de epoch_idx dentro de cada condicion y sujeto."
@@ -434,7 +434,7 @@ def save_results(results, best_clf, feature_names):
 if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("TRAIN WITHIN-SUBJECT ALPHA + BETA LANGUAGE!!!!!!!!!!")
+    print("TRAIN WITHIN-SUBJECT Alpha/Beta!!!!!!!!!!")
     print(f"  Features: {FEATURES_DIR}")
     print(f"  Salida:   {RESULTS_DIR}")
     print(f"  Bandas:   {SELECTED_BANDS}")

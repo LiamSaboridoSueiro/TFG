@@ -311,7 +311,7 @@ def plot_cv_scores(resultados, mejor_clf):
     fig, axes = plt.subplots(1, 2, figsize=(15, 5))
     fig.patch.set_facecolor("#f8f9fa")
     fig.suptitle(
-        f"All-subjects alpha/beta - {mejor_clf}\n"
+        f"All-subjects Alpha/Beta - {mejor_clf}\n"
         f"F1 macro medio: {datos['f1_media']:.3f}  |  Accuracy media: {datos['acc_media']:.3f}",
         fontsize=13,
         fontweight="bold",
@@ -353,7 +353,7 @@ def plot_confusion(resultados, mejor_clf):
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     fig.patch.set_facecolor("#f8f9fa")
     fig.suptitle(
-        f"Matriz de confusion - {mejor_clf} all-subjects alpha/beta",
+        f"Matriz de confusion - {mejor_clf} all-subjects Alpha/Beta",
         fontsize=12,
         fontweight="bold",
     )
@@ -452,7 +452,7 @@ def save_selected_features(ch_names):
 def save_json(resultados, mejor_clf, ch_names):
     feature_names = build_feature_names(ch_names)
     resumen = {
-        "test_name": "alpha_beta_language_all_subjects",
+        "test_name": "alpha_beta_all_subjects",
         "cv": {
             "type": "StratifiedGroupKFold",
             "n_splits": N_FOLDS,
@@ -500,7 +500,7 @@ def save_json(resultados, mejor_clf, ch_names):
 if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("CLASIFICACION ALL-SUBJECTS ALPHA+BETA LANGUAGE!!!!!!!!!!!!!!!!")
+    print("CLASIFICACION ALL-SUBJECTS Alpha/Beta!!!!!!!!!!!!!!!!")
     print(f"  Estrategia: StratifiedGroupKFold {N_FOLDS}-Fold por sujeto")
     print(f"  Scoring busqueda: {SCORING}")
     print(f"  Bandas: {SELECTED_BANDS}  |  Excluidas: {EXCLUDED_BANDS}")

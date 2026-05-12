@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-05-12T23:45:36",
+  "mode": "strict",
+  "subject_model": "211-000545",
+  "subject_predict": "211-000549",
+  "classifier": "LogisticRegression elastic-net",
+  "classifier_params": {
+    "penalty": "elasticnet",
+    "solver": "saga",
+    "l1_ratio": 0.5,
+    "C": 1.0,
+    "class_weight": "balanced",
+    "max_iter": 5000
+  },
+  "normalization": "strict: baseline/scaler del sujeto modelo",
+  "selected_bands": [
+    "Alpha",
+    "Beta"
+  ],
+  "excluded_bands": [
+    "Delta",
+    "Theta",
+    "Gamma"
+  ],
+  "n_features_selected": 150,
+  "selected_feature_blocks": {
+    "bandpower": 124,
+    "alpha_asymmetry": 26,
+    "other": 0
+  },
+  "accuracy": 0.45323741007194246,
+  "f1_macro": 0.3597796143250689,
+  "chance_level": 0.3333333333333333,
+  "chance_improvement": 0.11990407673860914,
+  "n_train": 96,
+  "n_predict": 139,
+  "train_joy": 44,
+  "train_neutro": 23,
+  "train_sad": 29,
+  "predict_joy": 46,
+  "predict_neutro": 46,
+  "predict_sad": 47,
+  "classification_report": {
+    "JOY": {
+      "precision": 0.5333333333333333,
+      "recall": 0.8695652173913043,
+      "f1-score": 0.6611570247933884,
+      "support": 46.0
+    },
+    "NEUTRO": {
+      "precision": 0.359375,
+      "recall": 0.5,
+      "f1-score": 0.41818181818181815,
+      "support": 46.0
+    },
+    "SAD": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 47.0
+    },
+    "accuracy": 0.45323741007194246,
+    "macro avg": {
+      "precision": 0.29756944444444444,
+      "recall": 0.45652173913043476,
+      "f1-score": 0.3597796143250689,
+      "support": 139.0
+    },
+    "weighted avg": {
+      "precision": 0.2954286570743405,
+      "recall": 0.45323741007194246,
+      "f1-score": 0.35719127177596766,
+      "support": 139.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      40,
+      6,
+      0
+    ],
+    [
+      23,
+      23,
+      0
+    ],
+    [
+      12,
+      35,
+      0
+    ]
+  ]
+}

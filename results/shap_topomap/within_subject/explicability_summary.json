@@ -1,5 +1,5 @@
 {
-  "test_name": "alpha_beta_language",
+  "test_name": "alpha_beta",
   "method": "out_of_fold_linear_shap_for_logistic_regression",
   "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
   "cv": {
@@ -24,7 +24,7 @@
     "alpha_asymmetry": 26,
     "other": 0
   },
-  "language_clusters": {
+  "clusters": {
     "temporal_left": [
       "T7",
       "TP7",

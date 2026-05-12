@@ -386,7 +386,7 @@ def check_individual_spectrum(available_epochs, complete_subjects):
     """
     print("CHECK 3 - ESPECTRO INDIVIDUAL POR SUJETO")
     print("  Criterios automáticos:")
-    print(f"  - Pico alpha/beta >= {ALPHA_PEAK_RATIO:.2f}")
+    print(f"  - Pico Alpha/Beta >= {ALPHA_PEAK_RATIO:.2f}")
     print(f"  - Pendiente 1/f >= {SLOPE_RATIO:.2f}\n")
 
     if not complete_subjects:

@@ -1,5 +1,5 @@
 {
-  "test_name": "alpha_beta_language_all_subjects",
+  "test_name": "alpha_beta_all_subjects",
   "cv": {
     "type": "StratifiedGroupKFold",
     "n_splits": 5,

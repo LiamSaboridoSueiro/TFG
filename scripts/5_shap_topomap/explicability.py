@@ -1,5 +1,5 @@
 """
-Explicabilidad del test alpha_beta_language:
+Explicabilidad del test alpha_beta:
 
     CV temporal por sujeto -> SHAP lineal out-of-fold -> topomaps Alpha/Beta -> clusters
 
@@ -52,7 +52,7 @@ from utils import (
     FEATURES_DIR,
     LABEL_INV,
     LABEL_MAP,
-    LANGUAGE_CLUSTERS,
+    EEG_CLUSTERS,
     N_BANDS,
     N_FOLDS,
     RANDOM_STATE,
@@ -342,7 +342,7 @@ def compute_band_importance(channel_band_df):
 def compute_cluster_band_importance(channel_band_df):
     """Agrega SHAP por condicion, cluster y banda."""
     rows = []
-    clusters = list(LANGUAGE_CLUSTERS.keys()) + ["other"]
+    clusters = list(EEG_CLUSTERS.keys()) + ["other"]
 
     for condition in CONDITIONS:
         cond_df = channel_band_df[channel_band_df["condition"] == condition]
@@ -395,7 +395,7 @@ def plot_top_features(feature_summary_df):
     ax.set_yticks(y_pos)
     ax.set_yticklabels(top_names[::-1], fontsize=9)
     ax.set_xlabel("SHAP medio absoluto out-of-fold")
-    ax.set_title(f"Top {N_TOP_FEATURES} features - Alpha/Beta language")
+    ax.set_title(f"Top {N_TOP_FEATURES} features - Alpha/Beta")
     ax.grid(True, axis="x", alpha=0.3)
 
     plt.tight_layout()
@@ -508,7 +508,7 @@ def plot_topomap_grid(topomap_values, ch_names, mode):
         fig, axes = plt.subplots(1, len(SELECTED_BANDS), figsize=(9, 4))
         fig.patch.set_facecolor("#f8f9fa")
         fig.suptitle(
-            f"{title_prefix} - {condition} - Alpha/Beta language",
+            f"{title_prefix} - {condition} - Alpha/Beta",
             fontsize=13,
             fontweight="bold",
         )
@@ -596,7 +596,7 @@ def plot_subject_topomap_grid(feature_subject_df, ch_names, mode):
         )
         fig.patch.set_facecolor("#f8f9fa")
         fig.suptitle(
-            f"{title_prefix} - {subject_id} - Alpha/Beta language",
+            f"{title_prefix} - {subject_id} - Alpha/Beta",
             fontsize=13,
             fontweight="bold",
         )
@@ -641,7 +641,7 @@ def plot_cluster_importance(cluster_band_df):
         .reset_index()
     )
 
-    clusters = list(LANGUAGE_CLUSTERS.keys()) + ["other"]
+    clusters = list(EEG_CLUSTERS.keys()) + ["other"]
     x = np.arange(len(clusters))
     width = 0.25
 
@@ -675,7 +675,7 @@ def plot_cluster_importance(cluster_band_df):
 
 def plot_cluster_band_heatmap(cluster_band_df):
     """Heatmap cluster x banda para cada clase."""
-    clusters = list(LANGUAGE_CLUSTERS.keys()) + ["other"]
+    clusters = list(EEG_CLUSTERS.keys()) + ["other"]
     fig, axes = plt.subplots(1, len(CONDITIONS), figsize=(15, 7), sharey=True)
     fig.patch.set_facecolor("#f8f9fa")
     fig.suptitle("Importancia cluster x banda", fontsize=13, fontweight="bold")
@@ -780,7 +780,7 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, c
         cm_total += np.asarray(item["confusion"], dtype=int)
 
     summary = {
-        "test_name": "alpha_beta_language",
+        "test_name": "alpha_beta",
         "method": "out_of_fold_linear_shap_for_logistic_regression",
         "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
         "cv": {
@@ -794,7 +794,7 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, c
         "excluded_bands": EXCLUDED_BANDS,
         "n_features_selected": len(feature_names),
         "selected_feature_blocks": feature_block_counts(feature_names),
-        "language_clusters": LANGUAGE_CLUSTERS,
+        "clusters": EEG_CLUSTERS,
         "available_cluster_channels": available_clusters(ch_names),
         "n_subjects": int(subject_df["subject_id"].nunique()) if len(subject_df) else 0,
         "mean_subject_accuracy_oof": float(subject_df["accuracy"].mean()) if len(subject_df) else None,
@@ -815,7 +815,7 @@ def print_console_summary(subject_summary, feature_summary_df, band_importance_d
     """Imprime resumen de terminal."""
     subject_df = pd.DataFrame(subject_summary)
 
-    print("RESUMEN EXPLICABILIDAD ALPHA + BETA LANGUAGE")
+    print("RESUMEN EXPLICABILIDAD Alpha/Beta")
 
     if len(subject_df):
         print(
@@ -878,7 +878,7 @@ def print_console_summary(subject_summary, feature_summary_df, band_importance_d
 if __name__ == "__main__":
     SHAP_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("EXPLICABILIDAD ALPHA + BETA LANGUAGE CON SHAP LINEAL OOF!!!!!!!!!!")
+    print("EXPLICABILIDAD Alpha/Beta CON SHAP LINEAL OOF!!!!!!!!!!")
     print(f"  Features: {FEATURES_DIR}")
     print(f"  Test:     {RESULTS_DIR}")
     print(f"  Salida:   {SHAP_DIR}")
@@ -1008,5 +1008,5 @@ if __name__ == "__main__":
     if skipped_subjects:
         print(f"\n  Sujetos omitidos: {skipped_subjects}")
 
-    print("EXPLICABILIDAD ALPHA + BETA LANGUAGE COMPLETADA!!!!!!!!!!")
+    print("EXPLICABILIDAD Alpha/Beta COMPLETADA!!!!!!!!!!")
     print(f"Resultados en: {SHAP_DIR}")

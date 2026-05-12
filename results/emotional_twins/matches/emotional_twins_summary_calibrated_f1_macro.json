@@ -1,0 +1,161 @@
+{
+  "title": "Emotional twins ranking",
+  "source": "results/emotional_twins/lda_transfer/lda_transfer_pairwise_results.csv",
+  "mode": "calibrated",
+  "metric": "f1_macro",
+  "chance_level": 0.3333333333333333,
+  "min_score_filter": null,
+  "n_pairs": 253,
+  "top_pairs": [
+    {
+      "rank": 1,
+      "subject_a": "211-000545",
+      "subject_b": "211-000546",
+      "compatibility": 0.7153898565529162,
+      "asymmetry": 0.0980075470003331,
+      "score_a_to_b": 0.7643936300530828,
+      "score_b_to_a": 0.6663860830527497,
+      "rank_score": 0.6663860830527497
+    },
+    {
+      "rank": 2,
+      "subject_a": "211-000539",
+      "subject_b": "211-000543",
+      "compatibility": 0.5695720473733347,
+      "asymmetry": 0.034577245641337795,
+      "score_a_to_b": 0.5522834245526658,
+      "score_b_to_a": 0.5868606701940036,
+      "rank_score": 0.5522834245526658
+    },
+    {
+      "rank": 3,
+      "subject_a": "211-000545",
+      "subject_b": "211-000553",
+      "compatibility": 0.5745356232193142,
+      "asymmetry": 0.053531667220821144,
+      "score_a_to_b": 0.6013014568297247,
+      "score_b_to_a": 0.5477697896089035,
+      "rank_score": 0.5477697896089035
+    },
+    {
+      "rank": 4,
+      "subject_a": "211-000544",
+      "subject_b": "211-000552",
+      "compatibility": 0.5641092212045803,
+      "asymmetry": 0.0541443683350864,
+      "score_a_to_b": 0.5911814053721235,
+      "score_b_to_a": 0.5370370370370371,
+      "rank_score": 0.5370370370370371
+    },
+    {
+      "rank": 5,
+      "subject_a": "211-000535",
+      "subject_b": "211-000541",
+      "compatibility": 0.589643308795426,
+      "asymmetry": 0.12153719855111034,
+      "score_a_to_b": 0.5288747095198708,
+      "score_b_to_a": 0.6504119080709811,
+      "rank_score": 0.5288747095198709
+    },
+    {
+      "rank": 6,
+      "subject_a": "211-000540",
+      "subject_b": "211-000557",
+      "compatibility": 0.580728161617859,
+      "asymmetry": 0.11554290899445141,
+      "score_a_to_b": 0.6384996161150847,
+      "score_b_to_a": 0.5229567071206332,
+      "rank_score": 0.5229567071206334
+    },
+    {
+      "rank": 7,
+      "subject_a": "211-000553",
+      "subject_b": "211-000557",
+      "compatibility": 0.5533496091193075,
+      "asymmetry": 0.07462235201540723,
+      "score_a_to_b": 0.5906607851270111,
+      "score_b_to_a": 0.5160384331116039,
+      "rank_score": 0.5160384331116039
+    },
+    {
+      "rank": 8,
+      "subject_a": "211-000535",
+      "subject_b": "211-000545",
+      "compatibility": 0.5407689311174704,
+      "asymmetry": 0.062391812272067915,
+      "score_a_to_b": 0.5719648372535043,
+      "score_b_to_a": 0.5095730249814364,
+      "rank_score": 0.5095730249814364
+    },
+    {
+      "rank": 9,
+      "subject_a": "211-000539",
+      "subject_b": "211-000545",
+      "compatibility": 0.6196155119792041,
+      "asymmetry": 0.23518460465775148,
+      "score_a_to_b": 0.7372078143080798,
+      "score_b_to_a": 0.5020232096503283,
+      "rank_score": 0.5020232096503283
+    },
+    {
+      "rank": 10,
+      "subject_a": "211-000543",
+      "subject_b": "211-000550",
+      "compatibility": 0.5032561924222044,
+      "asymmetry": 0.011551292868391627,
+      "score_a_to_b": 0.4974805459880086,
+      "score_b_to_a": 0.5090318388564002,
+      "rank_score": 0.4974805459880086
+    },
+    {
+      "rank": 11,
+      "subject_a": "211-000540",
+      "subject_b": "211-000550",
+      "compatibility": 0.49385089245204017,
+      "asymmetry": 0.003086400288695834,
+      "score_a_to_b": 0.4923076923076923,
+      "score_b_to_a": 0.4953940925963881,
+      "rank_score": 0.4923076923076922
+    },
+    {
+      "rank": 12,
+      "subject_a": "211-000545",
+      "subject_b": "211-000550",
+      "compatibility": 0.5013032200167822,
+      "asymmetry": 0.023461574540197372,
+      "score_a_to_b": 0.5130340072868809,
+      "score_b_to_a": 0.4895724327466835,
+      "rank_score": 0.4895724327466835
+    },
+    {
+      "rank": 13,
+      "subject_a": "211-000543",
+      "subject_b": "211-000556",
+      "compatibility": 0.5284953316121086,
+      "asymmetry": 0.08482855062564776,
+      "score_a_to_b": 0.5709096069249325,
+      "score_b_to_a": 0.4860810562992848,
+      "rank_score": 0.4860810562992847
+    },
+    {
+      "rank": 14,
+      "subject_a": "211-000535",
+      "subject_b": "211-000550",
+      "compatibility": 0.6755919049022496,
+      "asymmetry": 0.40360546222615196,
+      "score_a_to_b": 0.8773946360153256,
+      "score_b_to_a": 0.4737891737891737,
+      "rank_score": 0.4737891737891736
+    },
+    {
+      "rank": 15,
+      "subject_a": "211-000550",
+      "subject_b": "211-000554",
+      "compatibility": 0.5531767738074759,
+      "asymmetry": 0.15952011932516297,
+      "score_a_to_b": 0.4734167141448944,
+      "score_b_to_a": 0.6329368334700574,
+      "rank_score": 0.4734167141448944
+    }
+  ]
+}
