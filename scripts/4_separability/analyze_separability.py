@@ -1,6 +1,9 @@
 """
 Analisis de separabilidad de las features EEG:
 
+    Usa el mismo espacio de features que el pipeline principal:
+    Alpha + Beta + AlphaAsym.
+
     - PCA global: condicion vs sujeto
     - LDA global: condicion vs sujeto
     - PCA por sujeto: condiciones dentro de cada sujeto
@@ -19,6 +22,7 @@ Salida:
 """
 
 import json
+import sys
 import warnings
 from pathlib import Path
 
@@ -28,38 +32,34 @@ import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import StandardScaler
 
 
 warnings.filterwarnings("ignore")
 
+# Permite ejecutar este script desde scripts/4_separability importando
+# utilidades compartidas desde scripts/.
+SCRIPTS_DIR = Path(__file__).resolve().parents[1]
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from utils import (
+    CONDITIONS,
+    EXCLUDED_BANDS,
+    FEATURES_DIR,
+    LABEL_MAP,
+    N_BANDS,
+    PROJECT_ROOT,
+    RANDOM_STATE,
+    SELECTED_BANDS,
+    build_feature_names,
+    feature_block_counts,
+    fit_normalization_pipeline,
+    load_dataset,
+)
+
+
 # ---------------------------------------------------------------------- Configuracion
-FEATURES_DIR = Path("data/features")
-RESULTS_DIR = Path("results/separability")
-
-CONDITIONS = ["JOY", "NEUTRO", "SAD"]
-LABEL_MAP = {"JOY": 0, "NEUTRO": 1, "SAD": 2}
-
-RANDOM_STATE = 42
-
-BANDS = ["Delta", "Theta", "Alpha", "Beta", "Gamma"]
-N_BANDS = len(BANDS)
-BAND_IDX = {}
-for i, band in enumerate(BANDS):
-    BAND_IDX[band] = i
-
-INCLUDE_THETA_ALPHA_RATIO = True
-INCLUDE_ALPHA_ASYMMETRY = True
-
-ALPHA_ASYMMETRY_PAIRS = [
-    ("Fp1", "Fp2"), ("AF7", "AF8"), ("AF3", "AF4"),
-    ("F7", "F8"),   ("F5", "F6"),   ("F3", "F4"),   ("F1", "F2"),
-    ("FC5", "FC6"), ("FC3", "FC4"), ("FC1", "FC2"),
-    ("T7", "T8"),   ("C5", "C6"),   ("C3", "C4"),   ("C1", "C2"),
-    ("TP7", "TP8"), ("CP5", "CP6"), ("CP3", "CP4"), ("CP1", "CP2"),
-    ("P7", "P8"),   ("P5", "P6"),   ("P3", "P4"),   ("P1", "P2"),
-    ("PO7", "PO8"), ("PO5", "PO6"), ("PO3", "PO4"), ("O1", "O2"),
-]
+RESULTS_DIR = PROJECT_ROOT / "results" / "separability"
 
 CONDITION_COLORS = {
     "JOY": "#e74c3c",
@@ -68,65 +68,7 @@ CONDITION_COLORS = {
 }
 
 
-# ---------------------------------------------------------------------- Carga y normalizacion
-def load_dataset():
-    """Carga las features en log10 sin normalizar y sus metadatos."""
-    log_path = FEATURES_DIR / "features_X.npy"
-    if not log_path.exists():
-        raise FileNotFoundError(
-            f"No se encontro {log_path}. Ejecuta primero epochs_to_features.py"
-        )
-
-    X_log = np.load(FEATURES_DIR / "features_X.npy")
-    y = np.load(FEATURES_DIR / "features_y.npy")
-    meta = pd.read_csv(FEATURES_DIR / "features_meta.csv")
-
-    with open(FEATURES_DIR / "features_info.json") as f:
-        info = json.load(f)
-
-    ch_names = info.get("ch_names_eeg", [])
-    if not ch_names:
-        raise ValueError(
-            "features_info.json no contiene 'ch_names_eeg'. "
-            "Vuelve a ejecutar epochs_to_features.py"
-        )
-
-    return X_log, y, meta, ch_names
-
-
-def _build_feature_matrix(delta_2d, ch_names):
-    """Anade las features derivadas al bloque bandpower ya normalizado."""
-    n_ch = len(ch_names)
-    delta_3d = delta_2d.reshape(len(delta_2d), n_ch, N_BANDS)
-
-    blocks = [delta_2d]
-
-    if INCLUDE_THETA_ALPHA_RATIO and ch_names:
-        theta_idx = BAND_IDX["Theta"]
-        alpha_idx = BAND_IDX["Alpha"]
-        ratio = delta_3d[:, :, theta_idx] - delta_3d[:, :, alpha_idx]
-        blocks.append(ratio)
-
-    if INCLUDE_ALPHA_ASYMMETRY and ch_names:
-        ch_idx_map = {}
-        for i, ch in enumerate(ch_names):
-            ch_idx_map[ch] = i
-
-        valid_pairs = []
-        for left, right in ALPHA_ASYMMETRY_PAIRS:
-            if left in ch_idx_map and right in ch_idx_map:
-                valid_pairs.append((left, right, ch_idx_map[left], ch_idx_map[right]))
-
-        if valid_pairs:
-            alpha_idx = BAND_IDX["Alpha"]
-            asym_cols = []
-            for _, _, left_idx, right_idx in valid_pairs:
-                asym_cols.append(delta_3d[:, right_idx, alpha_idx] - delta_3d[:, left_idx, alpha_idx])
-            blocks.append(np.column_stack(asym_cols))
-
-    return np.concatenate(blocks, axis=1).astype(np.float32)
-
-
+# ---------------------------------------------------------------------- Normalizacion
 def fit_feature_matrix(X_log_train, y_train, ch_names):
     """
     Aplica el mismo preprocesado que los train.
@@ -134,22 +76,8 @@ def fit_feature_matrix(X_log_train, y_train, ch_names):
     Para analisis visual se ajusta con los datos que se estan dibujando:
     global para all-subjects y por sujeto para within-subject.
     """
-    n_ch = len(ch_names)
-    X_train = X_log_train.reshape(-1, n_ch, N_BANDS)
-
-    neutro_mask = (y_train == LABEL_MAP["NEUTRO"])
-    if neutro_mask.sum() == 0:
-        baseline = X_train.mean(axis=0)
-    else:
-        baseline = X_train[neutro_mask].mean(axis=0)
-
-    delta = X_train - baseline[np.newaxis, :, :]
-    delta_2d = delta.reshape(len(delta), -1)
-
-    scaler = StandardScaler()
-    delta_2d = scaler.fit_transform(delta_2d)
-
-    return _build_feature_matrix(delta_2d, ch_names)
+    X_feat, _ = fit_normalization_pipeline(X_log_train, y_train, ch_names)
+    return X_feat
 
 
 # ---------------------------------------------------------------------- Proyecciones
@@ -564,7 +492,7 @@ def analyze_within_subject(X_log, y, meta, ch_names):
     return metrics
 
 
-def save_outputs(metrics):
+def save_outputs(metrics, feature_names):
     """Guarda metricas tabulares y resumen JSON."""
     metrics_df = pd.DataFrame(metrics)
     metrics_path = RESULTS_DIR / "separability_metrics.csv"
@@ -575,6 +503,13 @@ def save_outputs(metrics):
     within_df = metrics_df[metrics_df["scope"] == "within_subject"]
 
     summary = {
+        "feature_config": {
+            "selected_bands": SELECTED_BANDS,
+            "excluded_bands": EXCLUDED_BANDS,
+            "n_features": len(feature_names),
+            "feature_blocks": feature_block_counts(feature_names),
+            "normalization": "baseline NEUTRO + StandardScaler",
+        },
         "global": {
             row["space"] + "_" + row["label_type"]: {
                 "silhouette": None if pd.isna(row["silhouette"]) else float(row["silhouette"]),
@@ -643,6 +578,8 @@ if __name__ == "__main__":
     print("ANALISIS DE SEPARABILIDAD EEG!!!!!!!!!!")
     print(f"Features:  {FEATURES_DIR}")
     print(f"Resultados: {RESULTS_DIR}")
+    print(f"Bandas:    {SELECTED_BANDS}")
+    print(f"Excluye:   {EXCLUDED_BANDS}")
 
     X_log, y, meta, ch_names = load_dataset()
 
@@ -655,13 +592,16 @@ if __name__ == "__main__":
     print(f"\nEpocas: {len(y)}")
     print(f"Sujetos: {meta['subject_id'].nunique()}")
     print(f"Features base: {X_log.shape[1]}")
+    feature_names = build_feature_names(ch_names)
+    print(f"Features usadas: {len(feature_names)}")
+    print(f"Bloques usados: {feature_block_counts(feature_names)}")
 
     print("\nGenerando figuras y metricas...")
     all_metrics = []
     all_metrics.extend(analyze_global(X_log, y, meta, ch_names))
     all_metrics.extend(analyze_within_subject(X_log, y, meta, ch_names))
 
-    metrics_df, _ = save_outputs(all_metrics)
+    metrics_df, _ = save_outputs(all_metrics, feature_names)
     print_console_summary(metrics_df)
 
     print("\nTerminado - resultados en results/separability/")
