@@ -2,6 +2,13 @@
   "test_name": "alpha_beta_language",
   "method": "out_of_fold_linear_shap_for_logistic_regression",
   "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
+  "cv": {
+    "type": "contiguous_condition_chunks",
+    "n_splits": 5,
+    "scope": "within_subject",
+    "shuffle": false,
+    "group_source": "condition + epoch_idx"
+  },
   "selected_bands": [
     "Alpha",
     "Beta"
@@ -146,23 +153,23 @@
     ]
   },
   "n_subjects": 23,
-  "mean_subject_accuracy_oof": 0.9565309847915695,
-  "mean_subject_f1_oof": 0.9554259642572474,
+  "mean_subject_accuracy_oof": 0.9437319464230637,
+  "mean_subject_f1_oof": 0.9423361822259281,
   "confusion_matrix_oof": [
     [
-      958,
-      19,
-      11
+      950,
+      22,
+      16
     ],
     [
-      12,
-      847,
-      40
+      22,
+      830,
+      47
     ],
     [
-      12,
-      32,
-      823
+      13,
+      42,
+      812
     ]
   ],
   "top_features_by_class": {
@@ -174,8 +181,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.20206897209041189,
-        "mean_signed_shap": 0.1792579235175817
+        "mean_abs_shap": 0.20212857853543498,
+        "mean_signed_shap": 0.17965974583028782
       },
       {
         "feature_name": "PO7_Beta",
@@ -184,8 +191,8 @@
         "band": "Beta",
         "cluster": "occipital",
         "pair": "",
-        "mean_abs_shap": 0.2000219120376421,
-        "mean_signed_shap": 0.16738857220646014
+        "mean_abs_shap": 0.20107100811606604,
+        "mean_signed_shap": 0.1655804944118084
       },
       {
         "feature_name": "Fp2_Beta",
@@ -194,8 +201,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.13358930407408307,
-        "mean_signed_shap": 0.09857022913531971
+        "mean_abs_shap": 0.1295704205692236,
+        "mean_signed_shap": 0.08983949003324714
       },
       {
         "feature_name": "AF8_Beta",
@@ -204,8 +211,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.12740083993438076,
-        "mean_signed_shap": 0.09779783672030043
+        "mean_abs_shap": 0.1253857839106576,
+        "mean_signed_shap": 0.09808886225775708
       },
       {
         "feature_name": "FC4_Beta",
@@ -214,8 +221,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.11276054419398253,
-        "mean_signed_shap": 0.09979297236934874
+        "mean_abs_shap": 0.11254257298653965,
+        "mean_signed_shap": 0.09430284253050417
       },
       {
         "feature_name": "Fp1_Beta",
@@ -224,8 +231,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.10813149796461177,
-        "mean_signed_shap": 0.09971994113853257
+        "mean_abs_shap": 0.10695133156484238,
+        "mean_signed_shap": 0.0991845649909542
       },
       {
         "feature_name": "AlphaAsym_FC4-FC3",
@@ -234,8 +241,8 @@
         "band": "",
         "cluster": "",
         "pair": "FC4-FC3",
-        "mean_abs_shap": 0.09587583785790268,
-        "mean_signed_shap": 0.08917622010507045
+        "mean_abs_shap": 0.09806326207680957,
+        "mean_signed_shap": 0.08957658662534572
       },
       {
         "feature_name": "Fpz_Beta",
@@ -244,38 +251,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.09505197571561572,
-        "mean_signed_shap": 0.07685262230957078
-      },
-      {
-        "feature_name": "PO7_Alpha",
-        "feature_type": "bandpower",
-        "channel": "PO7",
-        "band": "Alpha",
-        "cluster": "occipital",
-        "pair": "",
-        "mean_abs_shap": 0.08468147733030655,
-        "mean_signed_shap": 0.07052604425946225
-      },
-      {
-        "feature_name": "CP2_Beta",
-        "feature_type": "bandpower",
-        "channel": "CP2",
-        "band": "Beta",
-        "cluster": "other",
-        "pair": "",
-        "mean_abs_shap": 0.08020931967060274,
-        "mean_signed_shap": 0.07666855557176358
-      },
-      {
-        "feature_name": "Oz_Beta",
-        "feature_type": "bandpower",
-        "channel": "Oz",
-        "band": "Beta",
-        "cluster": "occipital",
-        "pair": "",
-        "mean_abs_shap": 0.07775972895717537,
-        "mean_signed_shap": 0.06855278576659543
+        "mean_abs_shap": 0.09321411045712855,
+        "mean_signed_shap": 0.07615587197889769
       },
       {
         "feature_name": "O1_Beta",
@@ -284,8 +261,38 @@
         "band": "Beta",
         "cluster": "occipital",
         "pair": "",
-        "mean_abs_shap": 0.07658652567793658,
-        "mean_signed_shap": 0.060979336711044455
+        "mean_abs_shap": 0.08768318269616618,
+        "mean_signed_shap": 0.06388926041021438
+      },
+      {
+        "feature_name": "PO7_Alpha",
+        "feature_type": "bandpower",
+        "channel": "PO7",
+        "band": "Alpha",
+        "cluster": "occipital",
+        "pair": "",
+        "mean_abs_shap": 0.08026657946700057,
+        "mean_signed_shap": 0.0660191087968456
+      },
+      {
+        "feature_name": "CP2_Beta",
+        "feature_type": "bandpower",
+        "channel": "CP2",
+        "band": "Beta",
+        "cluster": "other",
+        "pair": "",
+        "mean_abs_shap": 0.07906444326765946,
+        "mean_signed_shap": 0.0763954035000347
+      },
+      {
+        "feature_name": "Oz_Beta",
+        "feature_type": "bandpower",
+        "channel": "Oz",
+        "band": "Beta",
+        "cluster": "occipital",
+        "pair": "",
+        "mean_abs_shap": 0.07743689096956864,
+        "mean_signed_shap": 0.06631868374199433
       }
     ],
     "NEUTRO": [
@@ -296,8 +303,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.22238119688679295,
-        "mean_signed_shap": 0.17829255182875592
+        "mean_abs_shap": 0.2261434967065116,
+        "mean_signed_shap": 0.17595698901181075
       },
       {
         "feature_name": "Fpz_Beta",
@@ -306,8 +313,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.14699790886931446,
-        "mean_signed_shap": 0.12982923020335027
+        "mean_abs_shap": 0.1445515586558734,
+        "mean_signed_shap": 0.12715168482320327
       },
       {
         "feature_name": "AF8_Beta",
@@ -316,18 +323,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.11551313951757254,
-        "mean_signed_shap": 0.09864176757930673
-      },
-      {
-        "feature_name": "FT7_Beta",
-        "feature_type": "bandpower",
-        "channel": "FT7",
-        "band": "Beta",
-        "cluster": "temporal_left",
-        "pair": "",
-        "mean_abs_shap": 0.11215104243947581,
-        "mean_signed_shap": 0.09078689149631938
+        "mean_abs_shap": 0.11304514586800476,
+        "mean_signed_shap": 0.09708687181077645
       },
       {
         "feature_name": "F5_Beta",
@@ -336,8 +333,18 @@
         "band": "Beta",
         "cluster": "frontal_inferior_left",
         "pair": "",
-        "mean_abs_shap": 0.11148816649306095,
-        "mean_signed_shap": 0.1013967943447795
+        "mean_abs_shap": 0.11285062015283738,
+        "mean_signed_shap": 0.10316128217438614
+      },
+      {
+        "feature_name": "FT7_Beta",
+        "feature_type": "bandpower",
+        "channel": "FT7",
+        "band": "Beta",
+        "cluster": "temporal_left",
+        "pair": "",
+        "mean_abs_shap": 0.11223931973326126,
+        "mean_signed_shap": 0.08787221272384925
       },
       {
         "feature_name": "Pz_Beta",
@@ -346,8 +353,8 @@
         "band": "Beta",
         "cluster": "parietal_midline",
         "pair": "",
-        "mean_abs_shap": 0.10914144416838713,
-        "mean_signed_shap": 0.10672243221250029
+        "mean_abs_shap": 0.11058365430054268,
+        "mean_signed_shap": 0.10662973531378374
       },
       {
         "feature_name": "AF7_Beta",
@@ -356,8 +363,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.0906714404711564,
-        "mean_signed_shap": 0.06956594780869588
+        "mean_abs_shap": 0.09489306283783795,
+        "mean_signed_shap": 0.06787515232131394
       },
       {
         "feature_name": "T7_Beta",
@@ -366,18 +373,8 @@
         "band": "Beta",
         "cluster": "temporal_left",
         "pair": "",
-        "mean_abs_shap": 0.09051698125288082,
-        "mean_signed_shap": 0.06176697761585021
-      },
-      {
-        "feature_name": "FC4_Alpha",
-        "feature_type": "bandpower",
-        "channel": "FC4",
-        "band": "Alpha",
-        "cluster": "frontal_bilateral",
-        "pair": "",
-        "mean_abs_shap": 0.08815210806696584,
-        "mean_signed_shap": 0.07075278043652831
+        "mean_abs_shap": 0.09285069820275968,
+        "mean_signed_shap": 0.05986830539915848
       },
       {
         "feature_name": "Fp2_Beta",
@@ -386,8 +383,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.08707590718006282,
-        "mean_signed_shap": 0.07705472381283851
+        "mean_abs_shap": 0.09093359773199407,
+        "mean_signed_shap": 0.07264607587138591
       },
       {
         "feature_name": "Fp1_Beta",
@@ -396,8 +393,18 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.08690571033149154,
-        "mean_signed_shap": 0.06679685701981039
+        "mean_abs_shap": 0.0854937878137883,
+        "mean_signed_shap": 0.06253554332265937
+      },
+      {
+        "feature_name": "FC4_Alpha",
+        "feature_type": "bandpower",
+        "channel": "FC4",
+        "band": "Alpha",
+        "cluster": "frontal_bilateral",
+        "pair": "",
+        "mean_abs_shap": 0.08517053260921151,
+        "mean_signed_shap": 0.06847783726596943
       },
       {
         "feature_name": "AlphaAsym_FC4-FC3",
@@ -406,8 +413,8 @@
         "band": "",
         "cluster": "",
         "pair": "FC4-FC3",
-        "mean_abs_shap": 0.08267740120162864,
-        "mean_signed_shap": 0.07040719993321412
+        "mean_abs_shap": 0.08347102157914703,
+        "mean_signed_shap": 0.07015525315757994
       }
     ],
     "SAD": [
@@ -418,18 +425,8 @@
         "band": "Beta",
         "cluster": "frontal_inferior_left",
         "pair": "",
-        "mean_abs_shap": 0.17982478731482734,
-        "mean_signed_shap": 0.16433453862330685
-      },
-      {
-        "feature_name": "AF8_Beta",
-        "feature_type": "bandpower",
-        "channel": "AF8",
-        "band": "Beta",
-        "cluster": "frontal_bilateral",
-        "pair": "",
-        "mean_abs_shap": 0.13126324815672638,
-        "mean_signed_shap": 0.1221029454738084
+        "mean_abs_shap": 0.18362750927372726,
+        "mean_signed_shap": 0.1679563295314887
       },
       {
         "feature_name": "FT8_Beta",
@@ -438,8 +435,18 @@
         "band": "Beta",
         "cluster": "temporal_right",
         "pair": "",
-        "mean_abs_shap": 0.13056317510088586,
-        "mean_signed_shap": 0.10141389106081602
+        "mean_abs_shap": 0.13491734909285127,
+        "mean_signed_shap": 0.10295217088733466
+      },
+      {
+        "feature_name": "AF8_Beta",
+        "feature_type": "bandpower",
+        "channel": "AF8",
+        "band": "Beta",
+        "cluster": "frontal_bilateral",
+        "pair": "",
+        "mean_abs_shap": 0.13351382029050357,
+        "mean_signed_shap": 0.12127582056933671
       },
       {
         "feature_name": "Fp2_Beta",
@@ -448,8 +455,8 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.12305928357982433,
-        "mean_signed_shap": 0.09836883558514566
+        "mean_abs_shap": 0.129006776677907,
+        "mean_signed_shap": 0.10301736520192346
       },
       {
         "feature_name": "C6_Beta",
@@ -458,28 +465,8 @@
         "band": "Beta",
         "cluster": "temporal_right",
         "pair": "",
-        "mean_abs_shap": 0.11714511367176365,
-        "mean_signed_shap": 0.10289728046724282
-      },
-      {
-        "feature_name": "PO7_Beta",
-        "feature_type": "bandpower",
-        "channel": "PO7",
-        "band": "Beta",
-        "cluster": "occipital",
-        "pair": "",
-        "mean_abs_shap": 0.10576989285741897,
-        "mean_signed_shap": 0.08154367895636025
-      },
-      {
-        "feature_name": "F6_Beta",
-        "feature_type": "bandpower",
-        "channel": "F6",
-        "band": "Beta",
-        "cluster": "other",
-        "pair": "",
-        "mean_abs_shap": 0.10572671290260643,
-        "mean_signed_shap": 0.0767321889960386
+        "mean_abs_shap": 0.11876440224297789,
+        "mean_signed_shap": 0.10365497988831399
       },
       {
         "feature_name": "O1_Beta",
@@ -488,8 +475,28 @@
         "band": "Beta",
         "cluster": "occipital",
         "pair": "",
-        "mean_abs_shap": 0.10470645481977801,
-        "mean_signed_shap": 0.08301963505350582
+        "mean_abs_shap": 0.10612554183929586,
+        "mean_signed_shap": 0.08133068892263
+      },
+      {
+        "feature_name": "F6_Beta",
+        "feature_type": "bandpower",
+        "channel": "F6",
+        "band": "Beta",
+        "cluster": "other",
+        "pair": "",
+        "mean_abs_shap": 0.1050453784681761,
+        "mean_signed_shap": 0.07532577198825623
+      },
+      {
+        "feature_name": "PO7_Beta",
+        "feature_type": "bandpower",
+        "channel": "PO7",
+        "band": "Beta",
+        "cluster": "occipital",
+        "pair": "",
+        "mean_abs_shap": 0.1024229055452197,
+        "mean_signed_shap": 0.07815359707494471
       },
       {
         "feature_name": "PO3_Beta",
@@ -498,18 +505,8 @@
         "band": "Beta",
         "cluster": "occipital",
         "pair": "",
-        "mean_abs_shap": 0.1006983532133817,
-        "mean_signed_shap": 0.06759522474861636
-      },
-      {
-        "feature_name": "AF3_Beta",
-        "feature_type": "bandpower",
-        "channel": "AF3",
-        "band": "Beta",
-        "cluster": "frontal_bilateral",
-        "pair": "",
-        "mean_abs_shap": 0.09552537523860857,
-        "mean_signed_shap": 0.04518748497280311
+        "mean_abs_shap": 0.0982041328435547,
+        "mean_signed_shap": 0.06601297044174814
       },
       {
         "feature_name": "Fpz_Beta",
@@ -518,65 +515,75 @@
         "band": "Beta",
         "cluster": "frontal_bilateral",
         "pair": "",
-        "mean_abs_shap": 0.09503641221186168,
-        "mean_signed_shap": 0.07471384081122355
+        "mean_abs_shap": 0.09637337912196672,
+        "mean_signed_shap": 0.07800002571766808
       },
       {
-        "feature_name": "PO5_Beta",
+        "feature_name": "T7_Beta",
         "feature_type": "bandpower",
-        "channel": "PO5",
+        "channel": "T7",
         "band": "Beta",
-        "cluster": "other",
+        "cluster": "temporal_left",
         "pair": "",
-        "mean_abs_shap": 0.09472828907799945,
-        "mean_signed_shap": 0.0740918477715448
+        "mean_abs_shap": 0.09475642099544306,
+        "mean_signed_shap": 0.06857058475553952
+      },
+      {
+        "feature_name": "AF3_Beta",
+        "feature_type": "bandpower",
+        "channel": "AF3",
+        "band": "Beta",
+        "cluster": "frontal_bilateral",
+        "pair": "",
+        "mean_abs_shap": 0.0915467548794,
+        "mean_signed_shap": 0.04370070916835807
       }
     ]
   },
   "band_percentages": {
     "JOY": {
-      "Alpha": 24.06649811730304,
-      "Beta": 75.93350188269696
+      "Alpha": 23.32197054055458,
+      "Beta": 76.67802945944545
     },
     "NEUTRO": {
-      "Alpha": 25.495127406409335,
-      "Beta": 74.50487259359068
+      "Alpha": 25.07422797696667,
+      "Beta": 74.92577202303332
     },
     "SAD": {
-      "Alpha": 27.266145284390277,
-      "Beta": 72.73385471560975
+      "Alpha": 27.317308077813347,
+      "Beta": 72.68269192218665
     }
   },
   "cluster_percentages": {
     "JOY": {
-      "centro_parietal_left": 1.268524652190934,
-      "frontal_bilateral": 36.40676236205707,
-      "frontal_inferior_left": 4.2651114146704865,
-      "occipital": 19.69148619487376,
-      "other": 16.804930123641466,
-      "parietal_midline": 3.5339895686792655,
-      "temporal_left": 7.4488911635641815,
-      "temporal_right": 10.58030452032283
+      "centro_parietal_left": 1.4303351159992488,
+      "frontal_bilateral": 35.95291605884684,
+      "frontal_inferior_left": 4.237701961439418,
+      "occipital": 19.744491185925007,
+      "other": 16.98124988992765,
+      "parietal_midline": 3.5095207641844954,
+      "temporal_left": 7.318622512042104,
+      "temporal_right": 10.825162511635249
     },
     "NEUTRO": {
-      "centro_parietal_left": 1.437023540187407,
-      "frontal_bilateral": 38.6532903940429,
-      "frontal_inferior_left": 7.948967492385957,
-      "occipital": 10.92067747050243,
-      "other": 15.217997834066008,
-      "parietal_midline": 6.298007560300064,
-      "temporal_left": 13.270833750805327,
-      "temporal_right": 6.253201957709921
+      "centro_parietal_left": 1.4100398502397098,
+      "frontal_bilateral": 38.98416183930034,
+      "frontal_inferior_left": 7.921208729069146,
+      "occipital": 10.620105230368367,
+      "other": 15.004617231256514,
+      "parietal_midline": 6.509809350741186,
+      "temporal_left": 13.253791223918405,
+      "temporal_right": 6.2962665451063184
     },
     "SAD": {
-      "centro_parietal_left": 1.5738213954743108,
-      "frontal_bilateral": 30.129878857010553,
-      "frontal_inferior_left": 9.404561193960179,
-      "occipital": 15.300727234138192,
-      "other": 17.23503863080525,
-      "parietal_midline": 2.5967075597223763,
-      "temporal_left": 11.379391217649466,
-      "temporal_right": 12.379873911239688
+      "centro_parietal_left": 1.5525160472444957,
+      "frontal_bilateral": 30.332416577919915,
+      "frontal_inferior_left": 9.355470825233255,
+      "occipital": 15.140182107374937,
+      "other": 17.082544786887972,
+      "parietal_midline": 2.6747694961952657,
+      "temporal_left": 11.194242115103316,
+      "temporal_right": 12.66785804404083
     }
   }
 }

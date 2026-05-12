@@ -1,7 +1,7 @@
 """
 Explicabilidad del test alpha_beta_language:
 
-    CV por sujeto -> SHAP lineal out-of-fold -> topomaps Alpha/Beta -> clusters
+    CV temporal por sujeto -> SHAP lineal out-of-fold -> topomaps Alpha/Beta -> clusters
 
 Salida:
   scripts/tests/alpha_beta_language/results/shap_topomap/shap_subject_summary.csv
@@ -23,7 +23,9 @@ Salida:
 
 import json
 import os
+import sys
 import warnings
+from pathlib import Path
 
 os.environ.setdefault("MNE_DONTWRITE_HOME", "true")
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
@@ -36,7 +38,12 @@ import pandas as pd
 from sklearn.base import clone
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
-from sklearn.model_selection import StratifiedKFold
+
+# Permite ejecutar este script desde la subcarpeta 5_shap_topomap manteniendo
+# la configuracion comun de alpha_beta_language en la raiz del test.
+TEST_DIR = Path(__file__).resolve().parents[1]
+if str(TEST_DIR) not in sys.path:
+    sys.path.insert(0, str(TEST_DIR))
 
 from alpha_beta_language_common import (
     BAND_COLORS,
@@ -44,6 +51,7 @@ from alpha_beta_language_common import (
     EXCLUDED_BANDS,
     FEATURES_DIR,
     LABEL_INV,
+    LABEL_MAP,
     LANGUAGE_CLUSTERS,
     N_BANDS,
     N_FOLDS,
@@ -99,9 +107,47 @@ def compute_linear_shap_values(classifier, X_background, X_explain):
     return shap_values, base_values, classes
 
 
-def evaluate_subject_oof(X_log_subject, y_subject, ch_names):
-    """Entrena folds CV y devuelve metricas + SHAP solo sobre test."""
-    skf = StratifiedKFold(n_splits=N_FOLDS, shuffle=True, random_state=RANDOM_STATE)
+def build_temporal_stratified_folds(meta_subject, y_subject, n_splits=N_FOLDS):
+    """
+    Construye folds temporales con test contiguo dentro de cada condicion.
+
+    Cada fold contiene un tramo de JOY, NEUTRO y SAD para mantener el test
+    estratificado sin mezclar epocas temporalmente adyacentes al azar.
+    """
+    folds = []
+    all_indices = np.arange(len(y_subject))
+
+    chunks_by_label = {}
+    for condition in CONDITIONS:
+        label = LABEL_MAP[condition]
+        label_positions = np.flatnonzero(y_subject == label)
+        if len(label_positions) < n_splits:
+            return []
+
+        if "epoch_idx" in meta_subject.columns:
+            order = np.argsort(meta_subject.iloc[label_positions]["epoch_idx"].to_numpy())
+            label_positions = label_positions[order]
+
+        chunks_by_label[label] = np.array_split(label_positions, n_splits)
+
+    for fold_idx in range(n_splits):
+        test_idx = np.concatenate([
+            chunks_by_label[LABEL_MAP[condition]][fold_idx]
+            for condition in CONDITIONS
+        ])
+        test_idx = np.sort(test_idx)
+        train_idx = np.setdiff1d(all_indices, test_idx, assume_unique=False)
+        folds.append((train_idx, test_idx))
+
+    return folds
+
+
+def evaluate_subject_oof(X_log_subject, y_subject, meta_subject, ch_names):
+    """Entrena folds temporales y devuelve metricas + SHAP solo sobre test."""
+    folds = build_temporal_stratified_folds(meta_subject, y_subject)
+    if not folds:
+        return None
+
     classifier = LogisticRegression(
         penalty="elasticnet",
         solver="saga",
@@ -117,7 +163,7 @@ def evaluate_subject_oof(X_log_subject, y_subject, ch_names):
     shap_chunks = []
     classes_ref = None
 
-    for train_idx, test_idx in skf.split(X_log_subject, y_subject):
+    for train_idx, test_idx in folds:
         X_log_train = X_log_subject[train_idx]
         X_log_test = X_log_subject[test_idx]
         y_train = y_subject[train_idx]
@@ -737,6 +783,13 @@ def save_summary_json(subject_summary, feature_summary_df, band_importance_df, c
         "test_name": "alpha_beta_language",
         "method": "out_of_fold_linear_shap_for_logistic_regression",
         "explanation": "coef_j * (x_test_j - mean_train_feature_j)",
+        "cv": {
+            "type": "contiguous_condition_chunks",
+            "n_splits": N_FOLDS,
+            "scope": "within_subject",
+            "shuffle": False,
+            "group_source": "condition + epoch_idx",
+        },
         "selected_bands": SELECTED_BANDS,
         "excluded_bands": EXCLUDED_BANDS,
         "n_features_selected": len(feature_names),
@@ -850,7 +903,7 @@ if __name__ == "__main__":
     print(f"  Features seleccionadas: {len(feature_names)}")
     print(f"  Bloques seleccionados: {feature_block_counts(feature_names)}")
 
-    print("\n  Calculando SHAP lineal out-of-fold por sujeto...")
+    print("\n  Calculando SHAP lineal out-of-fold por sujeto con CV temporal...")
     print(f"  {'Sujeto':<18} {'Modelo':>10} {'N_ep':>7} {'Acc':>8} {'F1':>8} Estado")
     print("  " + "-" * 65)
 
@@ -862,6 +915,7 @@ if __name__ == "__main__":
         mask = (meta["subject_id"] == subject_id).values
         X_subject_log = X_log[mask]
         y_subject = y[mask]
+        meta_subject = meta.loc[mask].reset_index(drop=True)
 
         classes, counts = np.unique(y_subject, return_counts=True)
         min_class = counts.min()
@@ -873,7 +927,7 @@ if __name__ == "__main__":
             )
             continue
 
-        result = evaluate_subject_oof(X_subject_log, y_subject, ch_names)
+        result = evaluate_subject_oof(X_subject_log, y_subject, meta_subject, ch_names)
 
         if result is None:
             skipped_subjects.append(subject_id)

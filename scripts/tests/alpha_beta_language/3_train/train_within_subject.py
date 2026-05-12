@@ -1,25 +1,27 @@
 """
-Control temporal para alpha_beta_language.
+Entrenamiento within-subject alpha_beta_language.
 
-Objetivo:
-  comprobar si el rendimiento alto del CV aleatorio puede estar inflado por
-  autocorrelacion entre epocas cercanas.
+Modelo principal defendible para la memoria:
+  - Alpha y Beta
+  - sin Delta, Theta ni Gamma
+  - sin eliminar canales temporales/frontales relevantes
 
-Estrategia:
-  para cada sujeto y condicion, ordenar por epoch_idx y dividir en 5 tramos
-  contiguos. En el fold k se testea el tramo k de JOY, NEUTRO y SAD, y se
-  entrena con el resto.
+Validacion:
+  CV temporal dentro de cada sujeto. Para cada condicion se ordenan las epocas
+  por epoch_idx y se dividen en 5 tramos contiguos. En el fold k se testea el
+  tramo k de JOY, NEUTRO y SAD, y se entrena con el resto.
 
 Salida:
-  scripts/tests/alpha_beta_language/results_temporal_cv/temporal_cv_results.json
-  scripts/tests/alpha_beta_language/results_temporal_cv/temporal_cv_summary.csv
-  scripts/tests/alpha_beta_language/results_temporal_cv/01_temporal_accuracy_<clf>.png
-  scripts/tests/alpha_beta_language/results_temporal_cv/02_temporal_confusion_<clf>.png
-  scripts/tests/alpha_beta_language/results_temporal_cv/03_random_vs_temporal_<clf>.png
+  scripts/tests/alpha_beta_language/results/within_subject_results.json
+  scripts/tests/alpha_beta_language/results/within_subject_summary.csv
+  scripts/tests/alpha_beta_language/results/selected_features.csv
+  scripts/tests/alpha_beta_language/results/01_accuracy_<clf>.png
+  scripts/tests/alpha_beta_language/results/02_confusion_<clf>.png
 """
 
 import json
 import os
+import sys
 import warnings
 from pathlib import Path
 
@@ -34,6 +36,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 from sklearn.svm import SVC
 
+# Permite ejecutar este script desde la subcarpeta 3_train manteniendo la
+# configuracion comun de alpha_beta_language en la raiz del test.
+TEST_DIR = Path(__file__).resolve().parents[1]
+if str(TEST_DIR) not in sys.path:
+    sys.path.insert(0, str(TEST_DIR))
+
 from alpha_beta_language_common import (
     CONDITIONS,
     EXCLUDED_BANDS,
@@ -43,7 +51,6 @@ from alpha_beta_language_common import (
     RANDOM_STATE,
     RESULTS_DIR,
     SELECTED_BANDS,
-    TEST_DIR,
     apply_normalization_pipeline,
     build_feature_names,
     feature_block_counts,
@@ -54,8 +61,6 @@ from alpha_beta_language_common import (
 warnings.filterwarnings("ignore")
 
 # ---------------------------------------------------------------------- Configuracion
-TEMPORAL_RESULTS_DIR = TEST_DIR / "results_temporal_cv"
-
 SUBJECT_COL_WIDTH = 18
 METRIC_COL_WIDTH = 18
 N_EP_COL_WIDTH = 6
@@ -248,7 +253,7 @@ def classify_all_subjects_temporal(X_log, y, meta, ch_names):
 def classifier_summary(results):
     """Imprime resumen global por clasificador."""
     print("=" * 75)
-    print("RESUMEN TEMPORAL CV ALPHA + BETA LANGUAGE")
+    print("RESUMEN WITHIN-SUBJECT ALPHA + BETA LANGUAGE")
     print("=" * 75)
     print(f"\n{'Clasificador':<20} {'Acc media':>10} {'Acc std':>9} {'F1 macro':>10}  Mejora")
     print("-" * 75)
@@ -272,13 +277,13 @@ def classifier_summary(results):
         if mean_acc > best_acc:
             best_acc, best_name = mean_acc, name
 
-    print(f"\nMejor clasificador temporal: {best_name} ({best_acc:.3f})")
+    print(f"\nMejor clasificador: {best_name} ({best_acc:.3f})")
     return best_name
 
 
 # ---------------------------------------------------------------------- Figuras y guardado
 def plot_accuracy(results, best_clf):
-    """Genera figura de accuracy temporal por sujeto."""
+    """Genera figura de accuracy por sujeto."""
     rows = results[best_clf]
     subjects = [row["subject_id"].replace("211-000", "") for row in rows]
     accs = [row["acc_media"] if not np.isnan(row["acc_media"]) else 0 for row in rows]
@@ -293,7 +298,7 @@ def plot_accuracy(results, best_clf):
     ax.bar(subjects, accs, yerr=stds, color=colors, alpha=0.85, capsize=4)
     ax.axhline(0.333, color="red", ls="--", lw=1.5, label="chance")
     ax.axhline(mean_acc, color="navy", ls="-", lw=1.5, label=f"media ({mean_acc:.3f})")
-    ax.set_title(f"Temporal CV por sujeto - {best_clf} - Alpha/Beta")
+    ax.set_title(f"CV temporal por sujeto - {best_clf} - Alpha/Beta")
     ax.set_ylabel("Accuracy")
     ax.set_ylim(0, 1)
     ax.set_xticks(range(len(subjects)))
@@ -302,7 +307,7 @@ def plot_accuracy(results, best_clf):
     ax.grid(True, axis="y", alpha=0.3)
 
     plt.tight_layout()
-    output_path = TEMPORAL_RESULTS_DIR / f"01_temporal_accuracy_{best_clf}.png"
+    output_path = RESULTS_DIR / f"01_accuracy_{best_clf}.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
     print(f"  {output_path.name}")
@@ -320,7 +325,7 @@ def plot_confusion(results, best_clf):
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     fig.patch.set_facecolor("#f8f9fa")
-    fig.suptitle(f"Matriz de confusion temporal - {best_clf}", fontsize=12, fontweight="bold")
+    fig.suptitle(f"Matriz de confusion - {best_clf}", fontsize=12, fontweight="bold")
 
     for ax, cm, title in zip(axes, [cm_norm, cm_total], ["Normalizada", "Absoluta"]):
         im = ax.imshow(cm, cmap="Blues", vmin=0, vmax=1 if title == "Normalizada" else None)
@@ -339,7 +344,7 @@ def plot_confusion(results, best_clf):
                 ax.text(j, i, value, ha="center", va="center", fontsize=11, color=color, fontweight="bold")
 
     plt.tight_layout()
-    output_path = TEMPORAL_RESULTS_DIR / f"02_temporal_confusion_{best_clf}.png"
+    output_path = RESULTS_DIR / f"02_confusion_{best_clf}.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
     print(f"  {output_path.name}")
@@ -353,71 +358,29 @@ def plot_confusion(results, best_clf):
         digits=3,
         output_dict=True,
     )
-    with open(TEMPORAL_RESULTS_DIR / f"02_temporal_classification_report_{best_clf}.json", "w") as f:
+    with open(RESULTS_DIR / f"02_classification_report_{best_clf}.json", "w") as f:
         json.dump(report, f, indent=2)
-    print(f"  02_temporal_classification_report_{best_clf}.json")
+    print(f"  02_classification_report_{best_clf}.json")
 
 
-def plot_random_vs_temporal(results, best_clf):
-    """Compara el CV aleatorio ya guardado con este control temporal."""
-    random_path = RESULTS_DIR / "within_subject_summary.csv"
-    if not random_path.exists():
-        print("  Comparativa random_vs_temporal no disponible")
-        return
-
-    random_df = pd.read_csv(random_path)
-    random_df = random_df[random_df["classifier"] == best_clf]
-    temporal_rows = [
-        {
-            "subject_id": row["subject_id"],
-            "acc_temporal": row["acc_media"],
-        }
-        for row in results[best_clf]
-        if not np.isnan(row["acc_media"])
-    ]
-    temporal_df = pd.DataFrame(temporal_rows)
-    comp = random_df.merge(temporal_df, on="subject_id", how="inner")
-    if len(comp) == 0:
-        print("  Comparativa random_vs_temporal vacia")
-        return
-
-    comp["delta_random_minus_temporal"] = comp["acc_media"] - comp["acc_temporal"]
-    comp.to_csv(TEMPORAL_RESULTS_DIR / f"random_vs_temporal_{best_clf}.csv", index=False)
-
-    subjects = [sid.replace("211-000", "") for sid in comp["subject_id"]]
-    x = np.arange(len(comp))
-    width = 0.38
-
-    fig, ax = plt.subplots(figsize=(15, 6))
-    fig.patch.set_facecolor("#f8f9fa")
-    ax.set_facecolor("#ffffff")
-    ax.bar(x - width / 2, comp["acc_media"], width=width, label="CV aleatorio", color="#3498db", alpha=0.85)
-    ax.bar(x + width / 2, comp["acc_temporal"], width=width, label="CV temporal", color="#e67e22", alpha=0.85)
-    ax.axhline(0.333, color="red", ls="--", lw=1.5, label="chance")
-    ax.set_xticks(x)
-    ax.set_xticklabels(subjects, rotation=90, fontsize=8)
-    ax.set_ylabel("Accuracy")
-    ax.set_ylim(0, 1)
-    ax.set_title(f"CV aleatorio vs CV temporal - {best_clf}")
-    ax.legend(fontsize=9)
-    ax.grid(True, axis="y", alpha=0.3)
-
-    plt.tight_layout()
-    output_path = TEMPORAL_RESULTS_DIR / f"03_random_vs_temporal_{best_clf}.png"
-    plt.savefig(output_path, dpi=120)
-    plt.close(fig)
-    print(f"  {output_path.name}")
+def save_selected_features(feature_names):
+    """Guarda la lista de features usadas por el modelo."""
+    pd.DataFrame({"feature_name": feature_names}).to_csv(
+        RESULTS_DIR / "selected_features.csv",
+        index=False,
+    )
+    print("  selected_features.csv")
 
 
 def save_results(results, best_clf, feature_names):
     """Guarda JSON y CSV resumen."""
     summary_rows = []
     json_summary = {
-        "test_name": "alpha_beta_language_temporal_cv",
-        "title": "TEMPORAL CV ALPHA + BETA LANGUAGE",
+        "test_name": "alpha_beta_language",
+        "title": "WITHIN-SUBJECT ALPHA + BETA LANGUAGE",
         "description": (
-            "Control de leakage temporal: folds por tramos contiguos de epoch_idx "
-            "dentro de cada condicion y sujeto."
+            "Modelo within-subject Alpha/Beta con CV temporal: folds por tramos "
+            "contiguos de epoch_idx dentro de cada condicion y sujeto."
         ),
         "selected_bands": SELECTED_BANDS,
         "excluded_bands": EXCLUDED_BANDS,
@@ -459,21 +422,21 @@ def save_results(results, best_clf, feature_names):
             })
             summary_rows.append(item)
 
-    with open(TEMPORAL_RESULTS_DIR / "temporal_cv_results.json", "w") as f:
+    with open(RESULTS_DIR / "within_subject_results.json", "w") as f:
         json.dump(json_summary, f, indent=2)
-    print("  temporal_cv_results.json")
+    print("  within_subject_results.json")
 
-    pd.DataFrame(summary_rows).to_csv(TEMPORAL_RESULTS_DIR / "temporal_cv_summary.csv", index=False)
-    print("  temporal_cv_summary.csv")
+    pd.DataFrame(summary_rows).to_csv(RESULTS_DIR / "within_subject_summary.csv", index=False)
+    print("  within_subject_summary.csv")
 
 
 # ---------------------------------------------------------------------- MAIN
 if __name__ == "__main__":
-    TEMPORAL_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("TEMPORAL CV ALPHA + BETA LANGUAGE!!!!!!!!!!")
+    print("TRAIN WITHIN-SUBJECT ALPHA + BETA LANGUAGE!!!!!!!!!!")
     print(f"  Features: {FEATURES_DIR}")
-    print(f"  Salida:   {TEMPORAL_RESULTS_DIR}")
+    print(f"  Salida:   {RESULTS_DIR}")
     print(f"  Bandas:   {SELECTED_BANDS}")
     print("  Split:    tramos contiguos por condicion y sujeto, sin shuffle")
 
@@ -491,14 +454,14 @@ if __name__ == "__main__":
     best_clf = classifier_summary(results)
 
     print("\n  Guardando resultados...")
+    save_selected_features(feature_names)
     save_results(results, best_clf, feature_names)
 
     print("\n  Generando figuras...")
     plot_accuracy(results, best_clf)
     plot_confusion(results, best_clf)
-    plot_random_vs_temporal(results, best_clf)
 
     print("\n" + "=" * 75)
-    print("CONTROL TEMPORAL COMPLETADO!!!!!!!!!!")
-    print(f"Resultados en: {TEMPORAL_RESULTS_DIR}")
+    print("TRAIN WITHIN-SUBJECT COMPLETADO!!!!!!!!!!")
+    print(f"Resultados en: {RESULTS_DIR}")
     print("=" * 75)
