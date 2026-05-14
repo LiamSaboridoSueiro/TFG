@@ -1,0 +1,49 @@
+% !TEX root = ../memoria.tex
+
+\chapter{Introducción}
+\label{cap:introduccion}
+\setcounter{page}{1}
+
+Este capítulo presenta la idea general, la motivación detrás del tema y los conceptos principales en los que se basa. Se habla de la electroencefalografía como fuente de información para detectar emociones, del reconocimiento automático de emociones y de la importancia de usar modelos que se puedan interpretar. Por último, se explica cómo está organizada la memoria.
+
+
+\section{Contexto y motivación}
+
+La electroencefalografía destaca por su capacidad para extraer datos de un órgano tan delicado como el cerebro sin necesidad de realizar una intervención invasiva. Esto la convierte en una herramienta muy valiosa en la neurología, ya sea para diagnosticar tumores y lesiones cerebrales, evaluar el deterioro cognitivo o incluso detectar emociones \cite{mayo2024eeg}.
+
+Cuando era pequeño me hicieron una prueba del sueño en la que me colocaron electrodos con una pasta adhesiva bastante difícil de quitar y me monitorizaron durante toda la noche. Me llamó mucho la atención: ¿cómo podía un médico mirar todos esos “garabatos” llamados señales y entender qué pasaba en mi cabeza?
+
+Con el tiempo, esa curiosidad se juntó con mi interés por la inteligencia artificial y su uso en la medicina. Al ver cómo otras personas creaban modelos capaces de detectar tumores, me pregunté si también sería posible hacer algo parecido con electroencefalogramas. La idea no es sustituir a los médicos, sino crear una herramienta que pueda ayudarles a interpretar mejor grandes cantidades de datos y aportar información útil de forma automática y fiable.
+
+Este trabajo se centra en el reconocimiento de emociones mediante señales de \ac{EEG}, dando importancia no solo a los resultados obtenidos, sino también a la interpretación de los modelos. En el ámbito biomédico, no basta con que un modelo clasifique bien: también es necesario entender qué información está utilizando y si sus decisiones pueden explicarse de forma clara.
+
+
+\section{Electroencefalografía como fuente de información afectiva}
+
+
+
+Desde siempre, las emociones se han intentado interpretar a partir de lo que una persona dice, sus gestos o sus expresiones faciales. Sin embargo, en un contexto médico esto no siempre es suficiente, ya que una persona puede no expresar exactamente lo que siente. En consecuencia, existen otras formas de estudiar los estados emocionales mediante señales fisiológicas y cerebrales, como la \ac{GSR}, la \ac{EMG}, la \ac{FC}, la \ac{FR}, la \ac{EEG}, la \ac{fMRI} o la \ac{PET} \cite{alarcao2019eeg}.
+
+La \ac{EEG} permite medir la actividad eléctrica del cerebro colocando electrodos sobre el cuero cabelludo. Aunque no muestra directamente lo que ocurre en cada neurona y no tiene tanta precisión espacial como otras técnicas, sí permite observar cambios muy rápidos en la actividad cerebral. Trabajar con señales \ac{EEG} también tiene sus dificultades, ya que se registran con una amplitud muy baja y pueden verse afectadas por distintas fuentes de ruido. Estos ruidos, conocidos como artefactos, pueden producirse por movimientos musculares, movimientos oculares o parpadeos. Además, en el reconocimiento de emociones no basta con obtener una señal y clasificarla directamente, ya que es necesario comprobar que los cambios observados están realmente relacionados con el estado emocional y no con otros factores externos. Por ello la obtención de estas señales debe realizarse en un entorno controlado y acompañarse de técnicas que permitan reducir o eliminar el ruido presente en los datos \cite{alarcao2019eeg}.
+
+El interés de utilizar señales de \ac{EEG} está en que permiten observar cómo varía la actividad cerebral ante distintos estímulos emocionales. Al registrar estas respuestas, es posible analizar los datos obtenidos y buscar patrones que ayuden a diferenciar unos estados emocionales de otros. Esto permite plantear el reconocimiento de emociones no solo como un problema de clasificación, sino también como una forma de estudiar qué información de la señal cerebral está relacionada con cada emoción.
+
+
+\section{Reconocimiento automático de emociones}
+
+El reconocimiento automático de emociones consiste en utilizar datos y modelos computacionales para identificar el estado emocional de una persona. Con ese objetivo, primero se obtiene algún tipo de información del usuario, después se procesan esos datos y finalmente se entrena un modelo capaz de asociar ciertos patrones con una emoción concreta. 
+
+
+
+Esta información puede obtenerse de distintas formas. Algunos enfoques se basan en señales externas, como la expresión facial o la voz: en el primer caso, se analizan imágenes o vídeos para extraer características del rostro y clasificar la emoción asociada; en el segundo, se estudian características acústicas del habla, como el tono, la intensidad o el ritmo, para relacionarlas con distintos estados emocionales \cite{martindiego2006emociones}. Otros enfoques utilizan señales fisiológicas o cerebrales, que permiten estudiar respuestas internas del organismo y no dependen únicamente de cómo la persona expresa la emoción hacia el exterior \cite{shu2018physiological,alarcao2019eeg}.
+
+
+\section{IA de caja blanca e interpretabilidad en señales biomédicas}
+En el análisis de señales biomédicas, obtener una buena métrica no siempre es suficiente. Un modelo puede conseguir una alta precisión, pero si no se entiende en qué información se basa para tomar sus decisiones, resulta más difícil confiar en sus resultados. Esto es especialmente importante en contextos médicos, donde interesa saber si el modelo está utilizando patrones coherentes de la señal o si, por el contrario, está aprendiendo ruido, artefactos o relaciones poco fiables.
+
+Las inteligencias artificiales de caja blanca o explicables son modelos de aprendizaje automático cuyo funcionamiento puede analizarse de forma más directa. A diferencia de los modelos de caja negra, en los que normalmente solo se observan la entrada y la salida, estos modelos permiten entender mejor qué variables han influido en la decisión final. Esto no significa que sean simples o poco útiles, sino que su estructura facilita interpretar cómo se llega a una predicción. Un clasificador que todos conocemos y no lo sabemos es el árbol de decisión, esta "inteligencia" es la que usa el conocido juego Akinator\footnote{\url{https://akinator.com/}}, donde va tomando decisiones a partir de una serie de condiciones. En este tipo de modelos es más fácil seguir el razonamiento que lleva a una determinada salida \cite{molnar2022interpretable}.
+
+
+Por este motivo, la interpretabilidad tiene un papel importante, no se busca únicamente entrenar un modelo capaz de clasificar emociones, sino también comprender qué información de la señal está utilizando para hacerlo. En el caso de señales de \ac{EEG}, esto resulta especialmente útil, ya que permite estudiar qué canales, bandas espectrales o características de la señal tienen más peso en la clasificación de una emoción. Esta idea está relacionada con la necesidad de emplear modelos interpretables en decisiones de alto impacto, especialmente en áreas como la salud, donde entender el comportamiento del modelo puede ser tan importante como el resultado obtenido \cite{rudin2019interpretable}.
+
+\section{Estructura de la memoria}

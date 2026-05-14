@@ -1,0 +1,38 @@
+\documentclass[oneside,a4paper,12pt]{book} % TODO: cambia "oneside" por "twoside" a la hora de imprimirlo. EMCR: esta l�nea debe estar antes de todo y fuera del fichero estilo, sino no compila en overleaf
+
+\input{estilo.tex} % archivo de configuraci�n de estilo
+
+\makeindex
+
+\setlength{\parskip}{0.8em}
+
+\begin{document}
+\baselineskip 1.35\baselineskip
+
+\frontmatter
+
+\input{portada/indice.tex} % aqu� se cargan todas las "primeras p�ginas"
+
+% Bibliograf�a
+\let\OLDthebibliography=\thebibliography
+\def\thebibliography#1{\OLDthebibliography{#1}
+  \addcontentsline{toc}{chapter}{\bibname}}
+
+\mainmatter
+
+\setcounter{page}{1}
+\input{capitulos/capitulo1}
+
+\input{capitulos/capitulo2}
+
+\input{capitulos/capitulo3}
+
+\clearpage
+\thispagestyle{empty}
+
+\printindex \nocite{*}
+\appendix
+\bibliographystyle{unsrt}
+\bibliography{bibliografia}
+
+\end{document}
