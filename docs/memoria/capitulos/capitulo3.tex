@@ -38,7 +38,7 @@ La colocación de los electrodos no se realiza de forma aleatoria, sino siguiend
 
 La nomenclatura de los electrodos indica la zona aproximada en la que se encuentran: F a la frontal, C a la central, T a la temporal, P a la parietal y O a la occipital. Además, la letra z indica posiciones situadas en la línea media, los números impares suelen corresponder al hemisferio izquierdo y los pares al hemisferio derecho. Esta localización es importante porque cada canal recoge información de una zona concreta, por lo que la posición de los electrodos influye directamente en el análisis posterior, especialmente cuando se estudia qué canales o regiones tienen más importancia en la clasificación de emociones.
 
-\section{Bandas espectrales: delta, theta, alpha, beta y gamma}
+\section{Bandas espectrales}
 
 La señal de \ac{EEG} puede analizarse tanto en el dominio temporal como en el dominio frecuencial. En este segundo caso, la señal se descompone en distintos rangos de frecuencia, conocidos como bandas espectrales. Estas bandas permiten estudiar qué parte de la actividad cerebral aparece con mayor presencia en cada momento y facilitan la extracción de características para su posterior uso en modelos de aprendizaje automático. Aunque los límites exactos pueden variar ligeramente según el autor, normalmente se distinguen cinco bandas principales: delta, theta, alpha, beta y gamma \cite{alarcao2019eeg}.
 
@@ -65,10 +65,55 @@ Gamma & $>$30 Hz & Se asocia con una actividad cerebral más intensa o procesos 
 
 El análisis por bandas es importante porque muchas veces la información relevante de una señal de \ac{EEG} no se encuentra directamente en la señal completa, sino en cómo cambia la actividad dentro de determinados rangos de frecuencia. Por ejemplo, en lugar de utilizar únicamente la señal cruda, es habitual calcular características como la potencia de cada banda en distintos canales. De esta forma, el modelo puede trabajar con una representación más compacta y útil de la actividad cerebral.
 
-En el reconocimiento de emociones, estas bandas pueden aportar información relevante, ya que algunos estudios han relacionado cambios en la actividad alpha, beta y gamma con estados emocionales. Alarcão y Fonseca señalan que la actividad alpha y la asimetría entre hemisferios se han relacionado con la valencia emocional, mientras que las bandas beta y gamma también aparecen asociadas a la diferenciación de ciertos estados afectivos \cite{alarcao2019eeg}. Por este motivo, en trabajos de clasificación emocional con \ac{EEG} es frecuente extraer características a partir de varias bandas espectrales, ya que cada una puede aportar información distinta sobre la respuesta cerebral.
+En el reconocimiento de emociones, estas bandas pueden aportar información relevante, ya que la actividad alpha y la asimetría entre hemisferios se han relacionado con la valencia emocional, mientras que las bandas beta y gamma también aparecen asociadas a la diferenciación de ciertos estados afectivos \cite{alarcao2019eeg}. Por este motivo, en trabajos de clasificación emocional con \ac{EEG} es frecuente extraer características a partir de varias bandas espectrales, ya que cada una puede aportar información distinta sobre la respuesta cerebral.
+
 
 \section{Emociones y actividad cerebral: alegría, tristeza y estado neutro}
-\section{Preprocesado y tratamiento de artefactos}
+
+Las emociones pueden representarse de distintas formas. Una de ellas es mediante modelos discretos, donde cada emoción se trata como una categoría concreta, por ejemplo alegría, tristeza, miedo o ira. Otra forma habitual es utilizar modelos dimensionales, en los que las emociones se describen a partir de ejes continuos. Uno de los modelos más utilizados es el de valencia-excitación, donde la valencia indica si la emoción es más positiva o negativa, mientras que la excitación representa el nivel de activación asociado a esa emoción. Desde esta perspectiva, la alegría puede situarse en una zona de valencia positiva, la tristeza en una zona de valencia negativa y el estado neutro en una posición más intermedia, con una carga emocional menos marcada \cite{alarcao2019eeg}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.60\textwidth]{figs/valencia_activacion.png}
+    \caption{Representación simplificada de emociones según valencia y arousal. Adaptado de \cite{rinconpsicologia2024emociones}.}
+    \label{fig:modelo_valencia_arousal}
+\end{figure}
+
+Para detectar estados emocionales a partir de señales de \ac{EEG}, los estudios 
+analizan cómo varía la actividad cerebral en distintas regiones ante diferentes estímulos, siendo las zonas frontal y parietal las que aparecen con mayor frecuencia como relevantes \cite{alarcao2019eeg}. A partir de estas 
+observaciones, se extraen características de la señal que se utilizan como entrada a modelos de clasificación. Sin embargo, estas relaciones no constituyen patrones universales, sino tendencias que varían considerablemente entre personas: la respuesta cerebral ante una misma emoción puede diferir de forma notable de un sujeto a otro. Esta variabilidad intersujeto es uno de los principales retos del campo y explica por qué los modelos entrenados con datos de varios sujetos no siempre generalizan bien, lo que justifica también el análisis de modelos individuales por sujeto \cite{rajpoot2022subject}.
+
+De forma general, las emociones positivas suelen asociarse con una mayor actividad relativa en regiones frontales izquierdas, mientras que las emociones negativas se han relacionado con una mayor actividad relativa en regiones frontales derechas. Esta diferencia entre hemisferios se conoce como asimetría frontal y se ha utilizado en distintos estudios como una posible señal relacionada con la valencia emocional. El estado neutro no debería presentar una activación emocional tan marcada, por lo que puede utilizarse como referencia frente a las emociones con mayor carga afectiva \cite{alarcao2019eeg}.
+
+\section{Técnicas de explicación}
+
+
+Para analizar el comportamiento de los modelos entrenados, en este trabajo se emplean dos tipos de técnicas de explicación: los valores \ac{SHAP} y los mapas topográficos. Ambas permiten examinar, desde perspectivas distintas, qué información de la señal de \ac{EEG} tiene más peso en las decisiones del clasificador.
+
+Los mapas topográficos, o \textit{topomaps}, permiten representar información de la señal de \ac{EEG} sobre una distribución espacial similar a la posición real de los electrodos en el cráneo. De esta forma, es posible visualizar qué zonas presentan mayor actividad o mayor importancia dentro del análisis realizado. En el reconocimiento de emociones, es habitual generar un mapa por cada banda espectral analizada, ya que la importancia de cada región puede variar en función de la frecuencia. Además, los valores representados pueden interpretarse en valor absoluto, indicando la magnitud de la contribución de cada zona, o con signo, mostrando si esa contribución empuja hacia una clase o la aleja. Los \textit{topomaps} permiten comparar visualmente los patrones asociados a alegría, tristeza y estado neutro a lo largo de las distintas bandas espectrales.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figs/topomap_ejemplo.png}
+    \caption{Ejemplo de topomaps por banda espectral para la clase alegría.}
+
+    \label{fig:topomap_ejemplo}
+\end{figure}
+
+Por otro lado, \ac{SHAP} es una técnica de explicación basada en la teoría de juegos cooperativos que asigna a cada característica un valor según cuánto contribuye a la predicción del modelo. Su principal ventaja es que ofrece explicaciones tanto a nivel global, mostrando qué variables son más relevantes en general, como a nivel individual, indicando en qué dirección empuja cada característica una predicción concreta. En modelos lineales, este valor puede calcularse de forma exacta a partir de los coeficientes del modelo, sin necesidad de aproximaciones \cite{lundberg2017shap}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figs/shap_ejemplo.png}
+    \caption{Ejemplo de importancia de características mediante valores SHAP.}
+    \label{fig:shap_ejemplo}
+\end{figure}
+
 \section{Aprendizaje automático aplicado a EEG}
 \subsection{Modelos de caja negra frente a modelos interpretables}
-\section{Técnicas de explicación}
+\subsection{Clasificadores}
+\subsection{Estrategia de evaluación y validación cruzada}
+\subsection{Métricas}
+
+
