@@ -85,6 +85,175 @@ observaciones, se extraen características de la señal que se utilizan como ent
 
 De forma general, las emociones positivas suelen asociarse con una mayor actividad relativa en regiones frontales izquierdas, mientras que las emociones negativas se han relacionado con una mayor actividad relativa en regiones frontales derechas. Esta diferencia entre hemisferios se conoce como asimetría frontal y se ha utilizado en distintos estudios como una posible señal relacionada con la valencia emocional. El estado neutro no debería presentar una activación emocional tan marcada, por lo que puede utilizarse como referencia frente a las emociones con mayor carga afectiva \cite{alarcao2019eeg}.
 
+
+
+
+
+
+
+\section{Aprendizaje automático aplicado a EEG}
+
+El aprendizaje automático permite construir modelos capaces de aprender patrones a partir de datos y utilizarlos posteriormente para realizar predicciones sobre nuevos ejemplos. En una tarea de clasificación supervisada, cada muestra de entrada se asocia a una etiqueta conocida durante el entrenamiento. A partir de estos ejemplos, el modelo aprende una relación entre las variables de entrada y la clase correspondiente, con el objetivo de aplicar ese conocimiento a datos no vistos previamente \cite{bishop2006pattern}.
+
+En el caso de señales de \ac{EEG}, la entrada del modelo no suele ser la señal completa registrada en el tiempo, ya que esta puede contener ruido, redundancia y una dimensionalidad elevada. Por ello, normalmente se trabaja con una representación basada en características, es decir, con variables numéricas que resumen información relevante de la señal. Estas características pueden describir aspectos temporales, frecuenciales o espaciales de la actividad cerebral, dependiendo del tipo de análisis realizado.
+
+Desde el punto de vista del clasificador, cada muestra queda representada por un conjunto de características y una etiqueta de clase. El modelo intenta encontrar relaciones entre esas características y la clase asociada, de forma que pueda asignar una etiqueta a nuevas muestras. Si las características contienen información discriminativa, las muestras de una misma clase tenderán a presentar cierta similitud entre ellas, mientras que las muestras de clases distintas deberían mostrar diferencias aprovechables por el modelo \cite{lotte2007classification}.
+
+Sin embargo, en señales de \ac{EEG} este proceso no es directo. La actividad cerebral registrada en superficie es compleja, puede verse afectada por artefactos y presenta una variabilidad considerable entre personas. Como consecuencia, dos muestras asociadas a una misma emoción no tienen por qué ser muy parecidas, y dos emociones distintas pueden generar patrones parcialmente solapados. Esta dificultad hace que la evaluación del modelo sea especialmente importante, ya que no basta con que aprenda bien los ejemplos de entrenamiento: debe comprobarse si mantiene un comportamiento adecuado ante datos que no ha utilizado para ajustar sus parámetros.
+
+Además, en señales biomédicas como la \ac{EEG}, el rendimiento del modelo no es el único aspecto relevante. También interesa analizar qué información está utilizando para tomar sus decisiones y si esa información resulta coherente con el problema estudiado. Por ello, antes de describir los clasificadores utilizados, conviene diferenciar entre modelos interpretables y modelos de caja negra, ya que esta distinción condiciona la forma en la que pueden analizarse los resultados obtenidos.
+
+
+\subsection{Modelos interpretables frente a modelos de caja negra}
+
+Un modelo de caja negra es aquel cuyo funcionamiento interno no resulta fácil de seguir por una persona. Aunque se conocen las características que recibe como entrada y la predicción que genera como salida, no siempre es sencillo entender cómo transforma esas variables en una decisión concreta. Esto suele ocurrir en modelos con una estructura compleja, como redes neuronales profundas\footnote{\url{https://en.wikipedia.org/wiki/Neural_network_(machine_learning)}} o métodos de conjunto como Random Forest\footnote{\url{https://en.wikipedia.org/wiki/Random_forest}}, donde la relación entre entrada y salida queda distribuida entre numerosos parámetros o transformaciones internas \cite{molnar2022interpretable}. Un ejemplo conocido de sistema basado en modelos de este tipo es ChatGPT\footnote{\url{https://openai.com/chatgpt/}}: el usuario puede observar el texto que introduce y la respuesta que recibe, pero el proceso interno que genera esa respuesta no se presenta como una secuencia de reglas fácilmente interpretable.
+
+
+Frente a estos modelos, los modelos interpretables o de caja blanca tienen una estructura que permite comprender de forma más directa cómo se obtiene una predicción. La interpretación no se añade únicamente después de entrenar el modelo, sino que forma parte de su propio funcionamiento: sus parámetros, reglas o condiciones pueden examinarse y relacionarse con las variables de entrada. Por ejemplo, en un modelo lineal se puede estudiar el peso asociado a cada característica, mientras que en un sistema basado en reglas se puede seguir qué condiciones se han cumplido para llegar a una salida concreta. Esta transparencia facilita analizar qué variables intervienen en el resultado, si su influencia es razonable y si el comportamiento del modelo coincide con lo esperado en el problema estudiado \cite{molnar2022interpretable}.
+
+La elección entre modelos interpretables y modelos de caja negra suele plantear un compromiso entre capacidad de representación e interpretabilidad. Los modelos más complejos pueden capturar relaciones no lineales difíciles de describir de forma simple, pero sus decisiones suelen ser menos transparentes. En cambio, los modelos interpretables pueden ser más fáciles de analizar, aunque no siempre alcanzan el mismo rendimiento en todos los problemas. No obstante, este compromiso no debe entenderse como una regla absoluta: en contextos donde la explicación del resultado es importante, es recomendable valorar primero si un modelo interpretable puede ofrecer un comportamiento adecuado antes de recurrir a modelos más opacos \cite{rudin2019interpretable}.
+
+\subsection{Clasificadores}
+
+En este trabajo se consideran dos clasificadores interpretables: regresión logística\footnote{\url{https://en.wikipedia.org/wiki/Logistic_regression}} y árbol de decisión\footnote{\url{https://en.wikipedia.org/wiki/Decision_tree_learning}}. Ambos parten de la misma idea general: reciben una muestra representada por sus características y asignan una clase de salida. Sin embargo, cada uno aprende esa relación de una forma distinta.
+
+\textbf{Regresión logística.} La regresión logística es un modelo lineal de clasificación. Aunque su nombre pueda sugerir una tarea de regresión, se utiliza para estimar la probabilidad de pertenecer a una clase. Para ello combina las características de entrada mediante una suma ponderada y transforma el resultado en una probabilidad. En el caso binario, esta idea puede expresarse como:
+
+\begin{myequation}[H]
+\[
+p(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{T}\mathbf{x} + b)
+\]
+\caption{Probabilidad estimada por una regresión logística binaria.}
+\label{eq:regresion_logistica}
+\end{myequation}
+
+donde \(\mathbf{x}\) representa las características de la muestra, \(\mathbf{w}\) los pesos aprendidos por el modelo, \(b\) el sesgo y \(\sigma\) la función logística, que convierte la puntuación del modelo en un valor entre 0 y 1. Esta formulación corresponde al caso binario, en el que solo existen dos clases posibles. En problemas con tres o más clases, como ocurre al distinguir entre varias emociones, la regresión logística se extiende calculando una puntuación para cada clase y seleccionando aquella con mayor probabilidad \cite{bishop2006pattern}.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Regresión logística binaria. Fuente: \cite{morenoSfRegresionLogisticaPython}.]{
+        \includegraphics[width=0.45\textwidth]{figs/Regresion_logistica.png}
+        \label{fig:Regresion_logistica}
+    }
+    \hfill
+    \subfigure[Regresión logística multiclase. Fuente: \cite{codificandobitsSfRegresionMulticlase}.]{
+        \includegraphics[width=0.45\textwidth]{figs/Regresion_logistica_multiclase.png}
+        \label{fig:Regresion_logistica_multiclase}
+    }
+    \caption{Comparación entre regresión logística binaria y multiclase.}
+    \label{fig:regresion_logistica_comparacion}
+\end{figure}
+
+\textbf{Árbol de decisión.} Un árbol de decisión clasifica las muestras mediante una secuencia de reglas. Su estructura está formada por nodos, ramas y hojas: en cada nodo se evalúa una condición sobre una característica, cada rama representa el resultado de esa condición y cada hoja contiene la clase asignada. Por ejemplo, el modelo puede dividir primero las muestras según el valor de una característica concreta y, después, seguir refinando la decisión con nuevas condiciones.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figs/Arbol_decision.png}
+    \caption{Ejemplo de estructura de árbol de decisión. Fuente: \cite{adrigm2013adivinador}.}
+    \label{fig:arbol_decision}
+\end{figure}
+
+Esta forma de funcionamiento hace que el modelo sea fácil de recorrer e interpretar, ya que la predicción puede explicarse como un camino desde la raíz del árbol hasta una hoja final. Además, a diferencia de un modelo estrictamente lineal, un árbol puede capturar relaciones no lineales entre características sin exigir una transformación previa de los datos. Su principal limitación es que, si crece demasiado, puede ajustarse en exceso al conjunto de entrenamiento y perder capacidad de generalización \cite{molnar2022interpretable}.
+
+\subsection{Estrategia de evaluación y validación cruzada}
+
+La evaluación de un clasificador debe estimar cómo se comportará ante datos que no ha utilizado durante el entrenamiento. Si solo se mide el rendimiento sobre los mismos ejemplos con los que se ajusta el modelo, el resultado puede ser demasiado optimista, ya que el modelo puede haber aprendido particularidades del conjunto de entrenamiento en lugar de patrones generales. Por ello, en aprendizaje supervisado se distingue entre el ajuste del modelo y la estimación de su capacidad de generalización.
+
+La forma más básica de plantear esta evaluación consiste en separar los datos en dos partes: un conjunto de entrenamiento, utilizado para ajustar el modelo, y un conjunto de prueba, reservado para medir su comportamiento sobre ejemplos no vistos. Esta separación permite simular la situación real en la que el clasificador recibe una nueva muestra y debe asignarle una clase sin haberla usado previamente para aprender.
+
+La validación cruzada \textit{k-fold}\footnote{\url{https://en.wikipedia.org/wiki/Cross-validation_(statistics)}} extiende esta idea de separación entre entrenamiento y prueba. En lugar de realizar una única división, el conjunto de datos se divide en \(k\) particiones o \textit{folds}. En cada iteración, el modelo se entrena con \(k-1\) particiones y se evalúa con la partición restante. Al repetir el proceso hasta que todos los \textit{folds} han actuado como conjunto de prueba, se obtiene una estimación media del comportamiento del modelo y de su variabilidad entre particiones \cite{kohavi1995crossvalidation}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figs/K-folds_cross_validation.png}
+    \caption{Esquema de validación cruzada \textit{k-fold}. Fuente: \cite{rodriguez2021crossvalidation}.}
+    \label{fig:kfold_cross_validation}
+\end{figure}
+
+\begin{myequation}[H]
+\[
+\overline{M}_{CV} = \frac{1}{k}\sum_{i=1}^{k} M_i
+\]
+\caption{Promedio de una métrica en validación cruzada \textit{k-fold}.}
+\label{eq:kfold_cv}
+\end{myequation}
+
+donde \(\overline{M}_{CV}\) representa el rendimiento medio estimado mediante validación cruzada, \(k\) es el número de particiones y \(M_i\) es el valor de la métrica obtenido en el \textit{fold} \(i\). Esta expresión resume la idea de evaluar el modelo varias veces y combinar los resultados en una medida global.
+
+En problemas de clasificación con varias clases, como el reconocimiento de emociones, es importante que cada partición mantenga una distribución de clases similar a la del conjunto completo. La validación cruzada estratificada busca precisamente conservar proporciones parecidas de cada clase en los distintos \textit{folds}. De esta forma se reduce el riesgo de evaluar el modelo en particiones poco representativas, por ejemplo con muy pocas muestras de una emoción concreta \cite{kohavi1995crossvalidation}.
+
+En señales de \ac{EEG}, además de la distribución de clases, debe tenerse en cuenta la dependencia entre muestras de un mismo sujeto. Si segmentos o muestras procedentes de la misma persona aparecen simultáneamente en entrenamiento y prueba, el modelo puede aprovechar características propias del sujeto en lugar de aprender patrones que generalicen a personas no vistas. Este problema puede producir estimaciones de rendimiento artificialmente altas, por lo que en estudios con múltiples muestras por individuo es recomendable que la separación entre entrenamiento y prueba respete la agrupación por sujeto \cite{brookshire2024leakage}.
+
+Esta idea está relacionada con la fuga de información, o \textit{data leakage}\footnote{\url{https://en.wikipedia.org/wiki/Leakage_(machine_learning)}}, que ocurre cuando durante el entrenamiento o la selección del modelo se utiliza información que no estaría disponible en una predicción real. En este contexto no solo importa cómo se dividen los datos, sino también cómo se aplican los pasos previos al modelo. Transformaciones como la normalización, la selección de características o el ajuste de configuraciones deben calcularse utilizando únicamente la parte de entrenamiento de cada partición y aplicarse después sobre la parte de prueba \cite{kaufman2012leakage}.
+
+
+La validación cruzada también puede utilizarse para comparar distintas configuraciones de un modelo y seleccionar aquella que obtiene mejor comportamiento medio. Sin embargo, esta selección debe separarse conceptualmente de la evaluación final, ya que usar los mismos resultados para escoger el modelo y estimar su rendimiento puede introducir una estimación demasiado optimista del error. Por tanto, la estrategia de evaluación debe diseñarse de forma que mida la capacidad de generalización del modelo y no solo su adaptación a una partición concreta de los datos.
+
+\subsection{Métricas}
+
+Una vez definido cómo se separan los datos para entrenar y evaluar el modelo, es necesario escoger métricas que resuman la relación entre las etiquetas reales y las etiquetas predichas. En un problema de clasificación multiclase, como el reconocimiento de emociones, estas métricas no solo indican cuántas muestras se han clasificado correctamente, sino también qué clases se confunden entre sí y si el rendimiento es equilibrado entre emociones. Las medidas descritas a continuación son habituales en tareas de clasificación y están disponibles en bibliotecas de aprendizaje automático como scikit-learn \cite{sklearnMetrics}.
+
+\begin{itemize}
+    \item \textbf{Matriz de confusión.} La matriz de confusión organiza las predicciones comparando, para cada muestra, la clase real con la clase asignada por el modelo. En el caso binario, esta matriz permite distinguir cuatro situaciones: los verdaderos positivos (\(TP\)), que son muestras positivas clasificadas correctamente; los verdaderos negativos (\(TN\)), que son muestras negativas clasificadas correctamente; los falsos positivos (\(FP\)), que son muestras negativas clasificadas erróneamente como positivas; y los falsos negativos (\(FN\)), que son muestras positivas clasificadas erróneamente como negativas \cite{benhay2018confusionMatrix}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figs/Matrix_confusion_example.png}
+    \caption{Ejemplo de matriz de confusión binaria. Fuente: \cite{benhay2018confusionMatrix}.}
+    \label{fig:matrix_confusion_example}
+\end{figure}
+
+En clasificación multiclase, la idea se extiende a una matriz con tantas filas y columnas como clases tenga el problema. Las filas representan normalmente las clases reales y las columnas las clases predichas. Los valores de la diagonal principal corresponden a aciertos, mientras que los valores fuera de la diagonal muestran errores entre clases concretas. Esta representación es especialmente útil cuando interesa saber, por ejemplo, si dos emociones tienden a confundirse más que el resto \cite{sklearnMetrics}.
+
+\begin{itemize}
+    \item \textbf{Exactitud o \textit{accuracy}.} La exactitud mide la proporción de muestras clasificadas correctamente respecto al total. Es una métrica sencilla y fácil de interpretar, pero puede ocultar problemas cuando las clases no están equilibradas, ya que un modelo puede obtener una exactitud alta favoreciendo a la clase más frecuente. En clasificación multiclase puede expresarse a partir de la matriz de confusión:
+\end{itemize}
+
+\begin{myequation}[H]
+\[
+\mathrm{Accuracy} = \frac{\sum_{c=1}^{C} n_{cc}}{\sum_{i=1}^{C}\sum_{j=1}^{C} n_{ij}}
+\]
+\caption{Exactitud en clasificación multiclase a partir de la matriz de confusión.}
+\label{eq:accuracy_multiclase}
+\end{myequation}
+
+donde \(C\) es el número de clases, \(n_{cc}\) representa los aciertos de la clase \(c\) y \(n_{ij}\) indica el número de muestras cuya clase real es \(i\) y cuya clase predicha es \(j\).
+
+\begin{itemize}
+    \item \textbf{Precisión, recall y F1-score.} Para analizar el comportamiento por clase se pueden calcular métricas considerando cada emoción frente al resto. La precisión mide la fiabilidad de las predicciones realizadas para una clase: de todas las muestras que el modelo asigna a esa clase, indica qué proporción es correcta. El \textit{recall}, también llamado sensibilidad, mide la capacidad del modelo para detectar una clase: de todas las muestras que realmente pertenecen a esa clase, indica qué proporción ha sido clasificada correctamente. El F1-score combina ambas medidas mediante una media armónica, por lo que penaliza los casos en los que una de las dos es baja \cite{sklearnMetrics}.
+\end{itemize}
+
+\begin{myequation}[H]
+\[
+P_c = \frac{TP_c}{TP_c + FP_c}, \quad
+R_c = \frac{TP_c}{TP_c + FN_c}, \quad
+F1_c = 2 \cdot \frac{P_c \cdot R_c}{P_c + R_c}
+\]
+\caption{Precisión, recall y F1-score para una clase \(c\).}
+\label{eq:precision_recall_f1}
+\end{myequation}
+
+donde \(P_c\) es la precisión de la clase \(c\), \(R_c\) es su \textit{recall}, \(TP_c\) son los verdaderos positivos, \(FP_c\) los falsos positivos y \(FN_c\) los falsos negativos de esa clase.
+
+\begin{itemize}
+    \item \textbf{F1 macro.} En problemas con varias clases, el F1-score puede calcularse para cada clase y después promediarse. El promedio macro asigna el mismo peso a todas las clases, independientemente del número de muestras que tenga cada una. Por ello resulta adecuado cuando se quiere valorar si el modelo funciona de forma equilibrada entre las distintas emociones, sin que una clase con más ejemplos domine el resultado global \cite{sklearnMetrics}.
+\end{itemize}
+
+\begin{myequation}[H]
+\[
+F1_{\mathrm{macro}} = \frac{1}{C}\sum_{c=1}^{C} F1_c
+\]
+\caption{F1 macro como promedio no ponderado del F1-score por clase.}
+\label{eq:f1_macro}
+\end{myequation}
+
+\begin{itemize}
+    \item \textbf{Media y desviación entre particiones.} Cuando las métricas se calculan dentro de una validación cruzada, cada \textit{fold} produce un valor distinto. La media resume el rendimiento esperado del modelo y la desviación estándar indica la variabilidad entre particiones. Una desviación elevada puede señalar que el resultado depende mucho de qué sujetos o muestras quedan en cada partición, por lo que aporta información complementaria al valor medio.
+\end{itemize}
+
+
+
 \section{Técnicas de explicación}
 
 
@@ -109,11 +278,3 @@ Por otro lado, \ac{SHAP} es una técnica de explicación basada en la teoría de
     \caption{Ejemplo de importancia de características mediante valores SHAP.}
     \label{fig:shap_ejemplo}
 \end{figure}
-
-\section{Aprendizaje automático aplicado a EEG}
-\subsection{Modelos de caja negra frente a modelos interpretables}
-\subsection{Clasificadores}
-\subsection{Estrategia de evaluación y validación cruzada}
-\subsection{Métricas}
-
-
