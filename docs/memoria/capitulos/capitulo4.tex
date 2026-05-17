@@ -33,16 +33,131 @@ Para la adquisición se utilizó un sistema de \ac{EEG} con un gorro de electrod
 
 \section{Descripción general de los datos}
 
-El conjunto de datos utilizado está formado por registros de \ac{EEG} almacenados en el formato \ac{EDF}\footnote{\url{https://www.edfplus.info/specs/edf.html}}. En total se dispone de 72 archivos, correspondientes a 24 participantes y tres condiciones emocionales por participante: alegría, tristeza y estado neutro. Para cada sujeto existe un registro asociado a cada una de estas condiciones, por lo que el conjunto inicial se encuentra equilibrado a nivel de archivos.
+El conjunto de datos de partida está formado por registros crudos de \ac{EEG} almacenados en formato \ac{EDF}\footnote{\url{https://www.edfplus.info/specs/edf.html}}, antes de aplicar cualquier etapa de preprocesado, limpieza o extracción de características. Participaron 24 sujetos y, para cada uno, se realizó una grabación por cada emoción considerada (Joy, Neutro y Sad). En consecuencia, el conjunto inicial está compuesto por 72 archivos crudos.
 
 Los participantes aparecen identificados mediante códigos anónimos, evitando incluir información personal en los nombres de archivo. Cada archivo sigue una nomenclatura que permite reconocer el sujeto, el número de registro y la condición emocional, por ejemplo \texttt{211-000531-01\_JOY.edf}. En este caso, \texttt{211-000531} identifica al sujeto, \texttt{01} al registro concreto y \texttt{JOY} a la condición emocional.
 
-Cada archivo en formato \ac{EDF} contiene las señales registradas durante una condición experimental concreta. Las cabeceras de los archivos incluyen 66 señales: 64 canales de registro y dos canales auxiliares, \texttt{STIM} y \texttt{SYNC}, utilizados para almacenar información de sincronización y eventos. Los datos descritos en esta sección corresponden al material original de partida, antes de aplicar las etapas de filtrado, segmentación, limpieza o extracción de características.
+Cada archivo en formato \ac{EDF} contiene las señales registradas durante una condición experimental concreta. Las cabeceras de los archivos incluyen 66 señales: 64 canales de registro y dos canales auxiliares. El canal \texttt{STIM} almacena los marcadores de eventos, es decir, las marcas que indican en qué momentos aparecen estímulos o segmentos relevantes de la grabación. El canal \texttt{SYNC} se utiliza como referencia temporal para sincronizar esos eventos con la señal registrada. Estos eventos son importantes porque permiten localizar dentro del registro las partes que contienen la información válida para el análisis posterior.
 
-\section{Organización de los datos en bruto}
+
 
 \section{Organización del repositorio}
 
-\section{Entorno físico y software de trabajo}
+El repositorio se organizó en cuatro bloques principales: datos, código, modelos y resultados. A nivel general, la estructura principal es la siguiente:
 
-\section{Librerías y dependencias principales}
+\begin{lstlisting}
+TFG/
+|-- data/
+|-- scripts/
+|-- models/
+`-- results/
+\end{lstlisting}
+
+La carpeta \texttt{data/} reúne los datos utilizados y los archivos generados durante las primeras etapas del flujo de trabajo:
+
+\begin{lstlisting}
+data/
+|-- raw/
+|   |-- edf/
+|   |   |-- Joy/
+|   |   |-- Neutro/
+|   |   `-- Sad/
+|   |-- audios/
+|   |-- protocolos/
+|   `-- referencia/
+|-- processed/
+|   |-- epochs/
+|   `-- stats/
+`-- features/
+\end{lstlisting}
+
+\begin{itemize}
+    \item \texttt{raw/}: contiene los datos originales sin modificar, incluyendo registros \ac{EDF}, audios, protocolos y archivos de referencia.
+    \item \texttt{raw/edf/}: organiza los registros crudos según la emoción asociada: alegría, estado neutro y tristeza.
+    \item \texttt{processed/}: almacena los datos obtenidos tras el preprocesado, como los segmentos extraídos de las señales y estadísticas asociadas.
+    \item \texttt{features/}: guarda las matrices de características, las etiquetas y la información auxiliar utilizada para entrenar los modelos.
+\end{itemize}
+
+La carpeta \texttt{scripts/} contiene el código utilizado durante el desarrollo del proyecto. Las carpetas numeradas siguen el orden general del proceso:
+
+\begin{lstlisting}
+scripts/
+|-- 0_install/
+|-- 1_preprocesado/
+|-- 2_features/
+|-- 3_train/
+|-- 4_separability/
+`-- 5_shap_topomap/
+\end{lstlisting}
+
+\begin{itemize}
+    \item \texttt{0\_install/}: incluye archivos relacionados con la preparación inicial del entorno.
+    \item \texttt{1\_preprocesado/}: transforma los registros crudos en datos segmentados y preparados para el análisis.
+    \item \texttt{2\_features/}: extrae las características utilizadas posteriormente por los clasificadores.
+    \item \texttt{3\_train/}: agrupa el entrenamiento de modelos globales y modelos por sujeto.
+    \item \texttt{4\_separability/}: estudia la separación entre clases o sujetos en el espacio de características.
+    \item \texttt{5\_shap\_topomap/}: genera explicaciones basadas en \ac{SHAP} y mapas topográficos.
+\end{itemize}
+
+La carpeta \texttt{models/} almacena los modelos generados durante los experimentos:
+
+\begin{lstlisting}
+models/
+|-- all_subjects/
+`-- within_subject/
+\end{lstlisting}
+
+\begin{itemize}
+    \item \texttt{all\_subjects/}: contiene el modelo entrenado utilizando información conjunta de varios sujetos.
+    \item \texttt{within\_subject/}: guarda los modelos entrenados de forma individual para cada sujeto.
+\end{itemize}
+
+Por último, la carpeta \texttt{results/} reúne las salidas generadas durante la evaluación y el análisis de los modelos:
+
+\begin{lstlisting}
+results/
+|-- all_subjects/
+|-- within_subject/
+|-- checks/
+|-- separability/
+`-- shap_topomap/
+\end{lstlisting}
+
+\begin{itemize}
+    \item \texttt{all\_subjects/}: contiene métricas, gráficas y salidas asociadas a los experimentos con modelos globales.
+    \item \texttt{within\_subject/}: reúne los resultados obtenidos en los experimentos realizados de forma individual por sujeto.
+    \item \texttt{checks/}: almacena las salidas generadas por la comprobación de sujetos válidos, como balances de épocas, listas de sujetos aceptados o descartados y gráficas de control espectral.
+    \item \texttt{separability/}: guarda los análisis de separación entre clases o sujetos.
+    \item \texttt{shap\_topomap/}: contiene los resultados de interpretabilidad, como importancias de características, mapas topográficos y resúmenes de explicación.
+\end{itemize}
+
+\section{Entorno de trabajo}
+
+El proyecto se desarrolló en un entorno local organizado de forma que el procesamiento de señales, la extracción de características, el entrenamiento de modelos y la generación de resultados pudieran ejecutarse desde el mismo repositorio. El código y los archivos de instalación se encuentran disponibles en GitHub\footnote{\url{https://github.com/LiamSaboridoSueiro/TFG}}, lo que facilita consultar la estructura completa del proyecto y reproducir el entorno utilizado.
+
+\subsection{Entorno físico y software}
+
+La configuración software se apoyó principalmente en dos elementos:
+
+\begin{itemize}
+    \item \textbf{Python}\footnote{\url{https://www.python.org/doc/}}: es el lenguaje de programación utilizado para implementar el flujo de trabajo del proyecto, desde el preprocesado de las señales hasta la extracción de características, el entrenamiento de modelos y la generación de resultados.
+    \item \textbf{Conda}\footnote{\url{https://docs.conda.io/}}: es un gestor de paquetes y entornos que permite instalar librerías concretas y aislarlas del resto del sistema.
+\end{itemize}
+
+En este trabajo se empleó Python 3.11.14 y Conda se instaló mediante Miniconda, una distribución ligera que proporciona las herramientas necesarias sin incluir de partida un gran número de paquetes adicionales. La instalación se centralizó en la carpeta \texttt{scripts/0\_install/}, donde se incluye un archivo que crea o actualiza el entorno con las versiones empleadas durante el desarrollo. Los canales utilizados para construirlo fueron \texttt{defaults}, el canal principal de paquetes de Anaconda, y \texttt{conda-forge}, un canal comunitario que ofrece muchas librerías científicas y versiones actualizadas.
+
+Aunque el proyecto puede reproducirse en cualquier ordenador con un entorno Python equivalente, el tiempo de ejecución de algunas etapas puede variar en función del procesador, la memoria disponible y el número de archivos procesados. En este trabajo se utilizó como equipo principal un portátil con sistema operativo Ubuntu 24.04 LTS\footnote{\url{https://ubuntu.com/about}} sobre arquitectura \texttt{x86\_64}, procesador Intel Core i7-10750H, 16 GB de memoria RAM y gráfica NVIDIA\footnote{\url{https://docs.nvidia.com/}} GeForce GTX 1650 Ti Mobile. No obstante, el flujo principal del proyecto se basa en procesamiento de señal y modelos clásicos de aprendizaje automático, por lo que no requiere necesariamente una \ac{GPU} dedicada.
+
+\subsection{Librerías y dependencias principales}
+
+Las librerías principales del entorno de trabajo fueron las siguientes:
+
+\begin{itemize}
+    \item \textbf{MNE-Python}\footnote{\url{https://mne.tools/stable/index.html}}: librería especializada en el análisis de señales neurofisiológicas, especialmente \ac{EEG} y magnetoencefalografía. Proporciona herramientas para leer registros, gestionar canales, eventos y épocas, aplicar técnicas de preprocesado y representar información espacial sobre el cuero cabelludo.
+    \item \textbf{NumPy}\footnote{\url{https://numpy.org/doc/stable/}}: librería fundamental de cálculo numérico en Python. Su estructura principal es el array multidimensional, sobre el que se pueden realizar operaciones vectorizadas de forma eficiente.
+    \item \textbf{pandas}\footnote{\url{https://pandas.pydata.org/docs/}}: librería orientada al tratamiento de datos tabulares. Sus estructuras principales, como \texttt{DataFrame} y \texttt{Series}, permiten organizar, transformar, filtrar y exportar datos de forma cómoda.
+    \item \textbf{SciPy}\footnote{\url{https://docs.scipy.org/doc/scipy/}}: conjunto de herramientas científicas construido sobre NumPy. Incluye módulos para estadística, procesamiento de señales, álgebra lineal, optimización y otras operaciones habituales en computación científica.
+    \item \textbf{scikit-learn}\footnote{\url{https://scikit-learn.org/stable/}}: librería de aprendizaje automático en Python. Integra modelos de clasificación y regresión, técnicas de validación, métricas, normalización, selección de modelos y métodos de reducción de dimensionalidad.
+    \item \textbf{Matplotlib}\footnote{\url{https://matplotlib.org/stable/index.html}}: librería de visualización que permite crear gráficas y figuras en Python. Se utiliza habitualmente para representar series, distribuciones, matrices, mapas de calor y otros resultados gráficos.
+    \item \textbf{joblib}\footnote{\url{https://joblib.readthedocs.io/en/stable/}}: librería pensada para serializar objetos de Python y reutilizarlos posteriormente. Es frecuente en proyectos de aprendizaje automático para guardar modelos, transformaciones o resultados intermedios.
+\end{itemize}
