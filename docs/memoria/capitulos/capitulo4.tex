@@ -87,7 +87,7 @@ scripts/
 |-- 2_features/
 |-- 3_train/
 |-- 4_separability/
-`-- 5_shap_topomap/
+`-- 5_explicability/
 \end{lstlisting}
 
 \begin{itemize}
@@ -96,7 +96,7 @@ scripts/
     \item \texttt{2\_features/}: extrae las características utilizadas posteriormente por los clasificadores.
     \item \texttt{3\_train/}: agrupa el entrenamiento de modelos globales y modelos por sujeto.
     \item \texttt{4\_separability/}: estudia la separación entre clases o sujetos en el espacio de características.
-    \item \texttt{5\_shap\_topomap/}: genera explicaciones basadas en \ac{SHAP} y mapas topográficos.
+    \item \texttt{5\_explicability/}: genera explicaciones basadas en \ac{SHAP}, mapas topográficos y visualizaciones de los modelos interpretables.
 \end{itemize}
 
 La carpeta \texttt{models/} almacena los modelos generados durante los experimentos:
@@ -104,12 +104,17 @@ La carpeta \texttt{models/} almacena los modelos generados durante los experimen
 \begin{lstlisting}
 models/
 |-- all_subjects/
+|   |-- logReg/
+|   `-- decisionTree/
 `-- within_subject/
+    |-- logReg/
+    `-- decisionTree/
 \end{lstlisting}
 
 \begin{itemize}
-    \item \texttt{all\_subjects/}: contiene el modelo entrenado utilizando información conjunta de varios sujetos.
-    \item \texttt{within\_subject/}: guarda los modelos entrenados de forma individual para cada sujeto.
+    \item \texttt{all\_subjects/}: contiene los modelos entrenados utilizando información conjunta de varios sujetos, separados según el clasificador empleado.
+    \item \texttt{within\_subject/}: guarda los modelos entrenados de forma individual para cada sujeto, también organizados por clasificador.
+    \item \texttt{logReg/} y \texttt{decisionTree/}: separan los modelos correspondientes a regresión logística y árbol de decisión.
 \end{itemize}
 
 Por último, la carpeta \texttt{results/} reúne las salidas generadas durante la evaluación y el análisis de los modelos:
@@ -117,18 +122,23 @@ Por último, la carpeta \texttt{results/} reúne las salidas generadas durante l
 \begin{lstlisting}
 results/
 |-- all_subjects/
+|   |-- logReg/
+|   `-- decisionTree/
 |-- within_subject/
+|   |-- logReg/
+|   `-- decisionTree/
 |-- checks/
 |-- separability/
-`-- shap_topomap/
+`-- explicability/
 \end{lstlisting}
 
 \begin{itemize}
     \item \texttt{all\_subjects/}: contiene métricas, gráficas y salidas asociadas a los experimentos con modelos globales.
     \item \texttt{within\_subject/}: reúne los resultados obtenidos en los experimentos realizados de forma individual por sujeto.
+    \item \texttt{logReg/} y \texttt{decisionTree/}: separan las figuras y salidas específicas de cada clasificador.
     \item \texttt{checks/}: almacena las salidas generadas por la comprobación de sujetos válidos, como balances de épocas, listas de sujetos aceptados o descartados y gráficas de control espectral.
     \item \texttt{separability/}: guarda los análisis de separación entre clases o sujetos.
-    \item \texttt{shap\_topomap/}: contiene los resultados de interpretabilidad, como importancias de características, mapas topográficos y resúmenes de explicación.
+    \item \texttt{explicability/}: contiene los resultados de interpretabilidad, como importancias de características, mapas topográficos, coeficientes de la regresión logística y visualizaciones de árboles de decisión.
 \end{itemize}
 
 \section{Entorno de trabajo}

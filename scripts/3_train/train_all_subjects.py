@@ -4,17 +4,21 @@ Script de entrenamiento all-subjects alpha_beta:
     StratifiedGroupKFold (5 folds, grupos=sujeto) -> busqueda de hiperparametros -> Clasificador global
 
     Clasificadores:
-    - LogisticRegression elastic-net  (interpretable con SHAP)
-    - Random Forest
-    - SVM RBF
-    - LDA
+    - LogisticRegression elastic-net
+    - DecisionTreeClassifier
 
 Salida:
   results/all_subjects/all_subjects_results.json             metricas e hiperparametros por clasificador
-  results/all_subjects/01_cv_scores_<clf>.png                 metricas CV del mejor clasificador
-  results/all_subjects/02_confusion_<clf>.png                 matriz de confusion agregada
-  results/all_subjects/03_importancia_<clf>.png               importancia de features
-  models/all_subjects/global_model.joblib                     modelo final global
+  results/all_subjects/logReg/01_cv_scores.png                metricas CV regresion logistica
+  results/all_subjects/logReg/02_confusion.png                matriz de confusion regresion logistica
+  results/all_subjects/logReg/03_importancia.png              importancia de features regresion logistica
+  results/all_subjects/logReg/04_coeficientes_modelo_final.png
+  results/all_subjects/decisionTree/01_cv_scores.png          metricas CV arbol de decision
+  results/all_subjects/decisionTree/02_confusion.png          matriz de confusion arbol de decision
+  results/all_subjects/decisionTree/03_importancia.png        importancia de features arbol de decision
+  results/all_subjects/decisionTree/04_arbol_modelo_final.png
+  models/all_subjects/logReg/global_model.joblib              modelo final global regresion logistica
+  models/all_subjects/decisionTree/global_model.joblib        modelo final global arbol de decision
 
 """
 
@@ -27,10 +31,8 @@ import warnings
 from pathlib import Path
 
 import joblib
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.model_selection import StratifiedGroupKFold, ParameterGrid
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 from sklearn.base import clone
@@ -65,65 +67,39 @@ from utils import (
 
 # ---------------------------------------------------------------------- Configuracion
 RESULTS_DIR = PROJECT_ROOT / "results" / "all_subjects"
-FINAL_MODEL_PATH = PROJECT_ROOT / "models" / "all_subjects" / "global_model.joblib"
+MODELS_DIR = PROJECT_ROOT / "models" / "all_subjects"
 
 N_TOP_FEAT = 20       # n de features que se muestran en el grafico de importancia
-SAVE_MODEL = True     # si True guarda el mejor modelo final entrenado con todos los sujetos
+SAVE_MODELS = True    # si True guarda un modelo final por clasificador
 SCORING    = "f1_macro"
 
 CLF_COL_WIDTH    = 20
 METRIC_COL_WIDTH = 10
 
 CLASIFICADORES = {
-    "LogReg": LogisticRegression(
+    "logReg": LogisticRegression(
         penalty="elasticnet",
         solver="saga",
         max_iter=5000,
         class_weight="balanced",
         random_state=RANDOM_STATE,
     ),
-    "RandomForest": RandomForestClassifier(
-        class_weight="balanced",
-        random_state=RANDOM_STATE,
-        n_jobs=-1,
-    ),
-    "SVM_RBF": SVC(
-        kernel="rbf",
+    "decisionTree": DecisionTreeClassifier(
         class_weight="balanced",
         random_state=RANDOM_STATE,
     ),
-    "LDA": LinearDiscriminantAnalysis(),
 }
 
 PARAM_GRIDS = {
-    "LogReg": {
+    "logReg": {
         "C": [0.01, 0.1, 1.0],
         "l1_ratio": [0.15, 0.85],
     },
-    "RandomForest": {
-        "n_estimators": [200, 400],
-        "max_depth": [None, 10, 20],
-        "min_samples_leaf": [3],
-        "max_features": ["sqrt"],
+    "decisionTree": {
+        "criterion": ["gini", "entropy"],
+        "max_depth": [3, 5, None],
+        "min_samples_leaf": [1, 3, 5],
     },
-    "SVM_RBF": {
-        "C": [1.0, 10.0, 30.0],
-        "gamma": ["scale", 0.001],
-    },
-    "LDA": [
-        {
-            "solver": ["svd"],
-            "shrinkage": [None],
-        },
-        {
-            "solver": ["lsqr"],
-            "shrinkage": [None, "auto", 0.1, 0.5],
-        },
-        {
-            "solver": ["eigen"],
-            "shrinkage": ["auto"],
-        },
-    ],
 }
 
 
@@ -266,40 +242,53 @@ def classifier_summary(resultados):
     return mejor_nombre
 
 
-def save_final_model(X_log, y, meta, ch_names, mejor_clf, best_params):
-    """Entrena el mejor modelo con todos los sujetos y lo guarda en un unico .joblib."""
-    if not SAVE_MODEL:
-        return
-
+def save_final_models(X_log, y, meta, ch_names, resultados):
+    """Entrena y guarda un modelo final por clasificador."""
     X_train, preprocessing = fit_normalization_pipeline(X_log, y, ch_names)
-    clf = clone(CLASIFICADORES[mejor_clf])
-    clf.set_params(**best_params)
-    clf.fit(X_train, y)
+    trained_models = {}
 
-    FINAL_MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(
-        {
+    for clf_name, data in resultados.items():
+        best_params = data["best"]["params"]
+        clf = clone(CLASIFICADORES[clf_name])
+        clf.set_params(**best_params)
+        clf.fit(X_train, y)
+
+        trained_models[clf_name] = {
             "classifier": clf,
             "preprocessing": preprocessing,
-            "classifier_name": mejor_clf,
             "best_params": best_params,
-            "ch_names_eeg": ch_names,
-            "feature_names": build_feature_names(ch_names),
-            "selected_bands": SELECTED_BANDS,
-            "excluded_bands": EXCLUDED_BANDS,
-            "label_map": LABEL_MAP,
-            "conditions": CONDITIONS,
-            "training_subjects": sorted(meta["subject_id"].unique().tolist()),
-            "scoring": SCORING,
-            "cv": {
-                "type": "StratifiedGroupKFold",
-                "n_splits": N_FOLDS,
-                "group": "subject_id",
+        }
+
+        if not SAVE_MODELS:
+            continue
+
+        output_path = MODELS_DIR / clf_name / "global_model.joblib"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(
+            {
+                "classifier": clf,
+                "preprocessing": preprocessing,
+                "classifier_name": clf_name,
+                "best_params": best_params,
+                "ch_names_eeg": ch_names,
+                "feature_names": build_feature_names(ch_names),
+                "selected_bands": SELECTED_BANDS,
+                "excluded_bands": EXCLUDED_BANDS,
+                "label_map": LABEL_MAP,
+                "conditions": CONDITIONS,
+                "training_subjects": sorted(meta["subject_id"].unique().tolist()),
+                "scoring": SCORING,
+                "cv": {
+                    "type": "StratifiedGroupKFold",
+                    "n_splits": N_FOLDS,
+                    "group": "subject_id",
+                },
             },
-        },
-        FINAL_MODEL_PATH,
-    )
-    print(f"\n  Modelo final global: {FINAL_MODEL_PATH}")
+            output_path,
+        )
+        print(f"  Modelo final global {clf_name}: {output_path}")
+
+    return trained_models
 
 
 # ---------------------------------------------------------------------- PLOTS
@@ -307,6 +296,8 @@ def save_final_model(X_log, y, meta, ch_names, mejor_clf, best_params):
 def plot_cv_scores(resultados, mejor_clf):
     datos = resultados[mejor_clf]["best"]
     folds = [f"Fold {i + 1}" for i in range(len(datos["accs"]))]
+    output_dir = RESULTS_DIR / mejor_clf
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     fig, axes = plt.subplots(1, 2, figsize=(15, 5))
     fig.patch.set_facecolor("#f8f9fa")
@@ -337,15 +328,17 @@ def plot_cv_scores(resultados, mejor_clf):
     axes[1].set_facecolor("#ffffff")
 
     plt.tight_layout()
-    fname = RESULTS_DIR / f"01_cv_scores_{mejor_clf}.png"
+    fname = output_dir / "01_cv_scores.png"
     plt.savefig(fname, dpi=120)
-    print(f"  {fname.name}")
+    print(f"  {fname.relative_to(RESULTS_DIR)}")
     plt.show()
 
 
 def plot_confusion(resultados, mejor_clf):
     y_true = resultados[mejor_clf]["best"]["y_true"]
     y_pred = resultados[mejor_clf]["best"]["y_pred"]
+    output_dir = RESULTS_DIR / mejor_clf
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     cm_total = confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
     cm_norm = cm_total.astype(float) / cm_total.sum(axis=1, keepdims=True)
@@ -377,9 +370,9 @@ def plot_confusion(resultados, mejor_clf):
                         fontsize=11, color=color, fontweight="bold")
 
     plt.tight_layout()
-    fname = RESULTS_DIR / f"02_confusion_{mejor_clf}.png"
+    fname = output_dir / "02_confusion.png"
     plt.savefig(fname, dpi=120)
-    print(f"  {fname.name}")
+    print(f"  {fname.relative_to(RESULTS_DIR)}")
     plt.show()
 
     print("\n  Reporte de clasificacion:")
@@ -392,6 +385,8 @@ def plot_feature_importance(resultados, mejor_clf, ch_names, n_top=N_TOP_FEAT):
     if imp_global is None:
         print("  Importancia no disponible")
         return
+    output_dir = RESULTS_DIR / mejor_clf
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     feat_names = build_feature_names(ch_names)
 
@@ -424,9 +419,83 @@ def plot_feature_importance(resultados, mejor_clf, ch_names, n_top=N_TOP_FEAT):
     ], fontsize=8, loc="lower right")
 
     plt.tight_layout()
-    fname = RESULTS_DIR / f"03_importancia_{mejor_clf}.png"
+    fname = output_dir / "03_importancia.png"
     plt.savefig(fname, dpi=120)
-    print(f"  {fname.name}")
+    print(f"  {fname.relative_to(RESULTS_DIR)}")
+    plt.show()
+
+
+def plot_final_logreg_coefficients(trained_models, ch_names, n_top=N_TOP_FEAT):
+    """Grafica los coeficientes medios absolutos del modelo final logReg."""
+    model_data = trained_models.get("logReg") if trained_models else None
+    if model_data is None:
+        return
+
+    clf = model_data["classifier"]
+    if not hasattr(clf, "coef_"):
+        return
+
+    output_dir = RESULTS_DIR / "logReg"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    feat_names = build_feature_names(ch_names)
+    coef = np.asarray(clf.coef_, dtype=float)
+    importance = np.abs(coef).mean(axis=0)
+
+    n = min(len(importance), len(feat_names))
+    importance = importance[:n]
+    feat_names = feat_names[:n]
+
+    top_idx = np.argsort(importance)[::-1][:n_top]
+    top_names = [feat_names[i] for i in top_idx]
+    top_vals = importance[top_idx]
+    colores = [feature_color(nombre) for nombre in top_names]
+
+    fig, ax = plt.subplots(figsize=(12, 7))
+    fig.patch.set_facecolor("#f8f9fa")
+    ax.set_facecolor("#ffffff")
+    y_pos = range(len(top_names))
+    ax.barh(y_pos, top_vals[::-1], color=colores[::-1], alpha=0.85)
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(top_names[::-1], fontsize=9)
+    ax.set_xlabel("Coeficiente medio absoluto")
+    ax.set_title(f"Top {n_top} coeficientes - modelo final logReg")
+    ax.grid(True, axis="x", alpha=0.3)
+
+    plt.tight_layout()
+    fname = output_dir / "04_coeficientes_modelo_final.png"
+    plt.savefig(fname, dpi=140)
+    print(f"  {fname.relative_to(RESULTS_DIR)}")
+    plt.show()
+
+
+def plot_final_decision_tree(trained_models, ch_names):
+    """Grafica los primeros niveles del arbol de decision final."""
+    model_data = trained_models.get("decisionTree") if trained_models else None
+    if model_data is None:
+        return
+
+    clf = model_data["classifier"]
+    output_dir = RESULTS_DIR / "decisionTree"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    fig, ax = plt.subplots(figsize=(24, 12))
+    plot_tree(
+        clf,
+        feature_names=build_feature_names(ch_names),
+        class_names=CONDITIONS,
+        filled=True,
+        rounded=True,
+        max_depth=4,
+        fontsize=7,
+        proportion=True,
+        ax=ax,
+    )
+    ax.set_title("Primeros niveles del modelo final decisionTree", fontsize=14, fontweight="bold")
+    plt.tight_layout()
+    fname = output_dir / "04_arbol_modelo_final.png"
+    plt.savefig(fname, dpi=160)
+    print(f"  {fname.relative_to(RESULTS_DIR)}")
     plt.show()
 
 
@@ -529,13 +598,14 @@ if __name__ == "__main__":
     resultados = hyperparameter_search(X_log, y, meta, ch_names)
     mejor_clf = classifier_summary(resultados)
 
-    best_params = resultados[mejor_clf]["best"]["params"]
-    save_final_model(X_log, y, meta, ch_names, mejor_clf, best_params)
+    print("\n  Guardando modelos finales...")
+    save_final_models(X_log, y, meta, ch_names, resultados)
 
-    print("\n  Generando figuras...")
-    plot_cv_scores(resultados, mejor_clf)
-    plot_confusion(resultados, mejor_clf)
-    plot_feature_importance(resultados, mejor_clf, ch_names)
+    print("\n  Generando figuras por clasificador...")
+    for clf_name in resultados:
+        plot_cv_scores(resultados, clf_name)
+        plot_confusion(resultados, clf_name)
+        plot_feature_importance(resultados, clf_name, ch_names)
     save_selected_features(ch_names)
     save_json(resultados, mejor_clf, ch_names)
 

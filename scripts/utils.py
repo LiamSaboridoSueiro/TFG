@@ -26,14 +26,14 @@ warnings.filterwarnings("ignore")
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FEATURES_DIR = PROJECT_ROOT / "data/features"
 RESULTS_DIR = PROJECT_ROOT / "results" / "within_subject"
-SHAP_DIR = PROJECT_ROOT / "results" / "shap_topomap" / "within_subject"
+SHAP_DIR = PROJECT_ROOT / "results" / "explicability" / "within_subject"
 
 CONDITIONS = ["JOY", "NEUTRO", "SAD"]
 LABEL_MAP = {"JOY": 0, "NEUTRO": 1, "SAD": 2}
 LABEL_INV = {label: condition for condition, label in LABEL_MAP.items()}
 
 N_FOLDS = 5
-RANDOM_STATE = 42
+RANDOM_STATE = 40
 
 BANDS = ["Delta", "Theta", "Alpha", "Beta", "Gamma"]
 SELECTED_BANDS = ["Alpha", "Beta"]

@@ -15,8 +15,12 @@ Salida:
   results/within_subject/within_subject_results.json
   results/within_subject/within_subject_summary.csv
   results/within_subject/selected_features.csv
-  results/within_subject/01_accuracy_<clf>.png
-  results/within_subject/02_confusion_<clf>.png
+  results/within_subject/logReg/01_accuracy.png
+  results/within_subject/logReg/02_confusion.png
+  results/within_subject/decisionTree/01_accuracy.png
+  results/within_subject/decisionTree/02_confusion.png
+  models/within_subject/logReg/<subject_id>.joblib
+  models/within_subject/decisionTree/<subject_id>.joblib
 """
 
 import json
@@ -30,11 +34,11 @@ os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import joblib
 from sklearn.base import clone
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 # Permite ejecutar este script desde scripts/3_train importando utilidades
 # compartidas desde scripts/.
@@ -48,12 +52,14 @@ from utils import (
     FEATURES_DIR,
     LABEL_MAP,
     N_FOLDS,
+    PROJECT_ROOT,
     RANDOM_STATE,
     RESULTS_DIR,
     SELECTED_BANDS,
     apply_normalization_pipeline,
     build_feature_names,
     feature_block_counts,
+    fit_normalization_pipeline,
     load_dataset,
 )
 
@@ -64,9 +70,11 @@ warnings.filterwarnings("ignore")
 SUBJECT_COL_WIDTH = 18
 METRIC_COL_WIDTH = 18
 N_EP_COL_WIDTH = 6
+MODELS_DIR = PROJECT_ROOT / "models" / "within_subject"
+SAVE_MODELS = True
 
 CLASIFICADORES = {
-    "LogReg": LogisticRegression(
+    "logReg": LogisticRegression(
         penalty="elasticnet",
         solver="saga",
         l1_ratio=0.5,
@@ -75,17 +83,9 @@ CLASIFICADORES = {
         class_weight="balanced",
         random_state=RANDOM_STATE,
     ),
-    "RandomForest": RandomForestClassifier(
-        n_estimators=200,
-        max_depth=10,
-        class_weight="balanced",
-        random_state=RANDOM_STATE,
-        n_jobs=-1,
-    ),
-    "SVM_RBF": SVC(
-        kernel="rbf",
-        C=1.0,
-        gamma="scale",
+    "decisionTree": DecisionTreeClassifier(
+        max_depth=5,
+        min_samples_leaf=3,
         class_weight="balanced",
         random_state=RANDOM_STATE,
     ),
@@ -285,6 +285,8 @@ def classifier_summary(results):
 def plot_accuracy(results, best_clf):
     """Genera figura de accuracy por sujeto."""
     rows = results[best_clf]
+    output_dir = RESULTS_DIR / best_clf
+    output_dir.mkdir(parents=True, exist_ok=True)
     subjects = [row["subject_id"].replace("211-000", "") for row in rows]
     accs = [row["acc_media"] if not np.isnan(row["acc_media"]) else 0 for row in rows]
     stds = [row["acc_std"] if not np.isnan(row["acc_std"]) else 0 for row in rows]
@@ -307,14 +309,16 @@ def plot_accuracy(results, best_clf):
     ax.grid(True, axis="y", alpha=0.3)
 
     plt.tight_layout()
-    output_path = RESULTS_DIR / f"01_accuracy_{best_clf}.png"
+    output_path = output_dir / "01_accuracy.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
-    print(f"  {output_path.name}")
+    print(f"  {output_path.relative_to(RESULTS_DIR)}")
 
 
 def plot_confusion(results, best_clf):
     """Genera matriz de confusion agregada."""
+    output_dir = RESULTS_DIR / best_clf
+    output_dir.mkdir(parents=True, exist_ok=True)
     cm_total = np.zeros((3, 3), dtype=int)
     for row in results[best_clf]:
         if len(row["y_true"]) == 0:
@@ -344,10 +348,10 @@ def plot_confusion(results, best_clf):
                 ax.text(j, i, value, ha="center", va="center", fontsize=11, color=color, fontweight="bold")
 
     plt.tight_layout()
-    output_path = RESULTS_DIR / f"02_confusion_{best_clf}.png"
+    output_path = output_dir / "02_confusion.png"
     plt.savefig(output_path, dpi=120)
     plt.close(fig)
-    print(f"  {output_path.name}")
+    print(f"  {output_path.relative_to(RESULTS_DIR)}")
 
     y_true_all = np.concatenate([row["y_true"] for row in results[best_clf] if len(row["y_true"]) > 0])
     y_pred_all = np.concatenate([row["y_pred"] for row in results[best_clf] if len(row["y_pred"]) > 0])
@@ -358,9 +362,9 @@ def plot_confusion(results, best_clf):
         digits=3,
         output_dict=True,
     )
-    with open(RESULTS_DIR / f"02_classification_report_{best_clf}.json", "w") as f:
+    with open(output_dir / "02_classification_report.json", "w") as f:
         json.dump(report, f, indent=2)
-    print(f"  02_classification_report_{best_clf}.json")
+    print(f"  {(output_dir / '02_classification_report.json').relative_to(RESULTS_DIR)}")
 
 
 def save_selected_features(feature_names):
@@ -430,6 +434,61 @@ def save_results(results, best_clf, feature_names):
     print("  within_subject_summary.csv")
 
 
+def save_subject_models(X_log, y, meta, ch_names, feature_names):
+    """Entrena y guarda modelos finales por sujeto y clasificador."""
+    if not SAVE_MODELS:
+        return
+
+    saved = 0
+    subjects = sorted(meta["subject_id"].unique())
+
+    for subject_id in subjects:
+        mask = (meta["subject_id"] == subject_id).values
+        X_log_subject = X_log[mask]
+        y_subject = y[mask]
+
+        classes, counts = np.unique(y_subject, return_counts=True)
+        if len(classes) < len(CONDITIONS) or counts.min() < N_FOLDS:
+            continue
+
+        X_train, preprocessing = fit_normalization_pipeline(
+            X_log_subject,
+            y_subject,
+            ch_names,
+        )
+
+        for clf_name, clf_template in CLASIFICADORES.items():
+            clf = clone(clf_template)
+            clf.fit(X_train, y_subject)
+
+            output_path = MODELS_DIR / clf_name / f"{subject_id}.joblib"
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            joblib.dump(
+                {
+                    "classifier": clf,
+                    "preprocessing": preprocessing,
+                    "classifier_name": clf_name,
+                    "classifier_params": clf.get_params(),
+                    "subject_id": subject_id,
+                    "ch_names_eeg": ch_names,
+                    "feature_names": feature_names,
+                    "selected_bands": SELECTED_BANDS,
+                    "label_map": LABEL_MAP,
+                    "conditions": CONDITIONS,
+                    "cv": {
+                        "type": "contiguous_condition_chunks",
+                        "n_splits": N_FOLDS,
+                        "scope": "within_subject",
+                        "shuffle": False,
+                    },
+                },
+                output_path,
+            )
+            saved += 1
+
+    print(f"  Modelos guardados: {saved} en {MODELS_DIR}")
+
+
 # ---------------------------------------------------------------------- MAIN
 if __name__ == "__main__":
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -456,10 +515,12 @@ if __name__ == "__main__":
     print("\n  Guardando resultados...")
     save_selected_features(feature_names)
     save_results(results, best_clf, feature_names)
+    save_subject_models(X_log, y, meta, ch_names, feature_names)
 
-    print("\n  Generando figuras...")
-    plot_accuracy(results, best_clf)
-    plot_confusion(results, best_clf)
+    print("\n  Generando figuras por clasificador...")
+    for clf_name in results:
+        plot_accuracy(results, clf_name)
+        plot_confusion(results, clf_name)
 
     print("TRAIN WITHIN-SUBJECT COMPLETADO!!!!!!!!!!")
     print(f"Resultados en: {RESULTS_DIR}")
