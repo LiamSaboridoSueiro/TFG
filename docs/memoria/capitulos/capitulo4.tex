@@ -37,8 +37,7 @@ El conjunto de datos de partida está formado por registros crudos de \ac{EEG} a
 
 Los participantes aparecen identificados mediante códigos anónimos, evitando incluir información personal en los nombres de archivo. Cada archivo sigue una nomenclatura que permite reconocer el sujeto, el número de registro y la condición emocional, por ejemplo \texttt{211-000531-01\_JOY.edf}. En este caso, \texttt{211-000531} identifica al sujeto, \texttt{01} al registro concreto y \texttt{JOY} a la condición emocional.
 
-Cada archivo en formato \ac{EDF} contiene las señales registradas durante una condición experimental concreta. Las cabeceras de los archivos incluyen 66 señales: 64 canales de registro y dos canales auxiliares. El canal \texttt{STIM} almacena los marcadores de eventos, es decir, las marcas que indican en qué momentos aparecen estímulos o segmentos relevantes de la grabación. El canal \texttt{SYNC} se utiliza como referencia temporal para sincronizar esos eventos con la señal registrada. Estos eventos son importantes porque permiten localizar dentro del registro las partes que contienen la información válida para el análisis posterior.
-
+Cada archivo en formato \ac{EDF} contiene las señales registradas durante una condición experimental concreta. Las cabeceras de los archivos incluyen 66 señales: 64 canales de registro y dos canales auxiliares. El canal \texttt{STIM}, abreviatura de \textit{stimulation}, almacena los marcadores de eventos, es decir, las marcas que indican en qué momentos aparecen estímulos o segmentos relevantes de la grabación. El canal \texttt{SYNC} se utiliza como referencia temporal para sincronizar esos eventos con la señal registrada. Estos eventos son importantes porque permiten localizar dentro del registro las partes que contienen la información válida para el análisis posterior.
 
 
 \section{Organización del repositorio}
@@ -163,7 +162,7 @@ Aunque el proyecto puede reproducirse en cualquier ordenador con un entorno Pyth
 Las librerías principales del entorno de trabajo fueron las siguientes:
 
 \begin{itemize}
-    \item \textbf{MNE-Python}\footnote{\url{https://mne.tools/stable/index.html}}: librería especializada en el análisis de señales neurofisiológicas, especialmente \ac{EEG} y magnetoencefalografía. Proporciona herramientas para leer registros, gestionar canales, eventos y épocas, aplicar técnicas de preprocesado y representar información espacial sobre el cuero cabelludo.
+    \item \textbf{MNE-Python}\footnote{\url{https://mne.tools/stable/index.html}}: librería especializada en el análisis de señales neurofisiológicas, especialmente \ac{EEG} y \ac{MEG}. Proporciona herramientas para leer registros, gestionar canales, eventos y épocas, aplicar técnicas de preprocesado y representar información espacial sobre el cuero cabelludo.
     \item \textbf{NumPy}\footnote{\url{https://numpy.org/doc/stable/}}: librería fundamental de cálculo numérico en Python. Su estructura principal es el array multidimensional, sobre el que se pueden realizar operaciones vectorizadas de forma eficiente.
     \item \textbf{pandas}\footnote{\url{https://pandas.pydata.org/docs/}}: librería orientada al tratamiento de datos tabulares. Sus estructuras principales, como \texttt{DataFrame} y \texttt{Series}, permiten organizar, transformar, filtrar y exportar datos de forma cómoda.
     \item \textbf{SciPy}\footnote{\url{https://docs.scipy.org/doc/scipy/}}: conjunto de herramientas científicas construido sobre NumPy. Incluye módulos para estadística, procesamiento de señales, álgebra lineal, optimización y otras operaciones habituales en computación científica.

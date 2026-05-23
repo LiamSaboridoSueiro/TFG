@@ -1,0 +1,328 @@
+% !TEX root = ../memoria.tex
+
+\chapter{Desarrollo del sistema}
+\label{cap:desarrollo_sistema}
+
+En este capítulo se describe el desarrollo práctico del sistema implementado para el análisis y clasificación de señales \ac{EEG}. Se presenta la cadena de procesamiento seguida en el proyecto, desde los datos de partida hasta la obtención de resultados interpretables.
+
+
+\section{Flujo general del sistema}
+
+La Figura~\ref{fig:flujo_general_sistema} resume el flujo seguido por el sistema, indicando en las flechas los datos que pasan de una etapa a la siguiente.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.92\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.8cm,
+    fase/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=4.1cm,
+        minimum height=0.78cm,
+        align=center,
+        font=\bfseries\small,
+        draw=black!45
+    },
+    fasepeq/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=3.55cm,
+        minimum height=0.58cm,
+        align=center,
+        font=\bfseries\scriptsize,
+        draw=black!45
+    },
+    dato/.style={
+        align=center,
+        font=\scriptsize,
+        text width=3.2cm,
+        fill=white,
+        inner sep=1pt
+    },
+    flecha/.style={-{Latex[length=2.5mm]}, thick, draw=black!55}
+]
+
+\node[fase, fill=blue!18] (prep) {Preprocesado\\\texttt{edf\_to\_epochs.py}};
+
+\node[fasepeq, fill=blue!18, below=of prep] (check) {Control de sujetos válidos\\\texttt{check\_valid\_subjects.py}};
+
+\node[fase, fill=green!18, below=of check] (features) {Extracción de características\\\texttt{epochs\_to\_features.py}};
+
+\node[fase, fill=violet!18, below left=0.9cm and 0.3cm of features] (sep) {Separabilidad\\\texttt{analyze\_separability.py}};
+
+\node[fase, fill=yellow!22, below right=0.9cm and 0.3cm of features] (train) {Entrenamiento y evaluación\\\texttt{train\_within\_subject.py}\\\texttt{train\_all\_subjects.py}};
+
+\node[fase, fill=orange!22, below=of train] (explain) {Explicabilidad\\\texttt{explicability.py}};
+
+\node[dato, above=0.3cm of prep] (raw) {registros \ac{EDF}};
+\node[dato, below=0.3cm of sep] (sepout) {resultados de separabilidad};
+\node[dato, below=0.3cm of explain] (expout) {resultados de explicabilidad};
+
+\draw[flecha] (raw) -- (prep);
+\draw[flecha] (prep) -- (check)
+    node[midway, right, dato] {épocas preprocesadas};
+\draw[flecha] (check) -- (features)
+    node[midway, right, dato] {épocas preprocesadas\\y sujetos aptos};
+\draw[flecha] (features) -- (sep)
+    node[midway, left, dato] {características};
+\draw[flecha] (features) -- (train)
+    node[midway, right, dato] {características};
+\draw[flecha] (sep) -- (sepout);
+\draw[flecha] (train) -- (explain)
+    node[midway, right, dato] {modelos \textit{within}\\y características};
+\draw[flecha] (explain) -- (expout);
+
+\end{tikzpicture}
+}
+\caption{Flujo general del sistema desarrollado.}
+\label{fig:flujo_general_sistema}
+\end{figure}
+
+De forma resumida, cada bloque representa una fase concreta del sistema:
+
+
+\begin{itemize}
+    \item \textbf{Preprocesado y control de sujetos válidos.} En esta fase se transforman los registros \ac{EDF} en épocas de \ac{EEG} preparadas para el análisis. Además, se revisa qué sujetos tienen datos suficientes y válidos para continuar con las siguientes etapas.
+    \item \textbf{Extracción de características.} A partir de las épocas preprocesadas se calculan las variables numéricas que utilizarán los modelos, principalmente características espectrales asociadas a canales y bandas de frecuencia.
+    \item \textbf{Análisis de separabilidad.} Este bloque permite estudiar visualmente y mediante métricas si las muestras tienden a agruparse según la emoción o el sujeto antes de entrenar los clasificadores.
+    \item \textbf{Entrenamiento y evaluación.} En esta etapa se entrenan los clasificadores interpretables y se evalúa su rendimiento tanto dentro de cada sujeto como considerando varios sujetos conjuntamente.
+    \item \textbf{Explicabilidad.} Finalmente, se analizan los modelos obtenidos de cada sujeto para identificar qué características tienen mayor influencia en las predicciones y cómo se distribuye esa importancia sobre canales, bandas y regiones del cuero cabelludo.
+\end{itemize}
+
+\section{Preprocesado de registros EEG}
+
+El primer bloque del sistema corresponde al preprocesado de los registros crudos de \ac{EEG}. Esta etapa toma como entrada los archivos en formato \ac{EDF} y genera épocas preparadas para la extracción de características. Una época es un segmento temporal corto extraído de la señal continua alrededor de un evento concreto, de forma que cada fragmento pueda analizarse como una unidad independiente. El objetivo no es modificar la señal de forma arbitraria, sino organizar los datos, reducir fuentes evidentes de ruido y conservar los segmentos asociados a los eventos relevantes de cada grabación.
+
+
+La implementación se realizó con MNE-Python, una librería orientada al análisis reproducible de señales \ac{EEG}/\ac{MEG} que permite trabajar con registros crudos, eventos, filtros, épocas e \ac{ICA} dentro de un mismo flujo de procesamiento \cite{gramfort2013mne}. Además, se incluyó una fase específica de tratamiento de artefactos, ya que estas señales suelen verse afectadas por interferencias oculares y musculares que pueden alterar el análisis posterior \cite{uriguen2015artifact}.
+
+\subsubsection{Carga de archivos y extracción de eventos}
+
+Cada archivo \ac{EDF} se carga inicialmente como un registro continuo, conservando la información completa de la señal y de sus canales auxiliares. A continuación, se extraen los eventos del canal \texttt{STIM}, donde se almacenan los marcadores temporales del protocolo. En estos registros pueden aparecer marcas asociadas al comienzo y al final de cada frase, por lo que antes de segmentar la señal es necesario limpiar y seleccionar los eventos que se van a utilizar como referencia.
+
+
+En primer lugar, se eliminan posibles duplicaciones del mismo marcador. Para ello, si dos eventos aparecen separados por menos de 100 ms, el segundo se descarta. Esta separación es demasiado breve para corresponder a dos frases o respuestas independientes dentro del protocolo, por lo que se interpreta como un rebote del trigger. Con esta limpieza se evita que una misma frase genere dos épocas prácticamente iguales y que el conjunto de datos incluya segmentos repetidos como si fueran ejemplos distintos.
+
+Después de eliminar estos duplicados, el script identifica los eventos de final de frase a partir de la separación temporal entre marcadores consecutivos. Cuando hay dos eventos próximos separados por menos de 2 s, se interpreta que forman un par inicio-fin de frase, y se conserva el segundo evento como referencia para crear la época. En cambio, los intervalos más largos se consideran separaciones entre frases distintas. Si en un registro no aparecen intervalos largos, se asume que el protocolo no guardó un par inicio-fin, sino únicamente los eventos relevantes, por lo que se conservan todos los marcadores disponibles.
+
+
+Esta selección es importante porque las épocas del análisis se construyen alrededor del final de frase. De esta forma, las etapas posteriores trabajan con segmentos temporales comparables entre archivos, sujetos y condiciones emocionales.
+
+
+\subsubsection{Selección de canales, renombrado y montaje EEG}
+
+Tras extraer los eventos de interés, el siguiente paso consiste en preparar la información espacial de los canales. Los registros originales identifican los electrodos mediante una nomenclatura interna basada en códigos alfanuméricos, desde \texttt{A1} hasta \texttt{H8}. Por ello, primero se seleccionan estos 64 canales principales y se descartan otros canales auxiliares que no forman parte del montaje \ac{EEG} utilizado para el análisis.
+
+Después, los canales seleccionados se renombran con etiquetas anatómicas reconocibles, como \texttt{O1}, \texttt{Fz}, \texttt{C3} o \texttt{Pz}. Este renombrado permite relacionar cada señal con una posición aproximada del cuero cabelludo y facilita las etapas posteriores de análisis espacial, especialmente la generación de mapas topográficos. Dentro de este proceso, los canales \texttt{Heor} y \texttt{Veol} se marcan como canales oculares, de forma que MNE pueda tratarlos como señales \ac{EOG} durante la detección de artefactos.
+
+Por último, se utilizó el montaje \texttt{standard\_1005}, una extensión más densa del sistema 10-20\footnote{\url{https://en.wikipedia.org/wiki/10-20_system_(EEG)}} que incluye posiciones intermedias y permite representar adecuadamente montajes con mayor número de electrodos. De esta forma, el objeto de señal contiene no solo los valores registrados, sino también la posición espacial asociada a cada electrodo, necesaria para operaciones como la interpolación de canales problemáticos y la representación topográfica de resultados.
+
+
+\subsubsection{Filtrado y remuestreo}
+
+Una vez seleccionados y ubicados los canales, se aplican las primeras operaciones de limpieza sobre la señal continua. En primer lugar, se utiliza un filtro \textit{notch}\footnote{\url{https://en.wikipedia.org/wiki/Band-stop_filter}} a 50 Hz para atenuar la interferencia eléctrica de la red\footnote{\url{https://en.wikipedia.org/wiki/Utility_frequency}}, una fuente de ruido externa a la actividad cerebral y habitual en registros fisiológicos. Después, se aplica un filtro pasa banda entre 0,5 y 40 Hz, manteniendo el rango de frecuencias más relevante para las bandas de \ac{EEG} analizadas y reduciendo componentes muy lentas o de alta frecuencia que no se emplearán posteriormente.
+
+Tras el filtrado, la señal se remuestrea a 250 Hz cuando la frecuencia original es superior. Remuestrear consiste en cambiar la frecuencia con la que está representada la señal, es decir, el número de muestras por segundo. En este caso se reduce la frecuencia para que los registros trabajen con una resolución temporal común, disminuir el tamaño de los datos y reducir el coste computacional de las siguientes etapas. Si se modifica la frecuencia de muestreo, también se actualiza la posición de los eventos para que sigan apuntando al mismo instante temporal dentro de la señal remuestreada.
+
+\subsubsection{Detección de canales problemáticos y corrección de artefactos}
+
+Antes de aplicar la referencia promedio y la corrección de artefactos, el sistema identifica canales cuyo comportamiento se aleja claramente del resto. Esta detección se realiza únicamente sobre los canales \ac{EEG}, dejando fuera los canales \ac{EOG}, ya que estos últimos se utilizan como referencia para localizar artefactos oculares.
+
+Para cada canal se calculan varias medidas sobre la señal continua y se comparan con el comportamiento global del resto de canales. La idea no es eliminar canales por tener una amplitud distinta, sino detectar casos claramente anómalos, como electrodos sin contacto, señales casi planas o canales con picos excesivos. Esta lógica multicriterio se planteó tomando como inspiración el procedimiento de detección automática de canales malos descrito por Marta Aguilar Díaz \cite{aguilar2026eeg}, adaptándolo en este trabajo a un conjunto más reducido de métricas temporales.
+
+\begin{itemize}
+    \item \textbf{Amplitud pico a pico}: mide la diferencia entre el valor máximo y mínimo de la señal en un canal. Si esta amplitud es extremadamente baja, el canal puede estar prácticamente plano, lo que suele indicar falta de contacto o ausencia de señal útil.
+    \item \textbf{Varianza}: resume cuánto cambia la señal a lo largo del tiempo. Una varianza demasiado baja también puede indicar un canal plano, mientras que una varianza muy distinta a la del resto puede señalar ruido o comportamiento inestable.
+    \item \textbf{Log-varianza}: se calcula aplicando el logaritmo a la varianza para comparar mejor canales con escalas diferentes. Sobre esta medida se obtiene una puntuación tipo z-score\footnote{\url{https://en.wikipedia.org/wiki/Standard_score}} interna, de forma que los canales muy alejados del conjunto puedan marcarse como anómalos.
+    \item \textbf{Curtosis}\footnote{\url{https://en.wikipedia.org/wiki/Kurtosis}}: describe si la distribución de la señal presenta picos o colas muy pronunciadas. Una curtosis alta puede aparecer cuando un canal contiene artefactos bruscos o valores extremos repetidos.
+\end{itemize}
+
+El z-score se utiliza para expresar cuánto se aleja el valor de un canal respecto al comportamiento medio del conjunto de canales:
+
+\begin{myequation}[H]
+\[
+z_i = \frac{x_i - \mu_x}{\sigma_x}
+\]
+\caption{Cálculo del z-score para una métrica de canal.}
+\label{eq:zscore_canales}
+\end{myequation}
+
+donde \(x_i\) es el valor de la métrica en el canal \(i\), \(\mu_x\) es la media de esa métrica en todos los canales y \(\sigma_x\) es su desviación típica. De esta forma, un valor alto de \(|z_i|\) indica que el canal se aleja mucho del comportamiento habitual del resto.
+
+El criterio final combina estas comprobaciones. Un canal se marca como malo si presenta una señal casi plana, detectada mediante una amplitud pico a pico o una varianza demasiado bajas, o si acumula al menos dos indicadores de comportamiento anómalo. En concreto, se consideran señales de problema la varianza anormal y la curtosis elevada. Esta regla evita descartar un canal por una única medida aislada, pero permite retirar aquellos que muestran varios signos de mala calidad. Los canales detectados se almacenan en la lista de canales malos de MNE, lo que permite que las operaciones posteriores los tengan en cuenta de forma automática.
+
+Después de esta detección se aplica una rereferenciación al promedio. En este paso, cada canal se expresa respecto a la media de los canales \ac{EEG} disponibles, excluyendo los que ya han sido marcados como malos. Realizar primero la detección de canales problemáticos evita que un canal roto o claramente contaminado influya en la referencia común utilizada para el resto de la señal.
+
+A continuación se aplica \ac{ICA}, una técnica que descompone la señal en componentes independientes para facilitar la separación de actividad cerebral y artefactos. En este trabajo se ajustan 20 componentes mediante el método \textit{FastICA}\footnote{\url{https://en.wikipedia.org/wiki/FastICA}}. Los canales \texttt{Heor} y \texttt{Veol}, marcados previamente como \ac{EOG}, se utilizan para detectar componentes relacionados con parpadeos y movimientos oculares. Además, el sistema intenta identificar componentes con patrón muscular, asociados a actividad \ac{EMG}. Para evitar eliminar demasiada información útil, el número máximo de componentes excluidos se limita a cinco.
+
+Finalmente, una vez aplicada la corrección mediante \ac{ICA}, los canales marcados como malos se interpolan a partir de la información de los canales vecinos. La interpolación no recupera la señal original exacta del electrodo defectuoso, sino que estima una señal coherente con la distribución espacial del resto de canales y con el montaje asignado. De esta forma, el conjunto final mantiene una estructura completa de canales, necesaria para las etapas posteriores de extracción de características y representación espacial.
+
+\subsubsection{Segmentación en épocas y rechazo de segmentos anómalos}
+
+Una vez corregida la señal continua, se crean las épocas que se utilizarán en las etapas posteriores. Cada época se construye tomando como referencia un evento de final de frase, seleccionado previamente a partir del canal \texttt{STIM}. La ventana temporal utilizada va desde 1,5 s antes del evento hasta 1,0 s después, por lo que cada segmento incluye la parte final del estímulo auditivo y la actividad inmediatamente posterior.
+
+En esta etapa no se aplica corrección de línea base, ya que la normalización respecto a la condición neutra se realiza más adelante durante la extracción de características. De esta forma, las épocas se guardan como fragmentos temporales limpios, pero todavía sin transformar en variables espectrales.
+
+Tras crear las épocas, se aplica un rechazo automático de segmentos con amplitud anómala. Para cada época se calcula la amplitud pico a pico de cada canal, y se marca como problemática si más de tres canales superan un umbral de \(80\,\mu V\). Este criterio evita descartar una época por un pico aislado en un único canal, pero permite eliminar segmentos claramente contaminados por movimientos, artefactos musculares u otras alteraciones de gran amplitud.
+
+Si después de este rechazo un archivo queda sin épocas válidas, el procesamiento de ese registro se detiene y se informa del error. Esto evita que archivos sin segmentos útiles pasen a las fases de extracción de características y entrenamiento.
+
+\subsubsection{Almacenamiento de épocas y estadísticas de control}
+
+El último paso del preprocesado consiste en guardar los resultados generados para cada registro. Las épocas válidas se almacenan en formato \ac{FIF}, el formato utilizado por MNE para conservar objetos de señal ya procesados. Los archivos se organizan según la condición emocional correspondiente, de forma que las etapas posteriores puedan localizar fácilmente las épocas asociadas a alegría, estado neutro o tristeza.
+
+Además del archivo de épocas, se genera un fichero \ac{JSON} con estadísticas de control del preprocesado. Este resumen incluye el nombre del registro, la emoción asociada, el número final de épocas conservadas, las épocas rechazadas, los canales marcados como malos, los componentes eliminados mediante \ac{ICA} y la frecuencia de muestreo final. Estos datos permiten revisar qué ocurrió en cada archivo y facilitan el control de calidad antes de pasar a la extracción de características.
+
+La salida de esta etapa queda formada por dos elementos principales: por un lado, las épocas preprocesadas que alimentan el siguiente bloque del sistema; por otro, las estadísticas que permiten auditar el proceso y detectar registros con posibles problemas.
+
+\subsubsection{Resumen}
+
+\begin{figure}[H]
+\centering
+\resizebox{0.82\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.38cm,
+    paso/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=8.2cm,
+        minimum height=0.52cm,
+        align=center,
+        font=\small,
+        draw=black!45,
+        fill=blue!12
+    },
+    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+]
+
+\node[paso] (edf) {Registros crudos en formato \ac{EDF}};
+\node[paso, below=of edf] (eventos) {Extracción y limpieza de eventos del canal \texttt{STIM}};
+\node[paso, below=of eventos] (finales) {Selección de eventos de final de frase};
+\node[paso, below=of finales] (canales) {Selección, renombrado de canales y montaje \texttt{standard\_1005}};
+\node[paso, below=of canales] (filtros) {Filtrado a 50 Hz, pasa banda 0,5--40 Hz y remuestreo a 250 Hz};
+\node[paso, below=of filtros] (artefactos) {Detección de canales malos, rereferenciación, \ac{ICA} e interpolación};
+\node[paso, below=of artefactos] (epocas) {Segmentación en épocas y rechazo de segmentos anómalos};
+\node[paso, below=of epocas] (salida) {Guardado de épocas en \ac{FIF} y estadísticas en \ac{JSON}};
+
+\draw[flecha] (edf) -- (eventos);
+\draw[flecha] (eventos) -- (finales);
+\draw[flecha] (finales) -- (canales);
+\draw[flecha] (canales) -- (filtros);
+\draw[flecha] (filtros) -- (artefactos);
+\draw[flecha] (artefactos) -- (epocas);
+\draw[flecha] (epocas) -- (salida);
+
+\end{tikzpicture}
+}
+\caption{Resumen del flujo de preprocesado aplicado a cada registro \ac{EEG}.}
+\label{fig:flujo_preprocesado}
+\end{figure}
+
+\subsubsection{Control de sujetos válidos}
+
+Después del preprocesado se realiza una comprobación auxiliar para identificar qué sujetos pueden continuar en el flujo del sistema. Este paso no modifica las señales, sino que revisa las épocas generadas y evita que sujetos incompletos o con señales claramente anómalas pasen a la extracción de características.
+
+El control aplica tres criterios principales:
+
+\begin{itemize}
+    \item \textbf{Completitud por sujeto}: se comprueba que cada participante tenga épocas preprocesadas para las tres condiciones emocionales del trabajo: alegría, estado neutro y tristeza. También se revisan los archivos crudos disponibles, lo que permite distinguir entre una condición no grabada y una condición que existía en crudo pero no llegó a generar épocas válidas.
+    \item \textbf{Balance de épocas}: para los sujetos completos se cuenta el número de épocas válidas en cada emoción. Si la condición con menos épocas queda por debajo del 50\% de la condición con más épocas, el sujeto se marca con un aviso de desequilibrio. Este criterio no descarta automáticamente al sujeto, pero permite revisar posibles diferencias importantes entre condiciones.
+    \item \textbf{Revisión espectral automática}: se calcula el espectro medio de cada sujeto y condición entre 1 y 40 Hz. El control exige que exista un pico alfa suficiente frente a la banda beta, usando una relación alfa/beta mínima de 1,30. También se comprueba que la potencia al inicio del espectro analizado, alrededor de 1 Hz, sea al menos tres veces mayor que la potencia al final, alrededor de 40 Hz. Esta relación se calcula como \(P_{1Hz}/P_{40Hz}\) y permite detectar señales con un espectro demasiado plano o poco compatible con la forma habitual de una señal \ac{EEG}. Si un sujeto no supera esta revisión espectral, se excluye de las etapas posteriores.
+\end{itemize}
+
+Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos descartados con el motivo correspondiente, un resumen en formato \ac{JSON} y figuras de apoyo para revisar el balance de épocas y los espectros individuales. De esta forma, las siguientes etapas trabajan con participantes que mantienen información comparable entre condiciones y una calidad mínima de señal.
+
+
+\section{Extracción de características}
+
+% En esta sección se explicará cómo las épocas preprocesadas se transforman en una matriz numérica de características.
+% La idea general es: cargar sujetos aptos -> calcular potencia espectral -> agrupar por bandas -> normalizar respecto a NEUTRO -> construir X, y y metadatos.
+
+\subsubsection{Carga de épocas y sujetos válidos}
+
+% Comentar:
+% - Se parte de las épocas guardadas en formato FIF durante el preprocesado.
+% - Solo se utilizan los sujetos incluidos en valid_subjects.txt, generado por check_valid_subjects.py.
+% - Para cada sujeto se buscan las tres condiciones emocionales: JOY, NEUTRO y SAD.
+% - Al cargar cada archivo se conservan únicamente los canales EEG, descartando canales auxiliares como EOG.
+
+\subsubsection{Cálculo de potencia espectral por bandas}
+
+% Comentar:
+% - Para cada época se calcula la densidad espectral de potencia mediante el método de Welch.
+% - El análisis se limita al rango 1--40 Hz, coherente con las bandas que se quieren estudiar.
+% - La PSD se resume por bandas: Delta, Theta, Alpha, Beta y Gamma.
+% - El resultado base tiene estructura época x canal x banda.
+% - Si se añade fórmula, puede explicarse la potencia media por banda como la media de la PSD en las frecuencias de esa banda.
+
+\subsubsection{Normalización respecto a la condición neutra}
+
+% Comentar:
+% - Primero se aplica log10 a la PSD para reducir diferencias de escala.
+% - Para cada sujeto se calcula una referencia usando la media de las épocas NEUTRO.
+% - Después se calcula el delta logarítmico: log10(PSD_condición) - media(log10(PSD_NEUTRO)).
+% - Finalmente se aplica z-score por sujeto usando NEUTRO como referencia.
+% - Explicar que esto ayuda a comparar cambios emocionales respecto al estado neutro del propio participante.
+
+\subsubsection{Construcción del conjunto de características}
+
+% Comentar:
+% - Bloque 1: potencia por canal y banda.
+% - Bloque 2: relación Theta/Alpha por canal, calculada como diferencia en escala logarítmica.
+% - Bloque 3: asimetría Alpha entre pares homólogos izquierda-derecha.
+% - Explicar que estos bloques se concatenan para formar una fila de características por época.
+% - Indicar que cada muestra queda asociada a una etiqueta: 0=JOY, 1=NEUTRO, 2=SAD.
+
+\subsubsection{Guardado y diagnóstico del conjunto generado}
+
+% Comentar:
+% - Se guardan las matrices features_X.npy, features_X_norm.npy y features_y.npy.
+% - Se guarda features_meta.csv con sujeto, condición, índice de época y etiqueta.
+% - Se guarda features_info.json con parámetros, bandas, nombres de características y distribución del dataset.
+% - El script realiza un diagnóstico final: dimensiones, distribución de clases, épocas por sujeto y comprobación de NaN/Inf.
+
+\subsubsection{Resumen}
+
+\begin{figure}[H]
+\centering
+\resizebox{0.82\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.38cm,
+    paso/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=8.2cm,
+        minimum height=0.52cm,
+        align=center,
+        font=\small,
+        draw=black!45,
+        fill=green!12
+    },
+    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+]
+
+\node[paso] (entrada) {Épocas preprocesadas en \ac{FIF} y sujetos válidos};
+\node[paso, below=of entrada] (carga) {Carga de épocas y selección de canales \ac{EEG}};
+\node[paso, below=of carga] (psd) {Cálculo de PSD mediante Welch entre 1 y 40 Hz};
+\node[paso, below=of psd] (bandas) {Promedio de potencia en Delta, Theta, Alpha, Beta y Gamma};
+\node[paso, below=of bandas] (logdelta) {Aplicación de log10 y delta respecto a la condición NEUTRO};
+\node[paso, below=of logdelta] (zscore) {Normalización z-score por sujeto};
+\node[paso, below=of zscore] (bloques) {Construcción de bloques de características};
+\node[paso, below=of bloques] (salida) {Guardado de matrices, etiquetas, metadatos e información del dataset};
+
+\draw[flecha] (entrada) -- (carga);
+\draw[flecha] (carga) -- (psd);
+\draw[flecha] (psd) -- (bandas);
+\draw[flecha] (bandas) -- (logdelta);
+\draw[flecha] (logdelta) -- (zscore);
+\draw[flecha] (zscore) -- (bloques);
+\draw[flecha] (bloques) -- (salida);
+
+\end{tikzpicture}
+}
+\caption{Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}
+\label{fig:flujo_extraccion_caracteristicas}
+\end{figure}
+
+
