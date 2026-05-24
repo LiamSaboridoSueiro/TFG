@@ -60,9 +60,9 @@
 \contentsline {subsection}{\numberline {5.5.3}Métricas de separabilidad}{58}{subsection.5.5.3}%
 \contentsline {subsection}{\numberline {5.5.4}Resumen}{59}{subsection.5.5.4}%
 \contentsline {section}{\numberline {5.6}Explicabilidad de los modelos}{59}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Cálculo de explicaciones out-of-fold}{61}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.1}Cálculo de explicaciones out-of-fold}{60}{subsection.5.6.1}%
 \contentsline {subsection}{\numberline {5.6.2}Agregación de importancias}{61}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Representaciones generadas}{61}{subsection.5.6.3}%
-\contentsline {subsection}{\numberline {5.6.4}Guardado de resultados}{61}{subsection.5.6.4}%
-\contentsline {subsection}{\numberline {5.6.5}Resumen del flujo}{61}{subsection.5.6.5}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{62}{appendix*.67}%
+\contentsline {subsection}{\numberline {5.6.3}Representaciones generadas}{62}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}Guardado de resultados}{62}{subsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.6.5}Resumen}{64}{subsection.5.6.5}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{65}{appendix*.68}%

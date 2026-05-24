@@ -1,11 +1,11 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {myequation}{\numberline {3.1}{\ignorespaces Probabilidad estimada por una regresión logística binaria.}}{16}{myequation.caption.22}%
-\contentsline {myequation}{\numberline {3.2}{\ignorespaces Promedio de una métrica en validación cruzada \textit {k-fold}.}}{19}{myequation.caption.26}%
-\contentsline {myequation}{\numberline {3.3}{\ignorespaces Exactitud en clasificación multiclase a partir de la matriz de confusión.}}{21}{myequation.caption.28}%
-\contentsline {myequation}{\numberline {3.4}{\ignorespaces Precisión, recall y F1-score para una clase \(c\).}}{22}{myequation.caption.29}%
-\contentsline {myequation}{\numberline {3.5}{\ignorespaces F1 macro como promedio no ponderado del F1-score por clase.}}{22}{myequation.caption.30}%
+\contentsline {myequation}{\numberline {3.1}{\ignorespaces Probabilidad estimada por una regresión logística binaria.}}{16}{myequation.caption.23}%
+\contentsline {myequation}{\numberline {3.2}{\ignorespaces Promedio de una métrica en validación cruzada \textit {k-fold}.}}{19}{myequation.caption.27}%
+\contentsline {myequation}{\numberline {3.3}{\ignorespaces Exactitud en clasificación multiclase a partir de la matriz de confusión.}}{21}{myequation.caption.29}%
+\contentsline {myequation}{\numberline {3.4}{\ignorespaces Precisión, recall y F1-score para una clase \(c\).}}{22}{myequation.caption.30}%
+\contentsline {myequation}{\numberline {3.5}{\ignorespaces F1 macro como promedio no ponderado del F1-score por clase.}}{22}{myequation.caption.31}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {myequation}{\numberline {5.1}{\ignorespaces Cálculo del z-score para una métrica de canal.}}{38}{myequation.caption.41}%
@@ -18,3 +18,4 @@
 \contentsline {myequation}{\numberline {5.8}{\ignorespaces Normalización z-score por sujeto usando la condición neutra como referencia.}}{46}{myequation.caption.55}%
 \contentsline {myequation}{\numberline {5.9}{\ignorespaces Relación Theta/Alpha calculada como diferencia en escala logarítmica.}}{47}{myequation.caption.56}%
 \contentsline {myequation}{\numberline {5.10}{\ignorespaces Asimetría Alpha entre un par de canales homólogos.}}{48}{myequation.caption.57}%
+\contentsline {myequation}{\numberline {5.11}{\ignorespaces Contribución \ac {SHAP} lineal utilizada para la regresión logística en cada fold.}}{60}{myequation.caption.66}%

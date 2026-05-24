@@ -730,50 +730,63 @@ En el análisis global, estas métricas se calculan dos veces: una usando las et
 
 En esta sección se describe el funcionamiento del script \texttt{explicability.py}, utilizado para analizar qué características tienen mayor influencia en las predicciones en el escenario \textit{within-subject}. Esta fase no tiene como objetivo mejorar el rendimiento del sistema ni entrenar un nuevo modelo final, sino generar explicaciones \textit{out-of-fold} a partir de la regresión logística entrenada en cada partición.
 
-La explicabilidad se centró únicamente en los modelos \textit{within-subject}, ya que el modelo general no ofrecía un comportamiento suficientemente adecuado para obtener interpretaciones fiables. La alta diferenciabilidad entre sujetos hacía que las decisiones del modelo global estuvieran muy influenciadas por las diferencias individuales, dificultando el análisis de patrones asociados realmente a las condiciones emocionales. En cambio, el enfoque por sujeto permite estudiar las decisiones dentro de cada participante, comparando las emociones sin mezclar esa información con la variabilidad intersujeto.
+La explicabilidad se centró únicamente en los modelos \textit{within-subject}, ya que el modelo general no ofrecía un comportamiento suficientemente adecuado para obtener interpretaciones fiables. La alta variabilidad entre sujetos hacía que las decisiones del modelo global estuvieran muy influenciadas por las diferencias individuales, dificultando el análisis de patrones asociados realmente a las condiciones emocionales. En cambio, el enfoque por sujeto permite estudiar las decisiones dentro de cada participante, comparando las emociones sin mezclar esa información con la variabilidad intersujeto.
 
-Por tanto, las explicaciones generadas en esta fase se orientan a comprender qué características Alpha, Beta y de asimetría Alpha contribuyen más a la clasificación emocional dentro de cada sujeto. La interpretación concreta de las figuras y métricas obtenidas se reserva para el capítulo de resultados; en este apartado se describe únicamente el flujo seguido por el código.
+Por tanto, las explicaciones generadas en esta fase se orientan a comprender qué características Alpha, Beta y de asimetría Alpha contribuyen más a la clasificación emocional dentro de cada sujeto.
 
 \subsection{Cálculo de explicaciones out-of-fold}
 
-% Comentar:
-% - El script carga el dataset de características y recorre los sujetos válidos.
-% - Para cada sujeto construye folds temporales estratificados por condición.
-% - En cada fold se normaliza usando solo train, se entrena una regresión logística y se predice el test.
-% - SHAP se calcula sobre las muestras de test de cada fold, no sobre los datos usados para entrenar ese fold.
-% - La fórmula usada para SHAP lineal es coef_j * (x_test_j - media_train_j).
-% - Si un sujeto no tiene suficientes épocas por clase para crear los folds, se omite.
+El cálculo de explicabilidad sigue la misma lógica que el entrenamiento \textit{within-subject}: los datos se procesan por sujeto, se dividen en particiones y cada modelo se ajusta únicamente con la parte de entrenamiento. La diferencia es que aquí no se explican los modelos finales guardados en formato \texttt{joblib}, ya que estos se entrenan con todas las épocas disponibles de cada participante. En su lugar, se entrenan modelos auxiliares por fold para que cada explicación se calcule sobre muestras que no han sido vistas durante el ajuste.
+
+Para cada sujeto se cargan las características, etiquetas y metadatos, y se construyen particiones temporales estratificadas por condición. Cada fold reserva épocas de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}, manteniendo bloques contiguos según el índice temporal de las frases. Si algún participante no dispone de suficientes épocas por clase para formar estas particiones, se omite en esta fase.
+
+Dentro de cada fold se ajusta la normalización con las muestras de entrenamiento, se entrena una regresión logística con la misma configuración usada en el entrenamiento \textit{within-subject} y se predicen las muestras reservadas. Sobre esas muestras de test se calculan las explicaciones \ac{SHAP}, por lo que cada época explicada es \textit{out-of-fold}.
+
+Al tratarse de una regresión logística, el script utiliza una forma lineal de \ac{SHAP}. La contribución de una característica \(j\) para una clase \(c\) se calcula como:
+
+\begin{myequation}[H]
+\[
+\phi_j^{(c)}(x) = w_j^{(c)} \left(x_j - \bar{x}_{j,\mathrm{train}}\right)
+\]
+\caption{Contribución \ac{SHAP} lineal utilizada para la regresión logística en cada fold.}
+\label{eq:shap_lineal}
+\end{myequation}
+
+donde \(w_j^{(c)}\) es el coeficiente aprendido por la regresión logística para esa clase, \(x_j\) es el valor de la característica en la muestra explicada y \(\bar{x}_{j,\mathrm{train}}\) es la media de esa característica en las muestras de entrenamiento del fold. De esta forma, la explicación conserva una relación directa con los coeficientes del modelo y con los valores reales de la muestra analizada.
 
 \subsection{Agregación de importancias}
 
-% Comentar:
-% - Para cada sujeto, clase y característica se calcula mean_abs_shap y mean_signed_shap.
-% - mean_abs_shap indica cuánto pesa una característica, sin importar la dirección.
-% - mean_signed_shap conserva el signo medio y permite ver si la característica empuja a favor o en contra de una clase.
-% - Después se promedian las importancias entre sujetos para obtener un resumen global.
-% - Las características también se agrupan por canal, banda y cluster anatómico.
+Una vez calculadas las explicaciones de todos los folds, el script reúne los valores \ac{SHAP} de cada sujeto. La agregación se realiza por clase usando las épocas cuya etiqueta real pertenece a esa condición emocional. Es decir, para resumir \texttt{JOY} se toman las épocas reales de \texttt{JOY} y las contribuciones asociadas a la salida de esa clase; el mismo criterio se aplica a \texttt{NEUTRO} y \texttt{SAD}.
+
+Para cada combinación de sujeto, clase emocional y característica se calculan dos medidas principales. La primera es \texttt{mean\_abs\_shap}, que representa la magnitud media de la contribución sin tener en cuenta el signo; sirve para saber cuánto influye una característica en la decisión. La segunda es \texttt{mean\_signed\_shap}, que conserva el signo medio y permite distinguir si, de forma promedio, la característica empuja la predicción hacia una clase o en sentido contrario.
+
+Después se construye un resumen global promediando las importancias entre sujetos. Este promedio no procede de un único modelo general, sino de las explicaciones calculadas dentro de cada participante. Por tanto, el resultado resume qué variables tienden a ser relevantes en el análisis \textit{within-subject}, evitando que la interpretación quede dominada por un clasificador entrenado con todos los sujetos mezclados.
+
+Además de guardar la importancia de cada característica individual, el código añade información descriptiva sobre su tipo. Cada variable se clasifica como potencia por banda, asimetría o característica derivada, y se asocia, cuando corresponde, a un canal, una banda de frecuencia, un par de electrodos y un cluster anatómico. Esta estructura permite generar después resúmenes más legibles que una lista completa de características.
 
 \subsection{Representaciones generadas}
 
-% Comentar:
-% - Se genera un gráfico con las características más importantes globalmente.
-% - Se calcula la importancia relativa de Alpha y Beta por clase.
-% - Se generan topomaps globales de SHAP absoluto y SHAP firmado por condición.
-% - Se generan topomaps por sujeto para revisar la variabilidad individual.
-% - Se agregan las importancias por clusters cerebrales y se genera un heatmap cluster x banda.
-% - No interpretar todavía si un cluster o banda es más relevante; eso corresponde al capítulo de resultados.
+Con las tablas de importancia ya construidas, el script genera varias figuras destinadas a facilitar la revisión posterior de resultados. La primera muestra las características con mayor \ac{SHAP} absoluto medio, ofreciendo una vista directa de las variables que más peso tienen en conjunto. También se calcula la importancia relativa de las bandas Alpha y Beta por clase, expresada como porcentaje dentro de las características de potencia por banda.
+
+Para construir cada topomap, el script toma únicamente las características de potencia por canal y banda, ya que son las que pueden asociarse directamente a una posición espacial del montaje \ac{EEG}. Las importancias se agregan por condición, canal y banda, y después se colocan sobre el montaje \texttt{standard\_1005}. De esta forma, cada mapa representa cómo se distribuye espacialmente la contribución del modelo para una emoción y una banda concreta. Las características de asimetría no se dibujan directamente como topomap, porque pertenecen a pares de electrodos y no a un único canal. En los mapas absolutos se observa dónde se concentran las contribuciones más grandes, sin distinguir si son positivas o negativas. En los mapas firmado se conserva el signo, por lo que se puede revisar si una zona tiende a aumentar o reducir la evidencia a favor de una clase concreta. 
+
+El script también crea topomaps individuales por sujeto, útiles para comprobar si el patrón agregado es consistente o si depende mucho de algunos participantes. Por último, las importancias se agrupan por clusters cerebrales y por banda, generando un gráfico de importancia por cluster y un mapa de calor cluster-banda. La interpretación concreta de estas figuras corresponde al capítulo de resultados; aquí solo se recoge cómo se producen.
 
 \subsection{Guardado de resultados}
 
-% Comentar:
-% - shap_subject_summary.csv guarda métricas out-of-fold por sujeto.
-% - shap_feature_importance_by_subject.csv guarda importancias por sujeto, clase y característica.
-% - shap_feature_importance.csv guarda el promedio global por clase y característica.
-% - shap_channel_band_importance.csv, shap_band_importance.csv y shap_cluster_band_importance.csv guardan agregaciones por canal/banda, banda y cluster.
-% - explicability_summary.json resume configuración, métricas medias, matriz de confusión agregada y principales características.
-% - Las figuras se guardan en results/explicability/within_subject/.
+Todas las salidas se almacenan en la carpeta \texttt{results/explicability/within\_subject/}. El objetivo es conservar tanto las tablas detalladas como los resúmenes necesarios para consultar la explicación sin volver a ejecutar el cálculo completo.
 
-\subsection{Resumen del flujo}
+\begin{itemize}
+    \item \texttt{shap\_subject\_summary.csv}: guarda, para cada sujeto explicado, el número de épocas, la exactitud, el F1 macro y la matriz de confusión \textit{out-of-fold}.
+    \item \texttt{shap\_feature\_importance\_by\_subject.csv}: contiene las importancias por sujeto, clase y característica.
+    \item \texttt{shap\_feature\_importance.csv}: almacena el promedio global por clase y característica, calculado a partir de los resultados individuales.
+    \item \texttt{shap\_channel\_band\_importance.csv}, \texttt{shap\_band\_importance.csv} y \texttt{shap\_cluster\_band\_importance.csv}: recogen las agregaciones necesarias para analizar canales, bandas y clusters.
+    \item \texttt{explicability\_summary.json}: resume la configuración utilizada, las métricas medias, la matriz de confusión agregada, las características principales por clase y los porcentajes por banda y cluster.
+\end{itemize}
+
+Junto a estas tablas se guardan las figuras generadas: ranking de características, importancia relativa por banda, topomaps globales, topomaps por sujeto y visualizaciones por cluster. Estas salidas cierran el flujo de desarrollo y dejan preparada la información que se analizará en el capítulo de resultados.
+
+\subsection{Resumen}
 
 \begin{figure}[H]
 \centering

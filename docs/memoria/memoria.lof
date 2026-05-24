@@ -2,13 +2,13 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Principales lóbulos de la corteza cerebral. Fuente: \cite {psycolab2021lobulos}.}}{10}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Sistema internacional 10-20 para la colocación de electrodos EEG. Fuente: \cite {novo2010mapeo}.}}{11}{figure.caption.19}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Representación simplificada de emociones según valencia y arousal. Adaptado de \cite {rinconpsicologia2024emociones}.}}{13}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Comparación entre regresión logística binaria y multiclase.}}{17}{figure.caption.23}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de estructura de árbol de decisión. Fuente: \cite {adrigm2013adivinador}.}}{17}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Esquema de validación cruzada \textit {k-fold}. Fuente: \cite {rodriguez2021crossvalidation}.}}{19}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Ejemplo de matriz de confusión binaria. Fuente: \cite {benhay2018confusionMatrix}.}}{21}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Principales lóbulos de la corteza cerebral. Fuente: \cite {psycolab2021lobulos}.}}{10}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sistema internacional 10-20 para la colocación de electrodos EEG. Fuente: \cite {novo2010mapeo}.}}{11}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Representación simplificada de emociones según valencia y arousal. Adaptado de \cite {rinconpsicologia2024emociones}.}}{13}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Comparación entre regresión logística binaria y multiclase.}}{17}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de estructura de árbol de decisión. Fuente: \cite {adrigm2013adivinador}.}}{17}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Esquema de validación cruzada \textit {k-fold}. Fuente: \cite {rodriguez2021crossvalidation}.}}{19}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Ejemplo de matriz de confusión binaria. Fuente: \cite {benhay2018confusionMatrix}.}}{21}{figure.caption.28}%
 \contentsline {figure}{\numberline {3.8}{\ignorespaces Ejemplo de topomaps por banda espectral para la clase alegría.}}{23}{figure.caption.32}%
 \contentsline {figure}{\numberline {3.9}{\ignorespaces Ejemplo de importancia de características mediante valores SHAP.}}{24}{figure.caption.33}%
 \addvspace {10\p@ }
@@ -20,4 +20,4 @@
 \contentsline {figure}{\numberline {5.4}{\ignorespaces Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}}{50}{figure.caption.61}%
 \contentsline {figure}{\numberline {5.5}{\ignorespaces Resumen del flujo de entrenamiento y evaluación de modelos.}}{56}{figure.caption.62}%
 \contentsline {figure}{\numberline {5.6}{\ignorespaces Resumen del flujo de análisis de separabilidad.}}{59}{figure.caption.65}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{61}{figure.caption.66}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{64}{figure.caption.67}%
