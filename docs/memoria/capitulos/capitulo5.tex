@@ -97,7 +97,7 @@ El primer bloque del sistema corresponde al preprocesado de los registros crudos
 
 La implementación se realizó con MNE-Python, una librería orientada al análisis reproducible de señales \ac{EEG}/\ac{MEG} que permite trabajar con registros crudos, eventos, filtros, épocas e \ac{ICA} dentro de un mismo flujo de procesamiento \cite{gramfort2013mne}. Además, se incluyó una fase específica de tratamiento de artefactos, ya que estas señales suelen verse afectadas por interferencias oculares y musculares que pueden alterar el análisis posterior \cite{uriguen2015artifact}.
 
-\subsubsection{Carga de archivos y extracción de eventos}
+\subsection{Carga de archivos y extracción de eventos}
 
 Cada archivo \ac{EDF} se carga inicialmente como un registro continuo, conservando la información completa de la señal y de sus canales auxiliares. A continuación, se extraen los eventos del canal \texttt{STIM}, donde se almacenan los marcadores temporales del protocolo. En estos registros pueden aparecer marcas asociadas al comienzo y al final de cada frase, por lo que antes de segmentar la señal es necesario limpiar y seleccionar los eventos que se van a utilizar como referencia.
 
@@ -110,7 +110,7 @@ Después de eliminar estos duplicados, el script identifica los eventos de final
 Esta selección es importante porque las épocas del análisis se construyen alrededor del final de frase. De esta forma, las etapas posteriores trabajan con segmentos temporales comparables entre archivos, sujetos y condiciones emocionales.
 
 
-\subsubsection{Selección de canales, renombrado y montaje EEG}
+\subsection{Selección de canales, renombrado y montaje EEG}
 
 Tras extraer los eventos de interés, el siguiente paso consiste en preparar la información espacial de los canales. Los registros originales identifican los electrodos mediante una nomenclatura interna basada en códigos alfanuméricos, desde \texttt{A1} hasta \texttt{H8}. Por ello, primero se seleccionan estos 64 canales principales y se descartan otros canales auxiliares que no forman parte del montaje \ac{EEG} utilizado para el análisis.
 
@@ -119,13 +119,13 @@ Después, los canales seleccionados se renombran con etiquetas anatómicas recon
 Por último, se utilizó el montaje \texttt{standard\_1005}, una extensión más densa del sistema 10-20\footnote{\url{https://en.wikipedia.org/wiki/10-20_system_(EEG)}} que incluye posiciones intermedias y permite representar adecuadamente montajes con mayor número de electrodos. De esta forma, el objeto de señal contiene no solo los valores registrados, sino también la posición espacial asociada a cada electrodo, necesaria para operaciones como la interpolación de canales problemáticos y la representación topográfica de resultados.
 
 
-\subsubsection{Filtrado y remuestreo}
+\subsection{Filtrado y remuestreo}
 
 Una vez seleccionados y ubicados los canales, se aplican las primeras operaciones de limpieza sobre la señal continua. En primer lugar, se utiliza un filtro \textit{notch}\footnote{\url{https://en.wikipedia.org/wiki/Band-stop_filter}} a 50 Hz para atenuar la interferencia eléctrica de la red\footnote{\url{https://en.wikipedia.org/wiki/Utility_frequency}}, una fuente de ruido externa a la actividad cerebral y habitual en registros fisiológicos. Después, se aplica un filtro pasa banda entre 0,5 y 40 Hz, manteniendo el rango de frecuencias más relevante para las bandas de \ac{EEG} analizadas y reduciendo componentes muy lentas o de alta frecuencia que no se emplearán posteriormente.
 
 Tras el filtrado, la señal se remuestrea a 250 Hz cuando la frecuencia original es superior. Remuestrear consiste en cambiar la frecuencia con la que está representada la señal, es decir, el número de muestras por segundo. En este caso se reduce la frecuencia para que los registros trabajen con una resolución temporal común, disminuir el tamaño de los datos y reducir el coste computacional de las siguientes etapas. Si se modifica la frecuencia de muestreo, también se actualiza la posición de los eventos para que sigan apuntando al mismo instante temporal dentro de la señal remuestreada.
 
-\subsubsection{Detección de canales problemáticos y corrección de artefactos}
+\subsection{Detección de canales problemáticos y corrección de artefactos}
 
 Antes de aplicar la referencia promedio y la corrección de artefactos, el sistema identifica canales cuyo comportamiento se aleja claramente del resto. Esta detección se realiza únicamente sobre los canales \ac{EEG}, dejando fuera los canales \ac{EOG}, ya que estos últimos se utilizan como referencia para localizar artefactos oculares.
 
@@ -158,7 +158,7 @@ A continuación se aplica \ac{ICA}, una técnica que descompone la señal en com
 
 Finalmente, una vez aplicada la corrección mediante \ac{ICA}, los canales marcados como malos se interpolan a partir de la información de los canales vecinos. La interpolación no recupera la señal original exacta del electrodo defectuoso, sino que estima una señal coherente con la distribución espacial del resto de canales y con el montaje asignado. De esta forma, el conjunto final mantiene una estructura completa de canales, necesaria para las etapas posteriores de extracción de características y representación espacial.
 
-\subsubsection{Segmentación en épocas y rechazo de segmentos anómalos}
+\subsection{Segmentación en épocas y rechazo de segmentos anómalos}
 
 Una vez corregida la señal continua, se crean las épocas que se utilizarán en las etapas posteriores. Cada época se construye tomando como referencia un evento de final de frase, seleccionado previamente a partir del canal \texttt{STIM}. La ventana temporal utilizada va desde 1,5 s antes del evento hasta 1,0 s después, por lo que cada segmento incluye la parte final del estímulo auditivo y la actividad inmediatamente posterior.
 
@@ -168,7 +168,7 @@ Tras crear las épocas, se aplica un rechazo automático de segmentos con amplit
 
 Si después de este rechazo un archivo queda sin épocas válidas, el procesamiento de ese registro se detiene y se informa del error. Esto evita que archivos sin segmentos útiles pasen a las fases de extracción de características y entrenamiento.
 
-\subsubsection{Almacenamiento de épocas y estadísticas de control}
+\subsection{Almacenamiento de épocas y estadísticas de control}
 
 El último paso del preprocesado consiste en guardar los resultados generados para cada registro. Las épocas válidas se almacenan en formato \ac{FIF}, el formato utilizado por MNE para conservar objetos de señal ya procesados. Los archivos se organizan según la condición emocional correspondiente, de forma que las etapas posteriores puedan localizar fácilmente las épocas asociadas a alegría, estado neutro o tristeza.
 
@@ -176,7 +176,7 @@ Además del archivo de épocas, se genera un fichero \ac{JSON} con estadísticas
 
 La salida de esta etapa queda formada por dos elementos principales: por un lado, las épocas preprocesadas que alimentan el siguiente bloque del sistema; por otro, las estadísticas que permiten auditar el proceso y detectar registros con posibles problemas.
 
-\subsubsection{Resumen}
+\subsection{Resumen}
 
 \begin{figure}[H]
 \centering
@@ -191,7 +191,7 @@ La salida de esta etapa queda formada por dos elementos principales: por un lado
         align=center,
         font=\small,
         draw=black!45,
-        fill=blue!12
+        fill=blue!18
     },
     flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
 ]
@@ -219,7 +219,7 @@ La salida de esta etapa queda formada por dos elementos principales: por un lado
 \label{fig:flujo_preprocesado}
 \end{figure}
 
-\subsubsection{Control de sujetos válidos}
+\subsection{Control de sujetos válidos}
 
 Después del preprocesado se realiza una comprobación auxiliar para identificar qué sujetos pueden continuar en el flujo del sistema. Este paso no modifica las señales, sino que revisa las épocas generadas y evita que sujetos incompletos o con señales claramente anómalas pasen a la extracción de características.
 
@@ -236,53 +236,220 @@ Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos 
 
 \section{Extracción de características}
 
-% En esta sección se explicará cómo las épocas preprocesadas se transforman en una matriz numérica de características.
-% La idea general es: cargar sujetos aptos -> calcular potencia espectral -> agrupar por bandas -> normalizar respecto a NEUTRO -> construir X, y y metadatos.
+Una vez obtenidas las épocas preprocesadas, el siguiente bloque transforma cada segmento de \ac{EEG} en una representación numérica adecuada para los análisis posteriores. En lugar de utilizar directamente la señal temporal completa, se extraen variables espectrales, es decir, medidas que describen cómo se reparte la actividad de la señal entre distintas frecuencias. Una característica puede indicar, por ejemplo, cuánta potencia presenta un canal concreto en la banda Alpha durante una época determinada.
 
-\subsubsection{Carga de épocas y sujetos válidos}
+Este enfoque permite resumir cada segmento mediante valores comparables entre sujetos y condiciones. Para ello se calcula la información espectral de cada época, se agrupa por bandas de frecuencia y se normaliza respecto a la condición neutra de cada sujeto. El resultado final es un conjunto de matrices y metadatos que permite entrenar los modelos de clasificación y relacionar cada muestra con su sujeto, emoción y época original.
 
-% Comentar:
-% - Se parte de las épocas guardadas en formato FIF durante el preprocesado.
-% - Solo se utilizan los sujetos incluidos en valid_subjects.txt, generado por check_valid_subjects.py.
-% - Para cada sujeto se buscan las tres condiciones emocionales: JOY, NEUTRO y SAD.
-% - Al cargar cada archivo se conservan únicamente los canales EEG, descartando canales auxiliares como EOG.
 
-\subsubsection{Cálculo de potencia espectral por bandas}
+\subsection{Carga de épocas y sujetos válidos}
 
-% Comentar:
-% - Para cada época se calcula la densidad espectral de potencia mediante el método de Welch.
-% - El análisis se limita al rango 1--40 Hz, coherente con las bandas que se quieren estudiar.
-% - La PSD se resume por bandas: Delta, Theta, Alpha, Beta y Gamma.
-% - El resultado base tiene estructura época x canal x banda.
-% - Si se añade fórmula, puede explicarse la potencia media por banda como la media de la PSD en las frecuencias de esa banda.
+La extracción de características parte de la lista de sujetos aptos generada en el control anterior. El script lee el archivo \texttt{valid\_subjects.txt} y, para cada sujeto, busca las épocas preprocesadas correspondientes a las condiciones \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. Cada registro se carga desde su archivo \ac{FIF}, manteniendo la correspondencia entre sujeto, emoción y número de época.
 
-\subsubsection{Normalización respecto a la condición neutra}
+Una vez cargado cada archivo, se seleccionan únicamente los canales \ac{EEG}. Con ello se evita que canales auxiliares, como los \ac{EOG}, entren en el cálculo de características espectrales. Esta decisión mantiene la matriz final centrada en la actividad cerebral registrada y deja las señales auxiliares solo como apoyo del preprocesado.
 
-% Comentar:
-% - Primero se aplica log10 a la PSD para reducir diferencias de escala.
-% - Para cada sujeto se calcula una referencia usando la media de las épocas NEUTRO.
-% - Después se calcula el delta logarítmico: log10(PSD_condición) - media(log10(PSD_NEUTRO)).
-% - Finalmente se aplica z-score por sujeto usando NEUTRO como referencia.
-% - Explicar que esto ayuda a comparar cambios emocionales respecto al estado neutro del propio participante.
 
-\subsubsection{Construcción del conjunto de características}
+\subsection{Cálculo de potencia espectral por bandas}
 
-% Comentar:
-% - Bloque 1: potencia por canal y banda.
-% - Bloque 2: relación Theta/Alpha por canal, calculada como diferencia en escala logarítmica.
-% - Bloque 3: asimetría Alpha entre pares homólogos izquierda-derecha.
-% - Explicar que estos bloques se concatenan para formar una fila de características por época.
-% - Indicar que cada muestra queda asociada a una etiqueta: 0=JOY, 1=NEUTRO, 2=SAD.
+Para convertir cada época en características espectrales se necesita pasar de la señal en el tiempo a una representación en frecuencia. En el dominio temporal se observa cómo cambia la amplitud de la señal a lo largo de los segundos; en el dominio frecuencial se observa qué frecuencias están más presentes en esa señal. Para realizar esta transformación se utiliza la \ac{FFT}\footnote{\url{https://en.wikipedia.org/wiki/Fast_Fourier_transform}}, que calcula de forma eficiente la transformada discreta de Fourier:
 
-\subsubsection{Guardado y diagnóstico del conjunto generado}
+\begin{myequation}[H]
+\[
+X_k = \sum_{n=0}^{N-1} x_n e^{-i2\pi kn/N}
+\]
+\caption{Transformada discreta de Fourier calculada de forma eficiente mediante \textit{FFT}.}
+\label{eq:fft}
+\end{myequation}
 
-% Comentar:
-% - Se guardan las matrices features_X.npy, features_X_norm.npy y features_y.npy.
-% - Se guarda features_meta.csv con sujeto, condición, índice de época y etiqueta.
-% - Se guarda features_info.json con parámetros, bandas, nombres de características y distribución del dataset.
-% - El script realiza un diagnóstico final: dimensiones, distribución de clases, épocas por sujeto y comprobación de NaN/Inf.
+donde \(x_n\) representa la señal en el tiempo, \(N\) es el número de muestras analizadas y \(X_k\) representa la contribución de una frecuencia concreta. Cada época dura 2,5 s y la señal está remuestreada a 250 Hz, por lo que cada segmento contiene \(2,5 \cdot 250 = 625\) muestras. Por tanto, el análisis frecuencial se realiza sobre esos 625 puntos de señal.
 
-\subsubsection{Resumen}
+La Figura~\ref{fig:ejemplo_psd} muestra un ejemplo sencillo de una señal formada por componentes de 2 Hz, 10 Hz y 20 Hz. En el dominio temporal estas componentes aparecen mezcladas, mientras que en el dominio frecuencial se observan como picos en las frecuencias correspondientes. Esta idea permite entender el cálculo de la \ac{PSD}, que estima cómo se distribuye la potencia de una señal a lo largo de la frecuencia.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{figs/psd.png}
+\caption[Ejemplo de señal en dominio temporal y frecuencial]{Ejemplo de señal en dominio temporal y frecuencial. Fuente: \cite{eeglabTimeFrequencyTutorial}.}
+\label{fig:ejemplo_psd}
+\end{figure}
+
+En lugar de calcular el espectro una única vez sobre toda la señal, el script estima la \ac{PSD} mediante el método de Welch \cite{welch1967fft}. Este método divide la señal en ventanas, calcula el espectro de cada una mediante la \ac{FFT} y después promedia los resultados. Con ello se obtiene una estimación más estable de la potencia por frecuencia que la que se obtendría con un único cálculo directo.
+
+\begin{myequation}[H]
+\[
+\widehat{\mathrm{PSD}}_{\mathrm{Welch}}(f) = \frac{1}{K}\sum_{k=1}^{K} P_k(f)
+\]
+\caption{Estimación de la densidad espectral de potencia mediante el método de Welch.}
+\label{eq:welch_psd}
+\end{myequation}
+
+donde \(P_k(f)\) es el periodograma de la ventana \(k\), \(K\) es el número de ventanas analizadas y \(f\) representa la frecuencia. Además, se utiliza un solapamiento del 50\%, lo que significa que una ventana comparte la mitad de sus muestras con la siguiente. Este solapamiento permite aprovechar mejor la información temporal disponible y suavizar la estimación final de la \ac{PSD}. La estimación se limita al rango entre 1 y 40 Hz, que contiene las bandas de \ac{EEG} utilizadas posteriormente.
+
+Después, la \ac{PSD} no se utiliza frecuencia a frecuencia, porque eso generaría un número elevado de variables y sería menos interpretable. En su lugar, se resume en bandas conocidas de actividad \ac{EEG}: Delta \((1-4\ \mathrm{Hz})\), Theta \((4-8\ \mathrm{Hz})\), Alpha \((8-12\ \mathrm{Hz})\), Beta \((12-30\ \mathrm{Hz})\) y Gamma \((30-40\ \mathrm{Hz})\). Para cada época, canal y banda, se calcula la potencia media de las frecuencias incluidas en ese intervalo:
+
+\begin{myequation}[H]
+\[
+P_{e,c,b} = \frac{1}{|F_b|}\sum_{f \in F_b}\mathrm{PSD}_{e,c}(f)
+\]
+\caption{Potencia media de una banda de frecuencia para una época y un canal.}
+\label{eq:potencia_media_banda}
+\end{myequation}
+
+donde \(P_{e,c,b}\) es la potencia media de la época \(e\), el canal \(c\) y la banda \(b\); \(F_b\) representa el conjunto de frecuencias pertenecientes a esa banda. Así, cada época queda descrita por valores del tipo ``canal-banda'', como la potencia Alpha en \texttt{F3} o la potencia Beta en \texttt{Pz}. El resultado de este paso mantiene una estructura tridimensional, con dimensiones época, canal y banda, que sirve como base para las transformaciones posteriores.
+
+
+\subsection{Normalización respecto a la condición neutra}
+
+Las potencias obtenidas mediante la \ac{PSD} pueden tener escalas muy distintas entre canales, bandas y sujetos. Además, la potencia espectral suele variar varios órdenes de magnitud, por lo que comparar los valores directamente puede hacer que las bandas o canales con mayor amplitud dominen el análisis. Para reducir este efecto, el script transforma primero la potencia a escala logarítmica mediante \(\log_{10}\). En la implementación se añade un valor \(\epsilon = 10^{-30}\) antes del logaritmo para evitar problemas numéricos si apareciera una potencia nula.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Ejemplo de transformación logarítmica en base 10.}
+\label{tab:ejemplo_log10}
+\begin{tabular}{|c|c|p{6.4cm}|}
+\hline
+\textbf{Valor original \(x\)} & \textbf{\(\log_{10}(x)\)} & \textbf{Interpretación} \\
+\hline
+\(1000\) & \(3\) & Valor alto en escala lineal. \\
+\hline
+\(10\) & \(1\) & Valor menor, pero todavía por encima de la unidad. \\
+\hline
+\(1\) & \(0\) & Punto de referencia de la escala logarítmica. \\
+\hline
+\(0.001\) & \(-3\) & Valor pequeño, expresado como potencia de 10. \\
+\hline
+\(0.000001\) & \(-6\) & Valor muy pequeño, pero más fácil de comparar en esta escala. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{myequation}[H]
+\[
+L_{e,c,b} = \log_{10}(P_{e,c,b} + \epsilon)
+\]
+\caption{Transformación logarítmica de la potencia espectral.}
+\label{eq:log_psd}
+\end{myequation}
+
+donde \(P_{e,c,b}\) es la potencia media de la época \(e\), el canal \(c\) y la banda \(b\), y \(L_{e,c,b}\) es su valor en escala logarítmica. Esta transformación no cambia qué épocas tienen más o menos potencia, pero comprime la escala y facilita la comparación entre variables.
+
+Después se calcula una referencia propia para cada sujeto usando sus épocas de la condición \texttt{NEUTRO}. Esta condición se utiliza como línea base porque representa el estado no emocional frente al que se quieren comparar las condiciones de alegría y tristeza. La referencia se obtiene promediando las potencias logarítmicas neutras de cada canal y banda:
+
+\begin{myequation}[H]
+\[
+B_{s,c,b} = \frac{1}{|E_{s,\mathrm{NEUTRO}}|}\sum_{e \in E_{s,\mathrm{NEUTRO}}} L_{e,c,b}
+\]
+\caption{Referencia neutra de un sujeto para cada canal y banda.}
+\label{eq:baseline_neutro}
+\end{myequation}
+
+donde \(B_{s,c,b}\) es la referencia del sujeto \(s\), y \(E_{s,\mathrm{NEUTRO}}\) es el conjunto de épocas neutras de ese sujeto. A partir de esta referencia se calcula el cambio logarítmico de cada época respecto al estado neutro:
+
+\begin{myequation}[H]
+\[
+\Delta_{e,c,b} = L_{e,c,b} - B_{s,c,b}
+\]
+\caption{Diferencia logarítmica respecto a la condición neutra del mismo sujeto.}
+\label{eq:delta_neutro}
+\end{myequation}
+
+De esta forma, las características no representan únicamente la potencia absoluta de una época, sino cuánto se aleja esa potencia del patrón neutro del mismo participante. Esto es importante porque dos sujetos pueden tener niveles de potencia diferentes por motivos ajenos a la emoción, como diferencias fisiológicas, colocación de electrodos o calidad de contacto.
+
+Por último, los bloques de características generados a partir de estos valores se normalizan mediante z-score por sujeto, usando de nuevo la condición \texttt{NEUTRO} como referencia. Para cada característica se calcula la media y la desviación típica de las épocas neutras del sujeto, y el resto de condiciones se expresan en esa misma escala:
+
+\begin{myequation}[H]
+\[
+Z_{e,j}^{(s)} = \frac{X_{e,j}^{(s)} - \mu_{j,\mathrm{NEUTRO}}^{(s)}}{\sigma_{j,\mathrm{NEUTRO}}^{(s)}}
+\]
+\caption{Normalización z-score por sujeto usando la condición neutra como referencia.}
+\label{eq:zscore_neutro}
+\end{myequation}
+
+donde \(X_{e,j}^{(s)}\) es el valor de la característica \(j\) en una época del sujeto \(s\), \(\mu_{j,\mathrm{NEUTRO}}^{(s)}\) y \(\sigma_{j,\mathrm{NEUTRO}}^{(s)}\) son la media y desviación típica de esa característica en las épocas neutras del mismo sujeto. Con esta normalización, los modelos reciben variables más comparables entre participantes y centradas en los cambios relativos respecto a su propio estado neutro.
+
+En resumen, la resta respecto a \texttt{NEUTRO} elimina el nivel base propio de cada participante y convierte las variables en cambios respecto a su estado neutro. El z-score añade una segunda corrección: expresa esos cambios según la variabilidad normal de cada sujeto, de forma que una misma diferencia no tenga el mismo peso si en un participante es habitual y en otro es excepcional.
+
+\subsection{Construcción del conjunto de características}
+
+Tras calcular los cambios respecto a la condición neutra, cada época todavía conserva una estructura tridimensional: época, canal y banda. Para poder trabajar con estos valores como una tabla de datos, el script los transforma en una matriz bidimensional, donde cada fila representa una época y cada columna una característica concreta. Esta conversión se realiza agrupando las variables en tres bloques interpretables: potencia por banda, relación Theta/Alpha y asimetría Alpha.
+
+El primer bloque corresponde a la potencia por canal y banda. Para cada época se toma la matriz formada por los 62 canales \ac{EEG} y las cinco bandas espectrales, y se aplana en una única fila. De este modo, se obtienen \(62 \cdot 5 = 310\) variables con nombres del tipo \texttt{FC4\_Delta}, \texttt{FC4\_Theta}, \texttt{FC4\_Alpha}, \texttt{FC4\_Beta} o \texttt{FC4\_Gamma}. Cada una indica el cambio de potencia de una banda concreta en un canal concreto respecto al patrón neutro del sujeto. El uso de potencias espectrales por bandas es habitual en reconocimiento de emociones con \ac{EEG}, y bases de datos como DEAP emplean características de potencia por bandas y diferencias entre electrodos simétricos \cite{alarcao2019eeg,koelstra2012deap}.
+
+El segundo bloque resume la relación entre Theta y Alpha para cada canal. Se genera una característica por canal, por lo que este bloque añade 62 variables nuevas con nombres como \texttt{ThetaAlphaRatio\_FC4}. Como los valores ya están en escala logarítmica y expresados respecto a \texttt{NEUTRO}, esta relación se calcula como una diferencia entre ambas bandas:
+
+\begin{myequation}[H]
+\[
+R_{e,c}^{\Theta/\mathrm{Alpha}} = \Delta_{e,c,\Theta} - \Delta_{e,c,\mathrm{Alpha}}
+\]
+\caption{Relación Theta/Alpha calculada como diferencia en escala logarítmica.}
+\label{eq:theta_alpha_ratio}
+\end{myequation}
+
+donde \(R_{e,c}^{\Theta/\mathrm{Alpha}}\) representa la relación Theta/Alpha de la época \(e\) en el canal \(c\). Al trabajar en escala logarítmica, restar Alpha a Theta equivale a comparar ambas potencias de forma relativa. Así, la característica no mide solo si hay mucha Theta o mucha Alpha por separado, sino si una de las dos aumenta más que la otra respecto al estado neutro. Este tipo de relación entre bandas se ha utilizado como característica derivada en análisis de \ac{EEG}, especialmente para comparar la actividad relativa entre Alpha y Theta \cite{raufi2022alphatheta}.
+
+El tercer bloque recoge la asimetría Alpha entre pares de electrodos homólogos de los hemisferios izquierdo y derecho. La asimetría en banda Alpha, especialmente en zonas frontales, se ha utilizado en estudios sobre emoción y motivación, y también aparece en trabajos de análisis emocional con \ac{EEG} mediante diferencias entre pares simétricos de electrodos \cite{koelstra2012deap,smith2017frontal}. Para cada par disponible se calcula la diferencia entre el canal derecho y el canal izquierdo. En el conjunto utilizado hay 26 pares, por lo que se añaden 26 variables de asimetría con nombres como \texttt{AlphaAsym\_FC4-FC3}, \texttt{AlphaAsym\_F4-F3} o \texttt{AlphaAsym\_CP4-CP3}:
+
+\begin{myequation}[H]
+\[
+A_{e,(l,r)} = \Delta_{e,r,\mathrm{Alpha}} - \Delta_{e,l,\mathrm{Alpha}}
+\]
+\caption{Asimetría Alpha entre un par de canales homólogos.}
+\label{eq:alpha_asymmetry}
+\end{myequation}
+
+donde \(l\) y \(r\) representan, respectivamente, el canal izquierdo y derecho del par. Esta variable permite resumir diferencias laterales de la banda Alpha sin tratar cada canal de forma aislada.
+
+Una vez generados los bloques, cada uno se normaliza de forma independiente mediante el procedimiento descrito en la sección anterior. Esta separación evita mezclar distribuciones distintas, ya que las potencias por banda, las relaciones Theta/Alpha y las asimetrías Alpha no tienen exactamente la misma naturaleza. Finalmente, los bloques normalizados se concatenan por columnas para formar la fila definitiva de cada época. En total, el conjunto completo generado por la extracción queda formado por \(310 + 62 + 26 = 398\) características por época.
+
+Cada fila del conjunto de características queda asociada a una etiqueta numérica: \texttt{JOY} se codifica como 0, \texttt{NEUTRO} como 1 y \texttt{SAD} como 2. Por tanto, cada sujeto aporta tantas filas como épocas válidas conserve tras el preprocesado, sumando las tres condiciones emocionales disponibles. Además, durante el ensamblado se mantiene la información necesaria para saber de qué sujeto, condición e índice de época procede cada muestra. El primer sujeto procesado fija los nombres y el orden de las columnas; si otro sujeto generase una estructura distinta, el script detendría la ejecución para evitar matrices incompatibles.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Ejemplo simplificado de la estructura del conjunto de características.}
+\label{tab:ejemplo_dataset_features}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Sujeto} & \textbf{Condición} & \textbf{Época} & \textbf{Etiqueta} & \textbf{\texttt{F3\_Alpha}} & \textbf{\texttt{Pz\_Beta}} & \textbf{\texttt{ThetaAlphaRatio\_F3}} & \textbf{\texttt{AlphaAsym\_F4-F3}} & \textbf{\(\ldots\)} \\
+\hline
+\texttt{211-000531} & \texttt{JOY} & 0 & 0 & 0.84 & -0.21 & 1.12 & -0.35 & \(\ldots\) \\
+\hline
+\texttt{211-000531} & \texttt{NEUTRO} & 0 & 1 & -0.06 & 0.18 & -0.14 & 0.09 & \(\ldots\) \\
+\hline
+\texttt{211-000531} & \texttt{SAD} & 0 & 2 & -0.47 & 0.62 & -0.73 & 0.41 & \(\ldots\) \\
+\hline
+\texttt{211-000532} & \texttt{JOY} & 0 & 0 & 0.31 & -0.58 & 0.44 & -0.12 & \(\ldots\) \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+Los valores numéricos de la Tabla~\ref{tab:ejemplo_dataset_features} son ilustrativos. La tabla muestra la idea general: las primeras columnas identifican la muestra y su etiqueta, mientras que el resto corresponden a características calculadas a partir de la señal. La matriz de características contiene únicamente las columnas numéricas generadas a partir del \ac{EEG}; la información de sujeto, condición e índice de época se conserva como metadatos para poder interpretar y revisar los resultados.
+
+\subsection{Guardado y check}
+
+El último paso de la extracción consiste en guardar las matrices y los metadatos necesarios para las fases posteriores. Esta separación permite conservar, por un lado, los valores numéricos que entran a los modelos y, por otro, la información que permite interpretar de dónde procede cada fila.
+
+Los archivos generados se pueden dividir en dos grupos:
+
+\subsubsection{Archivos utilizados en entrenamiento y evaluación}
+
+\begin{itemize}
+    \item \texttt{features\_X.npy}: contiene la \(\log_{10}(\mathrm{PSD})\) por canal y banda, sin aplicar todavía el delta respecto a \texttt{NEUTRO} ni la normalización final. Es la matriz que cargan los scripts de entrenamiento como punto de partida. A partir de ella, cada partición de validación calcula su propia referencia neutra y su propia normalización usando solo los datos de entrenamiento, evitando que las muestras de prueba influyan en el ajuste.
+    \item \texttt{features\_y.npy}: almacena la etiqueta numérica asociada a cada época, es decir, la emoción correspondiente a cada fila de la matriz de características.
+\end{itemize}
+
+\subsubsection{Archivos de comprobación e información}
+
+\begin{itemize}
+    \item \texttt{features\_meta.csv}: conserva información descriptiva de cada muestra, como el sujeto, la condición y el índice de época. No se utiliza como característica de entrada del modelo, pero sí permite organizar la validación, separar sujetos y relacionar cada predicción con su origen.
+    \item \texttt{features\_X\_norm.npy}: contiene el conjunto completo ya transformado, con \(\log_{10}\), delta respecto a \texttt{NEUTRO}, bloques derivados y z-score por sujeto. Esta versión es útil para revisar la estructura final de las características y realizar comprobaciones generales, pero no es la entrada principal de los entrenamientos con validación cruzada.
+    \item \texttt{features\_info.json}: guarda la configuración de la extracción: bandas utilizadas, canales, parámetros de Welch, nombres de características, número de sujetos, distribución de clases y parámetros de normalización.
+\end{itemize}
+
+Además del guardado, el script realiza un diagnóstico final del conjunto generado. Esta comprobación no crea nuevas características ni modifica las existentes, sino que sirve para detectar errores antes de pasar al entrenamiento. En concreto, se revisan las dimensiones de las matrices, la distribución de épocas por clase, el número de épocas aportadas por cada sujeto y estadísticas básicas de las características por condición. También se comprueba que no existan valores \texttt{NaN} ni infinitos, ya que estos impedirían entrenar correctamente los modelos. Por último, se calcula la media de las características asociadas a \texttt{NEUTRO}. Como la normalización se ha construido usando esta condición como referencia, esa media debería quedar cercana a cero. Si se alejara demasiado, sería una señal de que habría que revisar el cálculo del delta o del z-score.
+
+\subsection{Resumen}
 
 \begin{figure}[H]
 \centering
@@ -297,27 +464,27 @@ Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos 
         align=center,
         font=\small,
         draw=black!45,
-        fill=green!12
+        fill=green!18
     },
     flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
 ]
 
 \node[paso] (entrada) {Épocas preprocesadas en \ac{FIF} y sujetos válidos};
 \node[paso, below=of entrada] (carga) {Carga de épocas y selección de canales \ac{EEG}};
-\node[paso, below=of carga] (psd) {Cálculo de PSD mediante Welch entre 1 y 40 Hz};
+\node[paso, below=of carga] (psd) {Cálculo de \ac{PSD} mediante Welch entre 1 y 40 Hz};
 \node[paso, below=of psd] (bandas) {Promedio de potencia en Delta, Theta, Alpha, Beta y Gamma};
 \node[paso, below=of bandas] (logdelta) {Aplicación de log10 y delta respecto a la condición NEUTRO};
-\node[paso, below=of logdelta] (zscore) {Normalización z-score por sujeto};
-\node[paso, below=of zscore] (bloques) {Construcción de bloques de características};
-\node[paso, below=of bloques] (salida) {Guardado de matrices, etiquetas, metadatos e información del dataset};
+\node[paso, below=of logdelta] (bloques) {Construcción de bloques de características};
+\node[paso, below=of bloques] (zscore) {Normalización z-score por sujeto y bloque};
+\node[paso, below=of zscore] (salida) {Guardado de matrices, etiquetas, metadatos e información del dataset};
 
 \draw[flecha] (entrada) -- (carga);
 \draw[flecha] (carga) -- (psd);
 \draw[flecha] (psd) -- (bandas);
 \draw[flecha] (bandas) -- (logdelta);
-\draw[flecha] (logdelta) -- (zscore);
-\draw[flecha] (zscore) -- (bloques);
-\draw[flecha] (bloques) -- (salida);
+\draw[flecha] (logdelta) -- (bloques);
+\draw[flecha] (bloques) -- (zscore);
+\draw[flecha] (zscore) -- (salida);
 
 \end{tikzpicture}
 }
@@ -325,4 +492,328 @@ Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos 
 \label{fig:flujo_extraccion_caracteristicas}
 \end{figure}
 
+\section{Entrenamiento y evaluación de modelos}
 
+Una vez generadas las características, el siguiente bloque del sistema entrena y evalúa los clasificadores. Para ello se implementaron dos programas: \texttt{train\_within\_subject.py}, orientado a modelos individuales por sujeto, y \texttt{train\_all\_subjects.py}, destinado a entrenar un modelo global con varios participantes. Ambos parten de los mismos archivos de características, pero aplican estrategias de validación diferentes.
+
+La normalización respecto a la condición \texttt{NEUTRO} se calcula dentro del entrenamiento, después de separar los datos de cada partición. Así se evita que las muestras de prueba participen en el cálculo de referencias o escalados.
+
+\subsection{Entrada al entrenamiento}
+
+Los scripts cargan \texttt{features\_X.npy} como matriz base de características, \texttt{features\_y.npy} como vector de etiquetas y \texttt{features\_meta.csv} para conocer el sujeto, la condición y el índice de época de cada fila. Además, leen \texttt{features\_info.json} para recuperar la lista de canales y comprobar que la forma de la matriz coincide con la estructura esperada.
+
+La entrada principal es \texttt{features\_X.npy}, no \texttt{features\_X\_norm.npy}. La versión normalizada se reserva para comprobaciones, ya que en los entrenamientos la referencia neutra y el escalado se recalculan dentro de cada partición usando solo los datos de entrenamiento.
+
+\subsection{Construcción de características dentro de cada partición}
+
+Aunque la extracción de características genera una versión completa de 398 variables, los scripts de entrenamiento construyen una matriz más compacta a partir de \texttt{features\_X.npy}. Esta matriz base contiene cinco bandas por canal, pero el entrenamiento selecciona únicamente las bandas Alpha y Beta y añade las asimetrías Alpha entre pares hemisféricos. Con ello se reduce el número de variables y se trabaja con un conjunto más fácil de interpretar.
+
+La selección de Alpha y Beta responde al contexto del registro y a un criterio conservador. En una tarea de escucha pasiva, con participantes en reposo y en un entorno controlado, estas bandas son especialmente adecuadas para resumir cambios asociados al estado atencional y al procesamiento activo de los estímulos auditivos. En cambio, Delta y Theta se dejaron fuera de la configuración principal por estar más relacionadas con actividad lenta, somnolencia o baja activación, lo que podía aportar información menos específica para esta tarea.
+
+La banda Gamma tampoco se incluyó en el entrenamiento principal. Esto no significa que Gamma carezca de interés en cualquier análisis de \ac{EEG}, sino que en este caso se adoptó una interpretación prudente: al tratarse de frecuencias más altas, pueden verse más afectadas por actividad muscular, contacto de electrodos, pelo u otros artefactos residuales. Si un modelo dependiera mucho de esta banda, la interpretación sería menos segura, porque parte de esa información podría proceder de ruido no cerebral. Por este motivo se priorizó un conjunto más estable formado por Alpha, Beta y asimetría Alpha.
+
+El proceso se realiza dentro de cada partición de validación. Primero, la matriz de entrenamiento se reorganiza internamente para recuperar la estructura época-canal-banda. Después se calcula una referencia de la condición \texttt{NEUTRO} usando solo las muestras de entrenamiento de esa partición. Esa referencia se resta tanto a las muestras de entrenamiento como a las de prueba, de forma que cada valor representa un cambio respecto al estado neutro estimado sin utilizar información del conjunto de prueba.
+
+Tras calcular esta diferencia respecto a \texttt{NEUTRO}, se ajusta el escalado con los datos de entrenamiento y se aplica la misma transformación al conjunto de prueba. Este orden es importante: si el escalado se calculase usando todas las muestras, el modelo recibiría información indirecta sobre los datos que debería predecir después.
+
+La matriz final que recibe el clasificador se compone de tres bloques:
+
+\begin{itemize}
+    \item \textbf{Potencia Alpha por canal}: una variable por cada canal \ac{EEG}.
+    \item \textbf{Potencia Beta por canal}: una variable por cada canal \ac{EEG}.
+    \item \textbf{Asimetría Alpha}: diferencias entre pares de electrodos homólogos izquierdo-derecho.
+\end{itemize}
+
+Con 62 canales, las dos primeras partes aportan \(62 \cdot 2 = 124\) características. A ellas se suman 26 variables de asimetría Alpha, por lo que cada época queda representada finalmente por 150 características. Esta construcción se aplica de la misma forma en los dos programas de entrenamiento; lo que cambia entre ellos es la forma de dividir los datos para evaluar los modelos.
+
+\subsection{Clasificadores utilizados}
+
+Los dos programas de entrenamiento utilizan los mismos tipos de clasificador: regresión logística y árbol de decisión. La elección mantiene la línea interpretativa planteada en los fundamentos teóricos, ya que ambos modelos permiten revisar qué variables intervienen en la decisión sin depender únicamente de una predicción final.
+
+La regresión logística se utiliza como modelo lineal principal. En los scripts se entrena con regularización \textit{elastic-net}\footnote{\url{https://en.wikipedia.org/wiki/Elastic_net_regularization}}, lo que ayuda a controlar el peso de las características y reduce el riesgo de ajustar demasiado el modelo a particularidades del conjunto de entrenamiento. Además, al disponer de coeficientes asociados a las variables de entrada, sus resultados pueden relacionarse después con canales, bandas y asimetrías concretas. El árbol de decisión se utiliza como segundo modelo interpretable. Su papel dentro del sistema es servir como comparación frente al modelo lineal, ya que puede capturar divisiones no lineales entre características.
+
+Ambos clasificadores se entrenan con ponderación balanceada de clases. Esta opción ajusta el peso de cada clase durante el aprendizaje para compensar posibles diferencias en el número de épocas disponibles de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. De este modo, una clase con menos muestras no queda tan fácilmente ignorada por el modelo.
+
+La diferencia entre los dos scripts no está en los clasificadores utilizados, sino en la forma de evaluarlos. En \texttt{train\_within\_subject.py} se emplea una configuración fija para cada modelo, mientras que en \texttt{train\_all\_subjects.py} se realiza una búsqueda de hiperparámetros\footnote{\url{https://en.wikipedia.org/wiki/Hyperparameter_optimization}} probando combinaciones predefinidas antes de guardar el modelo global final.
+
+\subsection{Entrenamiento \textit{within-subject}}
+
+La estrategia \textit{within-subject} evalúa el comportamiento de los modelos dentro de cada participante de forma independiente. Para ello, el script recorre los sujetos disponibles y, en cada caso, selecciona únicamente sus épocas de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. Así, el modelo de un sujeto se entrena y se evalúa solo con datos de ese mismo sujeto.
+
+Antes de entrenar, se comprueba que el participante tenga muestras suficientes de las tres clases. Si alguna emoción tiene menos épocas que el número de particiones necesarias, ese sujeto se descarta para evitar una validación incompleta. En los sujetos válidos se construyen cinco particiones temporales. Dentro de cada emoción, las épocas se ordenan mediante \texttt{epoch\_idx} y se dividen en cinco tramos contiguos, sin mezclar aleatoriamente las muestras.
+
+En cada fold se reserva como prueba un tramo temporal de cada emoción y se entrena con los tramos restantes. Esta organización mantiene las tres clases representadas en cada evaluación y evita que el conjunto de prueba se forme con épocas elegidas al azar de toda la sesión. Después de separar entrenamiento y prueba, se calcula la referencia \texttt{NEUTRO}, se aplica el escalado correspondiente y se construyen las características Alpha, Beta y asimetría Alpha descritas en la sección anterior.
+
+Los clasificadores se entrenan con una configuración fija, sin búsqueda de hiperparámetros. Esta decisión simplifica la comparación entre sujetos y evita añadir una segunda capa de selección dentro de conjuntos de datos relativamente pequeños. Para cada participante y clasificador se calculan las métricas de los cinco folds, se acumulan las predicciones y se guarda un resumen con la media y desviación típica del rendimiento.
+
+Una vez terminada la evaluación, el script entrena modelos finales por sujeto usando todas sus épocas válidas. Estos modelos se guardan junto con la información de preprocesado necesaria para aplicar después las mismas transformaciones a nuevos datos del mismo participante.
+
+\subsection{Entrenamiento \textit{all-subjects}}
+
+La estrategia \textit{all-subjects} entrena un modelo global a partir de los datos de todos los participantes válidos. A diferencia del caso anterior, el objetivo no es ajustar un modelo específico para cada persona, sino comprobar si existe un patrón común que permita clasificar emociones en sujetos no usados durante el entrenamiento.
+
+Para evaluar este escenario se utiliza \texttt{StratifiedGroupKFold}\footnote{\href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html}{Documentación de \texttt{StratifiedGroupKFold} en scikit-learn}}, tomando el identificador del sujeto como grupo. De esta forma, las épocas de un mismo participante no pueden aparecer simultáneamente en entrenamiento y prueba. Esta separación es importante porque varias épocas del mismo sujeto pueden compartir patrones individuales que no deberían filtrarse al conjunto de prueba. Además, la parte estratificada de la partición ayuda a mantener una distribución de clases lo más equilibrada posible entre folds.
+
+En esta estrategia sí se realiza búsqueda de hiperparámetros. Para cada clasificador se define una rejilla de combinaciones mediante \texttt{ParameterGrid}\footnote{\href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ParameterGrid.html}{Documentación de \texttt{ParameterGrid} en scikit-learn}}. Cada combinación se evalúa con la misma validación por grupos. En cada fold, igual que en el entrenamiento por sujeto, la referencia \texttt{NEUTRO} y el escalado se calculan solo con los datos de entrenamiento, y después se aplican al conjunto de prueba.
+
+El criterio principal para seleccionar la mejor configuración es el F1 macro, ya que resume el rendimiento medio entre clases sin favorecer únicamente a la clase más representada. Si dos configuraciones obtienen un valor similar, la exactitud se usa como criterio secundario. Finalmente, el script entrena un modelo global final por clasificador usando todos los datos disponibles y los mejores hiperparámetros encontrados.
+
+\subsection{Métricas, figuras y modelos guardados}
+
+Al finalizar cada evaluación, los scripts almacenan tanto los resultados numéricos como los objetos necesarios para revisar o reutilizar los modelos. Las métricas calculadas son la exactitud y el F1 macro, guardando siempre la media y la desviación típica cuando la evaluación se realiza por folds. Además, se acumulan las etiquetas reales y predichas para construir matrices de confusión agregadas.
+
+En el entrenamiento \textit{within-subject}, los resultados se organizan por sujeto y clasificador. El archivo \texttt{within\_subject\_summary.csv} contiene una tabla resumida con las métricas de cada participante, mientras que \texttt{within\_subject\_results.json} conserva la misma información en formato estructurado, incluyendo el clasificador seleccionado como mejor opción global. También se guarda \texttt{selected\_features.csv}, con la lista de características utilizadas finalmente por los modelos.
+
+Para cada clasificador \textit{within-subject} se genera una figura general de exactitud: cada barra corresponde a un sujeto y la línea de media resume el rendimiento conjunto de todos los participantes evaluados. Además, se genera una matriz de confusión agregada, construida acumulando las predicciones de todos los sujetos para ese clasificador. Junto a la matriz se guarda un \textit{classification report} en formato \ac{JSON}, que resume el comportamiento por clase. Por último, se entrena un modelo final para cada sujeto válido y cada clasificador, almacenándolo en formato \texttt{joblib} dentro de las subcarpetas \texttt{logReg} y \texttt{decisionTree}.
+
+En el entrenamiento \textit{all-subjects}, el archivo principal es \texttt{all\_subjects\_results.json}. Este fichero guarda, para cada clasificador, la mejor combinación de hiperparámetros, las métricas por fold, los sujetos que han formado cada partición de prueba y los resultados de todas las combinaciones evaluadas durante la búsqueda. De esta forma, no solo queda registrado el modelo ganador, sino también el proceso seguido para seleccionarlo.
+
+Las figuras del caso \textit{all-subjects} son más completas porque existe un único modelo global por clasificador. Para cada uno se genera una gráfica con la exactitud y el F1 macro por fold, una matriz de confusión absoluta y normalizada, y una gráfica de importancia de características. Además, después de entrenar los modelos finales con todos los datos disponibles, se generan visualizaciones específicas: coeficientes principales para la regresión logística y una representación de los primeros niveles del árbol de decisión.
+
+Los modelos finales también se guardan en formato \texttt{joblib}. Cada archivo incluye el clasificador entrenado, los parámetros utilizados, los nombres de canales y características, el mapa de etiquetas y la información de preprocesado necesaria para aplicar la misma transformación a nuevos datos. Esto evita que el modelo quede separado de las operaciones previas que necesita para recibir las características en el mismo formato con el que fue entrenado.
+
+\subsection{Resumen}
+
+\begin{figure}[H]
+\centering
+\resizebox{0.94\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.62cm,
+    paso/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=5.4cm,
+        minimum height=0.58cm,
+        align=center,
+        font=\small,
+        draw=black!45,
+        fill=yellow!22
+    },
+    pasopeq/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=4.9cm,
+        minimum height=0.55cm,
+        align=center,
+        font=\scriptsize,
+        draw=black!45,
+        fill=yellow!16
+    },
+    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+]
+
+\node[paso] (entrada) {\texttt{features\_X.npy}, etiquetas y metadatos};
+\node[paso, below=of entrada] (carga) {Carga del conjunto y nombres de canales};
+\node[paso, below=of carga] (rama) {Selección de estrategia de evaluación};
+
+\node[pasopeq, below left=0.85cm and 0.45cm of rama] (within) {\textit{within-subject}\\5 folds temporales por sujeto};
+\node[pasopeq, below right=0.85cm and 0.45cm of rama] (allsubjects) {\textit{all-subjects}\\StratifiedGroupKFold por sujeto};
+
+\node[pasopeq, below=of within] (normw) {Referencia NEUTRO y escalado\\ajustados solo con train};
+\node[pasopeq, below=of allsubjects] (norma) {Búsqueda de hiperparámetros\\y normalización dentro de cada fold};
+
+\node[paso, below=1.0cm of rama, yshift=-2.4cm] (featuresfinal) {Construcción de características finales\\Alpha, Beta y asimetría Alpha};
+\node[paso, below=of featuresfinal] (modelos) {Entrenamiento de regresión logística y árbol de decisión};
+\node[paso, below=of modelos] (metricas) {Evaluación, selección del mejor modelo y matrices de confusión};
+\node[paso, below=of metricas] (salida) {Guardado de resultados, figuras y modelos \texttt{joblib}};
+
+\draw[flecha] (entrada) -- (carga);
+\draw[flecha] (carga) -- (rama);
+\draw[flecha] (rama) -- (within);
+\draw[flecha] (rama) -- (allsubjects);
+\draw[flecha] (within) -- (normw);
+\draw[flecha] (allsubjects) -- (norma);
+\draw[flecha] (normw) |- (featuresfinal);
+\draw[flecha] (norma) |- (featuresfinal);
+\draw[flecha] (featuresfinal) -- (modelos);
+\draw[flecha] (modelos) -- (metricas);
+\draw[flecha] (metricas) -- (salida);
+
+\end{tikzpicture}
+}
+\caption{Resumen del flujo de entrenamiento y evaluación de modelos.}
+\label{fig:flujo_entrenamiento}
+\end{figure}
+
+\section{Análisis de separabilidad}
+
+Además del entrenamiento de clasificadores, se añadió un análisis de separabilidad para revisar cómo se distribuyen las muestras en el espacio de características. Este bloque no entrena un nuevo modelo predictivo, sino que permite observar si las características utilizadas tienden a agrupar las épocas por emoción o si, por el contrario, aparecen agrupaciones más relacionadas con el sujeto.
+
+El script \texttt{analyze\_separability.py} utiliza el mismo conjunto de variables que el entrenamiento principal y genera representaciones bidimensionales mediante \ac{PCA}\footnote{\url{https://en.wikipedia.org/wiki/Principal_component_analysis}} y \ac{LDA}\footnote{\url{https://en.wikipedia.org/wiki/Linear_discriminant_analysis}}. Para interpretar estas figuras conviene distinguir el papel de ambas proyecciones. \ac{PCA} no utiliza las etiquetas de emoción, sino que busca las direcciones donde los datos varían más. \ac{LDA}, en cambio, sí utiliza las etiquetas y proyecta las muestras intentando maximizar la separación entre clases. Por eso, comparar ambas representaciones permite diferenciar entre la estructura natural de los datos y la separación obtenida al usar información de clase. Estas visualizaciones se complementan con métricas sencillas de separación entre grupos, de forma que el análisis no dependa únicamente de la inspección visual de las figuras.
+
+\subsection{Entrada y construcción del espacio de análisis}
+
+El análisis parte de los mismos archivos utilizados en el entrenamiento: \texttt{features\_X.npy}, \texttt{features\_y.npy}, \texttt{features\_meta.csv} y \texttt{features\_info.json}. Al cargarlos, el script comprueba que la matriz tenga la estructura esperada, es decir, un bloque de cinco bandas por cada canal \ac{EEG}. Esta comprobación evita analizar un conjunto de características que no coincida con la salida real de la extracción.
+
+A partir de esa matriz base se reconstruye el mismo espacio usado por los clasificadores: potencia Alpha, potencia Beta y asimetría Alpha. Para ello se aplica la función \texttt{fit\_normalization\_pipeline}, que calcula la referencia respecto a \texttt{NEUTRO}, ajusta el escalado y devuelve la matriz final de características. En el análisis global esta transformación se ajusta con todas las épocas disponibles, mientras que en el análisis por sujeto se ajusta de forma independiente para cada participante. Esta decisión es adecuada aquí porque el objetivo no es estimar rendimiento predictivo, sino visualizar y comparar la estructura interna de los datos.
+
+\subsection{Proyecciones globales y por sujeto}
+
+Una vez construido el espacio de análisis, el script genera las proyecciones en dos niveles. La diferencia principal entre ambos no está en la técnica utilizada, sino en el conjunto de datos sobre el que se ajusta cada representación.
+
+\begin{itemize}
+    \item \textbf{Análisis global.} Todas las épocas se sitúan en un único espacio común. Cada proyección se dibuja dos veces: primero coloreando los puntos por condición emocional y después coloreándolos por sujeto. Esta comparación permite comprobar si las agrupaciones observadas se relacionan con \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}, o si están más influidas por diferencias individuales. Las figuras generadas son \texttt{01\_pca\_global\_condition\_subject.png} y \texttt{02\_lda\_global\_condition\_subject.png}.
+
+    \item \textbf{Análisis por sujeto.} Las épocas se separan por participante y, para cada uno, se calcula su propio espacio normalizado. Los resultados se muestran en cuadrículas, con un panel por sujeto y colores por condición emocional. Este análisis permite revisar si las emociones presentan estructura interna dentro de cada participante, sin que la visualización quede dominada por la variabilidad entre sujetos. Las salidas correspondientes son \texttt{03\_pca\_within\_subject.png} y \texttt{04\_lda\_within\_subject.png}.
+\end{itemize}
+
+\subsection{Métricas de separabilidad}
+
+Además de las figuras, el script calcula métricas numéricas para comparar la separación de los grupos en distintos espacios. Estas métricas se calculan sobre el espacio original de características y sobre las dos proyecciones bidimensionales, de forma que se pueda contrastar si la separabilidad aparece antes o después de reducir la dimensionalidad.
+
+La primera medida utilizada es \textit{silhouette}\footnote{\url{https://en.wikipedia.org/wiki/Silhouette_(clustering)}}, que resume hasta qué punto cada muestra está más cerca de su propio grupo que de los demás. La segunda es el ratio entre centroides y dispersión interna, denominado en el código \texttt{centroid\_ratio}. Este valor compara la distancia media entre los centros de los grupos con la dispersión media de las muestras dentro de cada grupo; por tanto, valores más altos indican grupos más separados y compactos.
+
+En el análisis global, estas métricas se calculan dos veces: una usando las etiquetas emocionales y otra usando los identificadores de sujeto. Esta comparación ayuda a detectar si el espacio separa mejor las emociones o a los participantes. En el análisis por sujeto, las métricas se calculan de forma independiente para cada participante utilizando únicamente las tres condiciones emocionales.
+
+\subsection{Resumen}
+
+\begin{figure}[H]
+\centering
+\resizebox{0.92\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.58cm,
+    paso/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=5.8cm,
+        minimum height=0.58cm,
+        align=center,
+        font=\small,
+        draw=black!45,
+        fill=violet!18
+    },
+    pasopeq/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=5.2cm,
+        minimum height=0.55cm,
+        align=center,
+        font=\scriptsize,
+        draw=black!45,
+        fill=violet!10
+    },
+    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+]
+
+\node[paso] (entrada) {\texttt{features\_X.npy}, etiquetas y metadatos};
+\node[paso, below=of entrada] (carga) {Carga del dataset y comprobación de dimensiones};
+\node[paso, below=of carga] (features) {Construcción del mismo espacio que el entrenamiento\\Alpha, Beta y asimetría Alpha};
+\node[paso, below=of features] (rama) {Selección del ámbito de análisis};
+
+\node[pasopeq, below left=0.85cm and 0.65cm of rama] (global) {Global \textit{all-subjects}\\todas las épocas juntas};
+\node[pasopeq, below right=0.85cm and 0.65cm of rama] (within) {Por sujeto\\épocas separadas por participante};
+
+\node[pasopeq, below=of global] (globalproj) {\ac{PCA} y \ac{LDA} global\\color por condición y por sujeto};
+\node[pasopeq, below=of within] (withinproj) {\ac{PCA} y \ac{LDA} por sujeto\\cuadrículas coloreadas por condición};
+
+\node[paso, below=1.0cm of rama, yshift=-2.55cm] (metricas) {Cálculo de silhouette y ratio centroides/dispersión};
+\node[paso, below=of metricas] (salida) {Guardado de figuras, métricas CSV y resumen JSON};
+
+\draw[flecha] (entrada) -- (carga);
+\draw[flecha] (carga) -- (features);
+\draw[flecha] (features) -- (rama);
+\draw[flecha] (rama) -- (global);
+\draw[flecha] (rama) -- (within);
+\draw[flecha] (global) -- (globalproj);
+\draw[flecha] (within) -- (withinproj);
+\draw[flecha] (globalproj) |- (metricas);
+\draw[flecha] (withinproj) |- (metricas);
+\draw[flecha] (metricas) -- (salida);
+
+\end{tikzpicture}
+}
+\caption{Resumen del flujo de análisis de separabilidad.}
+\label{fig:flujo_separabilidad}
+\end{figure}
+
+\section{Explicabilidad de los modelos}
+
+En esta sección se describe el funcionamiento del script \texttt{explicability.py}, utilizado para analizar qué características tienen mayor influencia en las predicciones en el escenario \textit{within-subject}. Esta fase no tiene como objetivo mejorar el rendimiento del sistema ni entrenar un nuevo modelo final, sino generar explicaciones \textit{out-of-fold} a partir de la regresión logística entrenada en cada partición.
+
+La explicabilidad se centró únicamente en los modelos \textit{within-subject}, ya que el modelo general no ofrecía un comportamiento suficientemente adecuado para obtener interpretaciones fiables. La alta diferenciabilidad entre sujetos hacía que las decisiones del modelo global estuvieran muy influenciadas por las diferencias individuales, dificultando el análisis de patrones asociados realmente a las condiciones emocionales. En cambio, el enfoque por sujeto permite estudiar las decisiones dentro de cada participante, comparando las emociones sin mezclar esa información con la variabilidad intersujeto.
+
+Por tanto, las explicaciones generadas en esta fase se orientan a comprender qué características Alpha, Beta y de asimetría Alpha contribuyen más a la clasificación emocional dentro de cada sujeto. La interpretación concreta de las figuras y métricas obtenidas se reserva para el capítulo de resultados; en este apartado se describe únicamente el flujo seguido por el código.
+
+\subsection{Cálculo de explicaciones out-of-fold}
+
+% Comentar:
+% - El script carga el dataset de características y recorre los sujetos válidos.
+% - Para cada sujeto construye folds temporales estratificados por condición.
+% - En cada fold se normaliza usando solo train, se entrena una regresión logística y se predice el test.
+% - SHAP se calcula sobre las muestras de test de cada fold, no sobre los datos usados para entrenar ese fold.
+% - La fórmula usada para SHAP lineal es coef_j * (x_test_j - media_train_j).
+% - Si un sujeto no tiene suficientes épocas por clase para crear los folds, se omite.
+
+\subsection{Agregación de importancias}
+
+% Comentar:
+% - Para cada sujeto, clase y característica se calcula mean_abs_shap y mean_signed_shap.
+% - mean_abs_shap indica cuánto pesa una característica, sin importar la dirección.
+% - mean_signed_shap conserva el signo medio y permite ver si la característica empuja a favor o en contra de una clase.
+% - Después se promedian las importancias entre sujetos para obtener un resumen global.
+% - Las características también se agrupan por canal, banda y cluster anatómico.
+
+\subsection{Representaciones generadas}
+
+% Comentar:
+% - Se genera un gráfico con las características más importantes globalmente.
+% - Se calcula la importancia relativa de Alpha y Beta por clase.
+% - Se generan topomaps globales de SHAP absoluto y SHAP firmado por condición.
+% - Se generan topomaps por sujeto para revisar la variabilidad individual.
+% - Se agregan las importancias por clusters cerebrales y se genera un heatmap cluster x banda.
+% - No interpretar todavía si un cluster o banda es más relevante; eso corresponde al capítulo de resultados.
+
+\subsection{Guardado de resultados}
+
+% Comentar:
+% - shap_subject_summary.csv guarda métricas out-of-fold por sujeto.
+% - shap_feature_importance_by_subject.csv guarda importancias por sujeto, clase y característica.
+% - shap_feature_importance.csv guarda el promedio global por clase y característica.
+% - shap_channel_band_importance.csv, shap_band_importance.csv y shap_cluster_band_importance.csv guardan agregaciones por canal/banda, banda y cluster.
+% - explicability_summary.json resume configuración, métricas medias, matriz de confusión agregada y principales características.
+% - Las figuras se guardan en results/explicability/within_subject/.
+
+\subsection{Resumen del flujo}
+
+\begin{figure}[H]
+\centering
+\resizebox{0.88\textwidth}{!}{
+\begin{tikzpicture}[
+    node distance=0.58cm,
+    paso/.style={
+        rectangle,
+        rounded corners=3pt,
+        minimum width=7.0cm,
+        minimum height=0.58cm,
+        align=center,
+        font=\small,
+        draw=black!45,
+        fill=orange!22
+    },
+    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+]
+
+\node[paso] (entrada) {\texttt{features\_X.npy}, etiquetas y metadatos};
+\node[paso, below=of entrada] (sujetos) {Recorrido por sujetos válidos};
+\node[paso, below=of sujetos] (folds) {Construcción de folds temporales estratificados por condición};
+\node[paso, below=of folds] (train) {Normalización con train y entrenamiento de LogReg};
+\node[paso, below=of train] (test) {Predicción del test y cálculo de SHAP lineal out-of-fold};
+\node[paso, below=of test] (agregacion) {Agregación por sujeto, clase y característica};
+\node[paso, below=of agregacion] (bloques) {Resumen por feature, canal, banda y cluster};
+\node[paso, below=of bloques] (figuras) {Generación de top features, topomaps y mapas por cluster};
+\node[paso, below=of figuras] (salida) {Guardado de tablas CSV, resumen JSON y figuras};
+
+\draw[flecha] (entrada) -- (sujetos);
+\draw[flecha] (sujetos) -- (folds);
+\draw[flecha] (folds) -- (train);
+\draw[flecha] (train) -- (test);
+\draw[flecha] (test) -- (agregacion);
+\draw[flecha] (agregacion) -- (bloques);
+\draw[flecha] (bloques) -- (figuras);
+\draw[flecha] (figuras) -- (salida);
+
+\end{tikzpicture}
+}
+\caption{Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}
+\label{fig:flujo_explicabilidad}
+\end{figure}
