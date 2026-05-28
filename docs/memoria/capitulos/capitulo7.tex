@@ -1,0 +1,27 @@
+% !TEX root = ../memoria.tex
+
+\chapter{Conclusiones y líneas futuras}
+
+\section{Conclusiones}
+
+En este trabajo se ha desarrollado un sistema completo para el análisis de señales \ac{EEG} orientado al reconocimiento de tres condiciones emocionales: \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. El flujo implementado cubre todo el proceso, desde la lectura de registros crudos en formato \ac{EDF} hasta el preprocesado, la extracción de características, el entrenamiento de modelos, la evaluación de resultados y el análisis de explicabilidad.
+
+La conclusión principal es que las señales utilizadas contienen información útil para diferenciar las condiciones emocionales cuando el análisis se realiza dentro de cada participante. El enfoque \textit{within-subject} ha mostrado un rendimiento claramente superior al modelo \textit{all-subjects}, lo que confirma que la variabilidad entre sujetos tiene un peso importante en este problema. Por ello, el modelo más adecuado para este conjunto de datos es la regresión logística por sujeto, ya que combina buen rendimiento, estabilidad e interpretabilidad.
+
+El análisis de separabilidad permitió comprobar que, al mezclar todos los sujetos, la estructura del espacio de características queda muy condicionada por las diferencias individuales. Esto explica por qué el modelo general tiene dificultades para construir una frontera común entre emociones. En cambio, al trabajar por sujeto, el sistema puede aprovechar regularidades internas de cada participante, lo que mejora de forma notable la clasificación.
+
+La explicabilidad también refuerza esta lectura. Los modelos \textit{within-subject} se apoyan principalmente en características Alpha, Beta y de asimetría Alpha, con contribuciones relevantes en zonas frontales, temporales y posteriores. Estos resultados no deben interpretarse como una demostración neurofisiológica absoluta, pero sí ayudan a entender que el clasificador utiliza patrones razonables dentro del contexto de una tarea de escucha emocional.
+
+En conjunto, el proyecto demuestra que es posible construir un sistema interpretable para distinguir condiciones emocionales mediante \ac{EEG} en un escenario controlado y por sujeto. La aportación principal no es solo el rendimiento obtenido, sino el desarrollo de un flujo ordenado y reproducible que permite procesar, evaluar e interpretar este tipo de señales.
+
+\section{Líneas futuras}
+
+Una primera línea futura sería ampliar el número de participantes y validar el sistema con nuevos registros. Esto permitiría comprobar si los patrones observados se mantienen con una muestra mayor y estudiar con más detalle hasta qué punto la variabilidad entre sujetos limita la generalización de los modelos.
+
+También sería interesante investigar si los modelos entrenados para una persona pueden reutilizarse, total o parcialmente, en otra. Esta idea permitiría estudiar estrategias de transferencia entre sujetos, buscando qué parte del conocimiento aprendido por un modelo es específica de un participante y qué parte podría compartirse con otros. Si se consiguiera aprovechar información entre personas, el sistema podría reducir la necesidad de entrenar un modelo completamente nuevo para cada sujeto.
+
+Otra línea especialmente relevante sería ajustar modelos individuales con pocas muestras iniciales de cada persona. El objetivo sería disponer de una fase breve de calibración y, a partir de ella, adaptar el sistema para realizar detecciones de forma más rápida. Este enfoque podría acercar el sistema a un uso más práctico en contextos reales, donde no siempre es posible registrar grandes cantidades de datos antes de obtener predicciones útiles.
+
+De cara a una posible aplicación médica, sería necesario incorporar una validación mucho más amplia y controlada. Además de aumentar el número de sujetos, sería conveniente recoger información adicional sobre la emoción percibida, mediante autoinformes o pruebas complementarias. De esta forma, las predicciones no se compararían únicamente con la condición experimental presentada, sino también con la experiencia real del participante.
+
+Finalmente, podrían explorarse nuevas estrategias de selección de características y modelos adaptativos que mantengan la interpretabilidad. El objetivo no sería únicamente mejorar la exactitud, sino avanzar hacia sistemas que sean rápidos, comprensibles y suficientemente fiables para apoyar futuras aplicaciones en entornos clínicos o de investigación.

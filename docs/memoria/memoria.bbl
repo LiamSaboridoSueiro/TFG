@@ -217,6 +217,26 @@ Ezra~E. Smith, Samantha~J. Reznik, Jennifer~L. Stewart, and John J.~B. Allen.
 \newblock {\em International Journal of Psychophysiology}, 111:98--114, 2017.
 \newblock \url{https://doi.org/10.1016/j.ijpsycho.2016.11.005}.
 
+\bibitem{sklearnPcaDocs}
+{scikit-learn developers}.
+\newblock {sklearn.decomposition.PCA}, 2026.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}.
+
+\bibitem{sklearnLdaDocs}
+{scikit-learn developers}.
+\newblock {sklearn.discriminant\_analysis.LinearDiscriminantAnalysis}, 2026.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html}.
+
+\bibitem{rousseeuw1987silhouettes}
+Peter~J. Rousseeuw.
+\newblock Silhouettes: A graphical aid to the interpretation and validation of
+  cluster analysis.
+\newblock {\em Journal of Computational and Applied Mathematics}, 20:53--65,
+  1987.
+\newblock \url{https://doi.org/10.1016/0377-0427(87)90125-7}.
+
 \bibitem{topic2021featuremaps}
 Ante Topic and Mladen Russo.
 \newblock Emotion recognition based on {EEG} feature maps through deep learning
