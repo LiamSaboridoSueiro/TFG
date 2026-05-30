@@ -64,17 +64,12 @@ python scripts/5_explicability/explicability.py
 
 Cada bloque guarda sus salidas en `data/processed/`, `data/features/`, `models/` o `results/`, según corresponda.
 
-## Documentación
-
-La memoria del proyecto se encuentra en `docs/memoria/`. Para compilarla, entra en esa carpeta y ejecuta:
-
-```bash
-pdflatex memoria.tex
-bibtex memoria
-pdflatex memoria.tex
-pdflatex memoria.tex
-```
-
 ## Nota
 
 Los scripts están pensados para reproducir el flujo completo del TFG con la estructura de carpetas incluida en este repositorio. Si se cambian rutas, nombres de carpetas o formato de los datos, puede ser necesario adaptar las constantes de configuración de cada script.
+
+## Autoría
+
+- Autor: Liam Saborido Sueiro
+- Tutor: Álvaro García López
+- Co-tutor: Julio Salvador Lora Millán
