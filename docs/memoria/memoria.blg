@@ -4,45 +4,45 @@ The top-level auxiliary file: memoria.aux
 The style file: unsrt.bst
 Database file #1: bibliografia.bib
 Warning--empty publisher in molnar2022interpretable
-You've used 58 entries,
+You've used 75 entries,
             1791 wiz_defined-function locations,
-            785 strings with 14557 characters,
-and the built_in function-call counts, 11027 in all, are:
-= -- 968
-> -- 468
+            860 strings with 19352 characters,
+and the built_in function-call counts, 13446 in all, are:
+= -- 1164
+> -- 556
 < -- 3
-+ -- 187
-- -- 129
-* -- 571
-:= -- 1762
-add.period$ -- 200
-call.type$ -- 58
-change.case$ -- 58
++ -- 227
+- -- 152
+* -- 627
+:= -- 2134
+add.period$ -- 253
+call.type$ -- 75
+change.case$ -- 75
 chr.to.int$ -- 0
-cite$ -- 59
-duplicate$ -- 446
-empty$ -- 1191
-format.name$ -- 129
-if$ -- 2467
+cite$ -- 76
+duplicate$ -- 539
+empty$ -- 1506
+format.name$ -- 152
+if$ -- 3026
 int.to.chr$ -- 0
-int.to.str$ -- 58
-missing$ -- 35
-newline$ -- 317
-num.names$ -- 60
-pop$ -- 238
+int.to.str$ -- 75
+missing$ -- 37
+newline$ -- 404
+num.names$ -- 77
+pop$ -- 343
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 201
+skip$ -- 253
 stack$ -- 0
-substring$ -- 513
-swap$ -- 80
+substring$ -- 553
+swap$ -- 97
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 102
-width$ -- 60
-write$ -- 662
+while$ -- 122
+width$ -- 77
+write$ -- 838
 (There was 1 warning)

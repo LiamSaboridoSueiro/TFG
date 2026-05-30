@@ -45,9 +45,9 @@ La Figura~\ref{fig:flujo_general_sistema} resume el flujo seguido por el sistema
 
 \node[fase, fill=blue!18] (prep) {Preprocesado\\\texttt{edf\_to\_epochs.py}};
 
-\node[fasepeq, fill=blue!18, below=of prep] (check) {Control de sujetos válidos\\\texttt{check\_valid\_subjects.py}};
+\node[fasepeq, fill=blue!18, below=of prep] (comprobación) {Control de sujetos válidos\\\texttt{comprobación\_valid\_subjects.py}};
 
-\node[fase, fill=green!18, below=of check] (features) {Extracción de características\\\texttt{epochs\_to\_features.py}};
+\node[fase, fill=green!18, below=of comprobación] (features) {Extracción de características\\\texttt{epochs\_to\_features.py}};
 
 \node[fase, fill=violet!18, below left=0.9cm and 0.3cm of features] (sep) {Separabilidad\\\texttt{analyze\_separability.py}};
 
@@ -60,9 +60,9 @@ La Figura~\ref{fig:flujo_general_sistema} resume el flujo seguido por el sistema
 \node[dato, below=0.3cm of explain] (expout) {resultados de explicabilidad};
 
 \draw[flecha] (raw) -- (prep);
-\draw[flecha] (prep) -- (check)
+\draw[flecha] (prep) -- (comprobación)
     node[midway, right, dato] {épocas preprocesadas};
-\draw[flecha] (check) -- (features)
+\draw[flecha] (comprobación) -- (features)
     node[midway, right, dato] {épocas preprocesadas\\y sujetos aptos};
 \draw[flecha] (features) -- (sep)
     node[midway, left, dato] {características};
@@ -102,26 +102,28 @@ La implementación se realizó con MNE-Python, una librería orientada al análi
 Cada archivo \ac{EDF} se carga inicialmente como un registro continuo, conservando la información completa de la señal y de sus canales auxiliares. A continuación, se extraen los eventos del canal \texttt{STIM}, donde se almacenan los marcadores temporales del protocolo. En estos registros pueden aparecer marcas asociadas al comienzo y al final de cada frase, por lo que antes de segmentar la señal es necesario limpiar y seleccionar los eventos que se van a utilizar como referencia.
 
 
-En primer lugar, se eliminan posibles duplicaciones del mismo marcador. Para ello, si dos eventos aparecen separados por menos de 100 ms, el segundo se descarta. Esta separación es demasiado breve para corresponder a dos frases o respuestas independientes dentro del protocolo, por lo que se interpreta como un rebote del trigger. Con esta limpieza se evita que una misma frase genere dos épocas prácticamente iguales y que el conjunto de datos incluya segmentos repetidos como si fueran ejemplos distintos.
+En primer lugar, se aplica un control sobre activaciones redundantes del mismo marcador. El canal \texttt{STIM} almacena pulsos de disparo asociados a eventos experimentales, como el inicio de un estímulo, y MNE los transforma en eventos a partir de los cambios detectados en ese canal \cite{mneEventsFromRaw}. Durante la exportación de algunos registros, un estímulo presentado una sola vez podía aparecer como dos activaciones consecutivas muy próximas. Esta comprobación se verificó sobre los archivos \ac{EDF}: en 69 de los 72 registros aparecían activaciones separadas aproximadamente 8 ms, una distancia temporal demasiado breve para corresponder a dos frases distintas dentro del protocolo. Por ello, el script conserva la primera activación y descarta las siguientes si aparecen separadas por menos de 100 ms. Con esta limpieza se evita que una misma frase pueda generar dos épocas prácticamente iguales.
 
-Después de eliminar estos duplicados, el script identifica los eventos de final de frase a partir de la separación temporal entre marcadores consecutivos. Cuando hay dos eventos próximos separados por menos de 2 s, se interpreta que forman un par inicio-fin de frase, y se conserva el segundo evento como referencia para crear la época. En cambio, los intervalos más largos se consideran separaciones entre frases distintas. Si en un registro no aparecen intervalos largos, se asume que el protocolo no guardó un par inicio-fin, sino únicamente los eventos relevantes, por lo que se conservan todos los marcadores disponibles.
+Después de eliminar estos duplicados, el script utiliza la estructura temporal del protocolo para seleccionar las marcas de inicio de estímulo. Cada evento no representa un segmento con duración propia, sino una marca temporal concreta dentro del registro. Cada frase dura aproximadamente 2 s, tras ella se deja 1 s de silencio y después se registra una marca de final. A continuación transcurren otros 1,5 s antes del inicio de la siguiente frase. Por ello, los intervalos largos, cercanos a 3 s, aparecen entre el inicio y el final de una frase, mientras que los intervalos cortos, cercanos a 1,5 s, aparecen entre el final de una frase y el inicio de la siguiente.
 
+Con esta lógica, el script conserva el primer evento del archivo y, después, aquellos eventos que aparecen tras un intervalo inferior a 2 s, ya que corresponden al comienzo de un nuevo estímulo auditivo. Esta selección permite crear las épocas alrededor del inicio de la frase, que es el punto más adecuado para analizar la respuesta auditivo-emocional evocada. Si se tomara como referencia la marca final, la ventana se desplazaría hacia actividad posterior al estímulo, más relacionada con procesos cognitivos complejos como razonamiento, asociación o memoria.
 
-Esta selección es importante porque las épocas del análisis se construyen alrededor del final de frase. De esta forma, las etapas posteriores trabajan con segmentos temporales comparables entre archivos, sujetos y condiciones emocionales.
+De esta forma, las etapas posteriores trabajan con segmentos temporales comparables entre archivos, sujetos y condiciones emocionales, todos ellos alineados con el inicio de la estimulación auditiva.
 
 
 \subsection{Selección de canales, renombrado y montaje EEG}
 
 Tras extraer los eventos de interés, el siguiente paso consiste en preparar la información espacial de los canales. Los registros originales identifican los electrodos mediante una nomenclatura interna basada en códigos alfanuméricos, desde \texttt{A1} hasta \texttt{H8}. Por ello, primero se seleccionan estos 64 canales principales y se descartan otros canales auxiliares que no forman parte del montaje \ac{EEG} utilizado para el análisis.
 
-Después, los canales seleccionados se renombran con etiquetas anatómicas reconocibles, como \texttt{O1}, \texttt{Fz}, \texttt{C3} o \texttt{Pz}. Este renombrado permite relacionar cada señal con una posición aproximada del cuero cabelludo y facilita las etapas posteriores de análisis espacial, especialmente la generación de mapas topográficos. Dentro de este proceso, los canales \texttt{Heor} y \texttt{Veol} se marcan como canales oculares, de forma que MNE pueda tratarlos como señales \ac{EOG} durante la detección de artefactos.
+Después, los canales seleccionados se renombran con etiquetas anatómicas reconocibles, como \texttt{O1}, \texttt{Fz}, \texttt{C3} o \texttt{Pz}. Este cambio no se realiza de forma arbitraria, sino siguiendo una correspondencia tabulada entre la nomenclatura interna del equipo y la disposición de electrodos del casco, asociada al sistema 10-20/10-10. Así, cada canal queda vinculado a una posición concreta del cuero cabelludo y se facilita el análisis espacial posterior, especialmente la generación de mapas topográficos. Dentro de este proceso, los canales \texttt{Heor} y \texttt{Veol} se marcan como canales oculares, de forma que MNE pueda tratarlos como señales \ac{EOG} durante la detección de artefactos.
 
-Por último, se utilizó el montaje \texttt{standard\_1005}, una extensión más densa del sistema 10-20\footnote{\url{https://en.wikipedia.org/wiki/10-20_system_(EEG)}} que incluye posiciones intermedias y permite representar adecuadamente montajes con mayor número de electrodos. De esta forma, el objeto de señal contiene no solo los valores registrados, sino también la posición espacial asociada a cada electrodo, necesaria para operaciones como la interpolación de canales problemáticos y la representación topográfica de resultados.
+Por último, se utilizó el montaje \texttt{standard\_1005}, una extensión más densa del sistema 10-20\footnote{Sistema internacional de colocación de electrodos sobre el cuero cabelludo en registros \ac{EEG} \cite{wikipedia1020System}.} que incluye posiciones intermedias y permite representar adecuadamente montajes con mayor número de electrodos. De esta forma, el objeto de señal contiene no solo los valores registrados, sino también la posición espacial asociada a cada electrodo, necesaria para operaciones como la interpolación de canales problemáticos y la representación topográfica de resultados.
 
 
 \subsection{Filtrado y remuestreo}
 
-Una vez seleccionados y ubicados los canales, se aplican las primeras operaciones de limpieza sobre la señal continua. En primer lugar, se utiliza un filtro \textit{notch}\footnote{\url{https://en.wikipedia.org/wiki/Band-stop_filter}} a 50 Hz para atenuar la interferencia eléctrica de la red\footnote{\url{https://en.wikipedia.org/wiki/Utility_frequency}}, una fuente de ruido externa a la actividad cerebral y habitual en registros fisiológicos. Después, se aplica un filtro pasa banda entre 0,5 y 40 Hz, manteniendo el rango de frecuencias más relevante para las bandas de \ac{EEG} analizadas y reduciendo componentes muy lentas o de alta frecuencia que no se emplearán posteriormente.
+Una vez seleccionados y ubicados los canales, se aplican las primeras operaciones de limpieza sobre la señal continua. En primer lugar, se utiliza un filtro \textit{notch}\footnote{Filtro diseñado para atenuar una frecuencia concreta sin eliminar todo el resto de la señal \cite{wikipediaBandStopFilter}.} a 50 Hz para atenuar la interferencia eléctrica de la red\footnote{Frecuencia habitual de la red eléctrica en Europa, que puede introducir ruido en registros fisiológicos \cite{wikipediaUtilityFrequency}.}, una fuente de ruido externa a la actividad cerebral y habitual en registros fisiológicos. Después, se aplica un filtro pasa banda entre 0,5 y 40 Hz, manteniendo el rango donde se encuentran las bandas de \ac{EEG} comentadas en los fundamentos teóricos: Delta, Theta, Alpha, Beta y parte baja de Gamma. De este modo se reducen componentes muy lentas o de alta frecuencia que no se emplearán posteriormente.
+
 
 Tras el filtrado, la señal se remuestrea a 250 Hz cuando la frecuencia original es superior. Remuestrear consiste en cambiar la frecuencia con la que está representada la señal, es decir, el número de muestras por segundo. En este caso se reduce la frecuencia para que los registros trabajen con una resolución temporal común, disminuir el tamaño de los datos y reducir el coste computacional de las siguientes etapas. Si se modifica la frecuencia de muestreo, también se actualiza la posición de los eventos para que sigan apuntando al mismo instante temporal dentro de la señal remuestreada.
 
@@ -134,8 +136,8 @@ Para cada canal se calculan varias medidas sobre la señal continua y se compara
 \begin{itemize}
     \item \textbf{Amplitud pico a pico}: mide la diferencia entre el valor máximo y mínimo de la señal en un canal. Si esta amplitud es extremadamente baja, el canal puede estar prácticamente plano, lo que suele indicar falta de contacto o ausencia de señal útil.
     \item \textbf{Varianza}: resume cuánto cambia la señal a lo largo del tiempo. Una varianza demasiado baja también puede indicar un canal plano, mientras que una varianza muy distinta a la del resto puede señalar ruido o comportamiento inestable.
-    \item \textbf{Log-varianza}: se calcula aplicando el logaritmo a la varianza para comparar mejor canales con escalas diferentes. Sobre esta medida se obtiene una puntuación tipo z-score\footnote{\url{https://en.wikipedia.org/wiki/Standard_score}} interna, de forma que los canales muy alejados del conjunto puedan marcarse como anómalos.
-    \item \textbf{Curtosis}\footnote{\url{https://en.wikipedia.org/wiki/Kurtosis}}: describe si la distribución de la señal presenta picos o colas muy pronunciadas. Una curtosis alta puede aparecer cuando un canal contiene artefactos bruscos o valores extremos repetidos.
+    \item \textbf{Log-varianza}: se calcula aplicando el logaritmo a la varianza para comparar mejor canales con escalas diferentes. Sobre esta medida se obtiene una puntuación tipo z-score\footnote{Medida que expresa cuántas desviaciones típicas separan un valor de la media del conjunto \cite{wikipediaStandardScore}.} interna, de forma que los canales muy alejados del conjunto puedan marcarse como anómalos.
+    \item \textbf{Curtosis}\footnote{Medida estadística relacionada con la presencia de colas o valores extremos en una distribución \cite{wikipediaKurtosis}.}: describe si la distribución de la señal presenta picos o colas muy pronunciadas. Una curtosis alta puede aparecer cuando un canal contiene artefactos bruscos o valores extremos repetidos.
 \end{itemize}
 
 El z-score se utiliza para expresar cuánto se aleja el valor de un canal respecto al comportamiento medio del conjunto de canales:
@@ -154,13 +156,13 @@ El criterio final combina estas comprobaciones. Un canal se marca como malo si p
 
 Después de esta detección se aplica una rereferenciación al promedio. En este paso, cada canal se expresa respecto a la media de los canales \ac{EEG} disponibles, excluyendo los que ya han sido marcados como malos. Realizar primero la detección de canales problemáticos evita que un canal roto o claramente contaminado influya en la referencia común utilizada para el resto de la señal.
 
-A continuación se aplica \ac{ICA}, una técnica que descompone la señal en componentes independientes para facilitar la separación de actividad cerebral y artefactos. En este trabajo se ajustan 20 componentes mediante el método \textit{FastICA}\footnote{\url{https://en.wikipedia.org/wiki/FastICA}}. Los canales \texttt{Heor} y \texttt{Veol}, marcados previamente como \ac{EOG}, se utilizan para detectar componentes relacionados con parpadeos y movimientos oculares. Además, el sistema intenta identificar componentes con patrón muscular, asociados a actividad \ac{EMG}. Para evitar eliminar demasiada información útil, el número máximo de componentes excluidos se limita a cinco.
+A continuación se aplica \ac{ICA}, una técnica que descompone la señal en componentes independientes para facilitar la separación de actividad cerebral y artefactos. En este trabajo se ajustan 20 componentes mediante el método \textit{FastICA}\footnote{Algoritmo utilizado para estimar componentes independientes de forma eficiente \cite{wikipediaFastICA}.}. Los canales \texttt{Heor} y \texttt{Veol}, marcados previamente como \ac{EOG}, se utilizan para detectar componentes relacionados con parpadeos y movimientos oculares. Además, el sistema intenta identificar componentes con patrón muscular, asociados a actividad \ac{EMG}. Para evitar eliminar demasiada información útil, el número máximo de componentes excluidos se limita a cinco.
 
 Finalmente, una vez aplicada la corrección mediante \ac{ICA}, los canales marcados como malos se interpolan a partir de la información de los canales vecinos. La interpolación no recupera la señal original exacta del electrodo defectuoso, sino que estima una señal coherente con la distribución espacial del resto de canales y con el montaje asignado. De esta forma, el conjunto final mantiene una estructura completa de canales, necesaria para las etapas posteriores de extracción de características y representación espacial.
 
 \subsection{Segmentación en épocas y rechazo de segmentos anómalos}
 
-Una vez corregida la señal continua, se crean las épocas que se utilizarán en las etapas posteriores. Cada época se construye tomando como referencia un evento de final de frase, seleccionado previamente a partir del canal \texttt{STIM}. La ventana temporal utilizada va desde 1,5 s antes del evento hasta 1,0 s después, por lo que cada segmento incluye la parte final del estímulo auditivo y la actividad inmediatamente posterior.
+Una vez corregida la señal continua, se crean las épocas que se utilizarán en las etapas posteriores. Cada época se construye tomando como referencia un evento de inicio de frase, seleccionado previamente a partir del canal \texttt{STIM}. La ventana temporal utilizada va desde 1,5 s antes del evento hasta 1,0 s después, por lo que cada época tiene una duración total de 2,5 s e incluye una línea temporal previa al estímulo y la respuesta inicial a la frase escuchada.
 
 En esta etapa no se aplica corrección de línea base, ya que la normalización respecto a la condición neutra se realiza más adelante durante la extracción de características. De esta forma, las épocas se guardan como fragmentos temporales limpios, pero todavía sin transformar en variables espectrales.
 
@@ -198,7 +200,7 @@ La salida de esta etapa queda formada por dos elementos principales: por un lado
 
 \node[paso] (edf) {Registros crudos en formato \acs{EDF}};
 \node[paso, below=of edf] (eventos) {Extracción y limpieza de eventos del canal \texttt{STIM}};
-\node[paso, below=of eventos] (finales) {Selección de eventos de final de frase};
+\node[paso, below=of eventos] (finales) {Selección de eventos de inicio de frase};
 \node[paso, below=of finales] (canales) {Selección, renombrado de canales y montaje \texttt{standard\_1005}};
 \node[paso, below=of canales] (filtros) {Filtrado a 50 Hz, pasa banda 0,5--40 Hz y remuestreo a 250 Hz};
 \node[paso, below=of filtros] (artefactos) {Detección de canales malos, rereferenciación, \acs{ICA} e interpolación};
@@ -227,8 +229,8 @@ El control aplica tres criterios principales:
 
 \begin{itemize}
     \item \textbf{Completitud por sujeto}: se comprueba que cada participante tenga épocas preprocesadas para las tres condiciones emocionales del trabajo: alegría, estado neutro y tristeza. También se revisan los archivos crudos disponibles, lo que permite distinguir entre una condición no grabada y una condición que existía en crudo pero no llegó a generar épocas válidas.
-    \item \textbf{Balance de épocas}: para los sujetos completos se cuenta el número de épocas válidas en cada emoción. Si la condición con menos épocas queda por debajo del 50\% de la condición con más épocas, el sujeto se marca con un aviso de desequilibrio. Este criterio no descarta automáticamente al sujeto, pero permite revisar posibles diferencias importantes entre condiciones.
-    \item \textbf{Revisión espectral automática}: se calcula el espectro medio de cada sujeto y condición entre 1 y 40 Hz. El control exige que exista un pico alfa suficiente frente a la banda beta, usando una relación alfa/beta mínima de 1,30. También se comprueba que la potencia al inicio del espectro analizado, alrededor de 1 Hz, sea al menos tres veces mayor que la potencia al final, alrededor de 40 Hz. Esta relación se calcula como \(P_{1Hz}/P_{40Hz}\) y permite detectar señales con un espectro demasiado plano o poco compatible con la forma habitual de una señal \ac{EEG}. Si un sujeto no supera esta revisión espectral, se excluye de las etapas posteriores.
+    \item \textbf{Balance de épocas}: para los sujetos completos se cuenta el número de épocas válidas en cada emoción. Se utiliza la relación entre la condición con menos épocas y la condición con más épocas para detectar desequilibrios importantes, ya que las diferencias fuertes entre clases pueden afectar al entrenamiento y a la interpretación de las métricas \cite{he2009learning}. El valor del 50\% se eligió como umbral operativo de aviso, no como criterio de exclusión automática: permite detectar casos en los que una condición tiene menos de la mitad de muestras que la condición mayoritaria, sin marcar como problemáticas pequeñas variaciones esperables entre registros. Este criterio no descarta automáticamente al sujeto, pero permite identificar casos que podrían necesitar una inspección más cuidadosa.
+    \item \textbf{Revisión espectral automática}: se calcula el espectro medio de cada sujeto y condición entre 1 y 40 Hz. Como control de calidad, se comprueba que exista un pico mínimo en la banda Alpha, situada aproximadamente entre 8 y 12 Hz y asociada habitualmente a estados de reposo o baja demanda \cite{alarcao2019eeg}. Para ello, el script compara el máximo de potencia Alpha con la potencia media de la banda Beta, entre 15 y 25 Hz. La relación alfa/beta mínima de 1,30 se utiliza como umbral operativo del sistema: exige que el pico Alpha sea al menos un 30\% superior a la potencia media Beta. Este valor se apoya en trabajos que emplean un criterio equivalente para detectar actividad Alpha considerable, exigiendo que el pico Alpha sea al menos 1,3 veces la potencia media de bandas vecinas \cite{difronso2019dryeeg}. También se comprueba que la potencia al inicio del espectro analizado, alrededor de 1 Hz, sea al menos tres veces mayor que la potencia al final, alrededor de 40 Hz. Esta relación se calcula como \(P_{1Hz}/P_{40Hz}\) y permite detectar señales con un espectro demasiado plano o poco compatible con la forma habitual de una señal \ac{EEG}. Si un sujeto no supera esta revisión espectral, se excluye de las etapas posteriores.
 \end{itemize}
 
 Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos descartados con el motivo correspondiente, un resumen en formato \ac{JSON} y figuras de apoyo para revisar el balance de épocas y los espectros individuales. De esta forma, las siguientes etapas trabajan con participantes que mantienen información comparable entre condiciones y una calidad mínima de señal.
@@ -250,7 +252,7 @@ Una vez cargado cada archivo, se seleccionan únicamente los canales \ac{EEG}. C
 
 \subsection{Cálculo de potencia espectral por bandas}
 
-Para convertir cada época en características espectrales se necesita pasar de la señal en el tiempo a una representación en frecuencia. En el dominio temporal se observa cómo cambia la amplitud de la señal a lo largo de los segundos; en el dominio frecuencial se observa qué frecuencias están más presentes en esa señal. Para realizar esta transformación se utiliza la \ac{FFT}\footnote{\url{https://en.wikipedia.org/wiki/Fast_Fourier_transform}}, que calcula de forma eficiente la transformada discreta de Fourier:
+Para convertir cada época en características espectrales se necesita pasar de la señal en el tiempo a una representación en frecuencia. En el dominio temporal se observa cómo cambia la amplitud de la señal a lo largo de los segundos; en el dominio frecuencial se observa qué frecuencias están más presentes en esa señal. Para realizar esta transformación se utiliza la \ac{FFT}\footnote{Algoritmo que permite calcular de forma eficiente la transformada discreta de Fourier \cite{wikipediaFFT}.}, que calcula de forma eficiente la transformada discreta de Fourier:
 
 \begin{myequation}[H]
 \[
@@ -352,7 +354,7 @@ donde \(B_{s,c,b}\) es la referencia del sujeto \(s\), y \(E_{s,\mathrm{NEUTRO}}
 \label{eq:delta_neutro}
 \end{myequation}
 
-De esta forma, las características no representan únicamente la potencia absoluta de una época, sino cuánto se aleja esa potencia del patrón neutro del mismo participante. Esto es importante porque dos sujetos pueden tener niveles de potencia diferentes por motivos ajenos a la emoción, como diferencias fisiológicas, colocación de electrodos o calidad de contacto.
+De esta forma, las características no representan únicamente la potencia absoluta de una época, sino cuánto se aleja esa potencia del patrón neutro del mismo participante. Esto es importante porque dos sujetos pueden tener niveles de potencia diferentes por motivos ajenos a la emoción, como diferencias en el nivel basal de actividad, el estado basal durante la sesión, la colocación de electrodos o la calidad de contacto.
 
 Por último, los bloques de características generados a partir de estos valores se normalizan mediante z-score por sujeto, usando de nuevo la condición \texttt{NEUTRO} como referencia. Para cada característica se calcula la media y la desviación típica de las épocas neutras del sujeto, y el resto de condiciones se expresan en esa misma escala:
 
@@ -372,7 +374,7 @@ En resumen, la resta respecto a \texttt{NEUTRO} elimina el nivel base propio de 
 
 Tras calcular los cambios respecto a la condición neutra, cada época todavía conserva una estructura tridimensional: época, canal y banda. Para poder trabajar con estos valores como una tabla de datos, el script los transforma en una matriz bidimensional, donde cada fila representa una época y cada columna una característica concreta. Esta conversión se realiza agrupando las variables en tres bloques interpretables: potencia por banda, relación Theta/Alpha y asimetría Alpha.
 
-El primer bloque corresponde a la potencia por canal y banda. Para cada época se toma la matriz formada por los 62 canales \ac{EEG} y las cinco bandas espectrales, y se aplana en una única fila. De este modo, se obtienen \(62 \cdot 5 = 310\) variables con nombres del tipo \texttt{FC4\_Delta}, \texttt{FC4\_Theta}, \texttt{FC4\_Alpha}, \texttt{FC4\_Beta} o \texttt{FC4\_Gamma}. Cada una indica el cambio de potencia de una banda concreta en un canal concreto respecto al patrón neutro del sujeto. El uso de potencias espectrales por bandas es habitual en reconocimiento de emociones con \ac{EEG}, y bases de datos como DEAP emplean características de potencia por bandas y diferencias entre electrodos simétricos \cite{alarcao2019eeg,koelstra2012deap}.
+El primer bloque corresponde a la potencia por canal y banda. Aunque inicialmente se seleccionan 64 canales del casco, dos de ellos, \texttt{Heor} y \texttt{Veol}, se marcan como canales oculares \ac{EOG} y se utilizan únicamente como apoyo para la corrección de artefactos. Por ello, en la extracción de características se conservan 62 canales \ac{EEG} reales. Para cada época se toma la matriz formada por esos 62 canales y las cinco bandas espectrales, y se aplana en una única fila. De este modo, se obtienen \(62 \cdot 5 = 310\) variables con nombres del tipo \texttt{FC4\_Delta}, \texttt{FC4\_Theta}, \texttt{FC4\_Alpha}, \texttt{FC4\_Beta} o \texttt{FC4\_Gamma}. Cada una indica el cambio de potencia de una banda concreta en un canal concreto respecto al patrón neutro del sujeto. El uso de potencias espectrales por bandas es habitual en reconocimiento de emociones con \ac{EEG}, y bases de datos como DEAP emplean características de potencia por bandas y diferencias entre electrodos simétricos \cite{alarcao2019eeg,koelstra2012deap}.
 
 El segundo bloque resume la relación entre Theta y Alpha para cada canal. Se genera una característica por canal, por lo que este bloque añade 62 variables nuevas con nombres como \texttt{ThetaAlphaRatio\_FC4}. Como los valores ya están en escala logarítmica y expresados respecto a \texttt{NEUTRO}, esta relación se calcula como una diferencia entre ambas bandas:
 
@@ -426,7 +428,7 @@ Cada fila del conjunto de características queda asociada a una etiqueta numéri
 
 Los valores numéricos de la Tabla~\ref{tab:ejemplo_dataset_features} son ilustrativos. La tabla muestra la idea general: las primeras columnas identifican la muestra y su etiqueta, mientras que el resto corresponden a características calculadas a partir de la señal. La matriz de características contiene únicamente las columnas numéricas generadas a partir del \ac{EEG}; la información de sujeto, condición e índice de época se conserva como metadatos para poder interpretar y revisar los resultados.
 
-\subsection{Guardado y check}
+\subsection{Guardado y comprobación}
 
 El último paso de la extracción consiste en guardar las matrices y los metadatos necesarios para las fases posteriores. Esta separación permite conservar, por un lado, los valores numéricos que entran a los modelos y, por otro, la información que permite interpretar de dónde procede cada fila.
 
@@ -530,11 +532,11 @@ Con 62 canales, las dos primeras partes aportan \(62 \cdot 2 = 124\) caracterís
 
 Los dos programas de entrenamiento utilizan los mismos tipos de clasificador: regresión logística y árbol de decisión. La elección mantiene la línea interpretativa planteada en los fundamentos teóricos, ya que ambos modelos permiten revisar qué variables intervienen en la decisión sin depender únicamente de una predicción final.
 
-La regresión logística se utiliza como modelo lineal principal. En los scripts se entrena con regularización \textit{elastic-net}\footnote{\url{https://en.wikipedia.org/wiki/Elastic_net_regularization}}, lo que ayuda a controlar el peso de las características y reduce el riesgo de ajustar demasiado el modelo a particularidades del conjunto de entrenamiento. Además, al disponer de coeficientes asociados a las variables de entrada, sus resultados pueden relacionarse después con canales, bandas y asimetrías concretas. El árbol de decisión se utiliza como segundo modelo interpretable. Su papel dentro del sistema es servir como comparación frente al modelo lineal, ya que puede capturar divisiones no lineales entre características.
+La regresión logística se utiliza como modelo lineal principal. En los scripts se entrena con regularización \textit{elastic-net}\footnote{Regularización que combina penalizaciones L1 y L2 para controlar la complejidad del modelo \cite{wikipediaElasticNet}.}, lo que ayuda a controlar el peso de las características y reduce el riesgo de ajustar demasiado el modelo a particularidades del conjunto de entrenamiento. Además, al disponer de coeficientes asociados a las variables de entrada, sus resultados pueden relacionarse después con canales, bandas y asimetrías concretas. El árbol de decisión se utiliza como segundo modelo interpretable. Su papel dentro del sistema es servir como comparación frente al modelo lineal, ya que puede capturar divisiones no lineales entre características.
 
 Ambos clasificadores se entrenan con ponderación balanceada de clases. Esta opción ajusta el peso de cada clase durante el aprendizaje para compensar posibles diferencias en el número de épocas disponibles de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. De este modo, una clase con menos muestras no queda tan fácilmente ignorada por el modelo.
 
-La diferencia entre los dos scripts no está en los clasificadores utilizados, sino en la forma de evaluarlos. En \texttt{train\_within\_subject.py} se emplea una configuración fija para cada modelo, mientras que en \texttt{train\_all\_subjects.py} se realiza una búsqueda de hiperparámetros\footnote{\url{https://en.wikipedia.org/wiki/Hyperparameter_optimization}} probando combinaciones predefinidas antes de guardar el modelo global final.
+La diferencia entre los dos scripts no está en los clasificadores utilizados, sino en la forma de evaluarlos. En \texttt{train\_within\_subject.py} se emplea una configuración fija para cada modelo, mientras que en \texttt{train\_all\_subjects.py} se realiza una búsqueda de hiperparámetros\footnote{Proceso de selección de valores de configuración del modelo antes del entrenamiento final \cite{wikipediaHyperparameterOptimization}.} probando combinaciones predefinidas antes de guardar el modelo global final.
 
 \subsection{Entrenamiento \textit{within-subject}}
 
@@ -542,9 +544,9 @@ La estrategia \textit{within-subject} evalúa el comportamiento de los modelos d
 
 Antes de entrenar, se comprueba que el participante tenga muestras suficientes de las tres clases. Si alguna emoción tiene menos épocas que el número de particiones necesarias, ese sujeto se descarta para evitar una validación incompleta. En los sujetos válidos se construyen cinco particiones temporales. Dentro de cada emoción, las épocas se ordenan mediante \texttt{epoch\_idx} y se dividen en cinco tramos contiguos, sin mezclar aleatoriamente las muestras.
 
-En cada fold se reserva como prueba un tramo temporal de cada emoción y se entrena con los tramos restantes. Esta organización mantiene las tres clases representadas en cada evaluación y evita que el conjunto de prueba se forme con épocas elegidas al azar de toda la sesión. Después de separar entrenamiento y prueba, se calcula la referencia \texttt{NEUTRO}, se aplica el escalado correspondiente y se construyen las características Alpha, Beta y asimetría Alpha descritas en la sección anterior.
+En cada \textit{fold} se reserva como prueba un tramo temporal de cada emoción y se entrena con los tramos restantes. Esta organización mantiene las tres clases representadas en cada evaluación y evita que el conjunto de prueba se forme con épocas elegidas al azar de toda la sesión. Después de separar entrenamiento y prueba, se calcula la referencia \texttt{NEUTRO}, se aplica el escalado correspondiente y se construyen las características Alpha, Beta y asimetría Alpha descritas en la sección anterior.
 
-Los clasificadores se entrenan con una configuración fija, sin búsqueda de hiperparámetros. Esta decisión simplifica la comparación entre sujetos y evita añadir una segunda capa de selección dentro de conjuntos de datos relativamente pequeños. Para cada participante y clasificador se calculan las métricas de los cinco folds, se acumulan las predicciones y se guarda un resumen con la media y desviación típica del rendimiento.
+Los clasificadores se entrenan con una configuración fija, sin búsqueda de hiperparámetros. Esta decisión simplifica la comparación entre sujetos y evita añadir una segunda capa de selección dentro de conjuntos de datos relativamente pequeños. Para cada participante y clasificador se calculan las métricas de los cinco \textit{folds}, se acumulan las predicciones y se guarda un resumen con la media y desviación típica del rendimiento.
 
 Una vez terminada la evaluación, el script entrena modelos finales por sujeto usando todas sus épocas válidas. Estos modelos se guardan junto con la información de preprocesado necesaria para aplicar después las mismas transformaciones a nuevos datos del mismo participante.
 
@@ -552,23 +554,23 @@ Una vez terminada la evaluación, el script entrena modelos finales por sujeto u
 
 La estrategia \textit{all-subjects} entrena un modelo global a partir de los datos de todos los participantes válidos. A diferencia del caso anterior, el objetivo no es ajustar un modelo específico para cada persona, sino comprobar si existe un patrón común que permita clasificar emociones en sujetos no usados durante el entrenamiento.
 
-Para evaluar este escenario se utiliza \texttt{StratifiedGroupKFold}\footnote{\href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html}{Documentación de \texttt{StratifiedGroupKFold} en scikit-learn}}, tomando el identificador del sujeto como grupo. De esta forma, las épocas de un mismo participante no pueden aparecer simultáneamente en entrenamiento y prueba. Esta separación es importante porque varias épocas del mismo sujeto pueden compartir patrones individuales que no deberían filtrarse al conjunto de prueba. Además, la parte estratificada de la partición ayuda a mantener una distribución de clases lo más equilibrada posible entre folds.
+Para evaluar este escenario se utiliza \texttt{StratifiedGroupKFold}\footnote{Validador de scikit-learn que combina estratificación por clase con separación estricta por grupos \cite{sklearnStratifiedGroupKFoldDocs}.}, tomando el identificador del sujeto como grupo. De esta forma, las épocas de un mismo participante no pueden aparecer simultáneamente en entrenamiento y prueba. Esta separación es importante porque varias épocas del mismo sujeto pueden compartir patrones individuales que no deberían filtrarse al conjunto de prueba. Además, la parte estratificada de la partición ayuda a mantener una distribución de clases lo más equilibrada posible entre \textit{folds}.
 
-En esta estrategia sí se realiza búsqueda de hiperparámetros. Para cada clasificador se define una rejilla de combinaciones mediante \texttt{ParameterGrid}\footnote{\href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ParameterGrid.html}{Documentación de \texttt{ParameterGrid} en scikit-learn}}. Cada combinación se evalúa con la misma validación por grupos. En cada fold, igual que en el entrenamiento por sujeto, la referencia \texttt{NEUTRO} y el escalado se calculan solo con los datos de entrenamiento, y después se aplican al conjunto de prueba.
+En esta estrategia sí se realiza búsqueda de hiperparámetros. Para cada clasificador se define una rejilla de combinaciones mediante \texttt{ParameterGrid}\footnote{Herramienta de scikit-learn que genera todas las combinaciones posibles de una rejilla de parámetros \cite{sklearnParameterGridDocs}.}. Cada combinación se evalúa con la misma validación por grupos. En cada \textit{fold}, igual que en el entrenamiento por sujeto, la referencia \texttt{NEUTRO} y el escalado se calculan solo con los datos de entrenamiento, y después se aplican al conjunto de prueba.
 
 El criterio principal para seleccionar la mejor configuración es el F1 macro, ya que resume el rendimiento medio entre clases sin favorecer únicamente a la clase más representada. Si dos configuraciones obtienen un valor similar, la exactitud se usa como criterio secundario. Finalmente, el script entrena un modelo global final por clasificador usando todos los datos disponibles y los mejores hiperparámetros encontrados.
 
 \subsection{Métricas, figuras y modelos guardados}
 
-Al finalizar cada evaluación, los scripts almacenan tanto los resultados numéricos como los objetos necesarios para revisar o reutilizar los modelos. Las métricas calculadas son la exactitud y el F1 macro, guardando siempre la media y la desviación típica cuando la evaluación se realiza por folds. Además, se acumulan las etiquetas reales y predichas para construir matrices de confusión agregadas.
+Al finalizar cada evaluación, los scripts almacenan tanto los resultados numéricos como los objetos necesarios para revisar o reutilizar los modelos. Las métricas calculadas son la exactitud y el F1 macro, guardando siempre la media y la desviación típica cuando la evaluación se realiza por \textit{folds}. Además, se acumulan las etiquetas reales y predichas para construir matrices de confusión agregadas.
 
 En el entrenamiento \textit{within-subject}, los resultados se organizan por sujeto y clasificador. El archivo \texttt{within\_subject\_summary.csv} contiene una tabla resumida con las métricas de cada participante, mientras que \texttt{within\_subject\_results.json} conserva la misma información en formato estructurado, incluyendo el clasificador seleccionado como mejor opción global. También se guarda \texttt{selected\_features.csv}, con la lista de características utilizadas finalmente por los modelos.
 
 Para cada clasificador \textit{within-subject} se genera una figura general de exactitud: cada barra corresponde a un sujeto y la línea de media resume el rendimiento conjunto de todos los participantes evaluados. Además, se genera una matriz de confusión agregada, construida acumulando las predicciones de todos los sujetos para ese clasificador. Junto a la matriz se guarda un \textit{classification report} en formato \ac{JSON}, que resume el comportamiento por clase. Por último, se entrena un modelo final para cada sujeto válido y cada clasificador, almacenándolo en formato \texttt{joblib} dentro de las subcarpetas \texttt{logReg} y \texttt{decisionTree}.
 
-En el entrenamiento \textit{all-subjects}, el archivo principal es \texttt{all\_subjects\_results.json}. Este fichero guarda, para cada clasificador, la mejor combinación de hiperparámetros, las métricas por fold, los sujetos que han formado cada partición de prueba y los resultados de todas las combinaciones evaluadas durante la búsqueda. De esta forma, no solo queda registrado el modelo ganador, sino también el proceso seguido para seleccionarlo.
+En el entrenamiento \textit{all-subjects}, el archivo principal es \texttt{all\_subjects\_results.json}. Este fichero guarda, para cada clasificador, la mejor combinación de hiperparámetros, las métricas por \textit{fold}, los sujetos que han formado cada partición de prueba y los resultados de todas las combinaciones evaluadas durante la búsqueda. De esta forma, no solo queda registrado el modelo ganador, sino también el proceso seguido para seleccionarlo.
 
-Las figuras del caso \textit{all-subjects} son más completas porque existe un único modelo global por clasificador. Para cada uno se genera una gráfica con la exactitud y el F1 macro por fold, una matriz de confusión absoluta y normalizada, y una gráfica de importancia de características. Además, después de entrenar los modelos finales con todos los datos disponibles, se generan visualizaciones específicas: coeficientes principales para la regresión logística y una representación de los primeros niveles del árbol de decisión.
+Las figuras del caso \textit{all-subjects} son más completas porque existe un único modelo global por clasificador. Para cada uno se genera una gráfica con la exactitud y el F1 macro por \textit{fold}, una matriz de confusión absoluta y normalizada, y una gráfica de importancia de características. Además, después de entrenar los modelos finales con todos los datos disponibles, se generan visualizaciones específicas: coeficientes principales para la regresión logística y una representación de los primeros niveles del árbol de decisión.
 
 Los modelos finales también se guardan en formato \texttt{joblib}. Cada archivo incluye el clasificador entrenado, los parámetros utilizados, los nombres de canales y características, el mapa de etiquetas y la información de preprocesado necesaria para aplicar la misma transformación a nuevos datos. Esto evita que el modelo quede separado de las operaciones previas que necesita para recibir las características en el mismo formato con el que fue entrenado.
 
@@ -606,11 +608,11 @@ Los modelos finales también se guardan en formato \texttt{joblib}. Cada archivo
 \node[paso, below=of entrada] (carga) {Carga del conjunto y nombres de canales};
 \node[paso, below=of carga] (rama) {Selección de estrategia de evaluación};
 
-\node[pasopeq, below left=0.85cm and 0.45cm of rama] (within) {\textit{within-subject}\\5 folds temporales por sujeto};
+\node[pasopeq, below left=0.85cm and 0.45cm of rama] (within) {\textit{within-subject}\\5 \textit{folds} temporales por sujeto};
 \node[pasopeq, below right=0.85cm and 0.45cm of rama] (allsubjects) {\textit{all-subjects}\\StratifiedGroupKFold por sujeto};
 
 \node[pasopeq, below=of within] (normw) {Referencia NEUTRO y escalado\\ajustados solo con train};
-\node[pasopeq, below=of allsubjects] (norma) {Búsqueda de hiperparámetros\\y normalización dentro de cada fold};
+\node[pasopeq, below=of allsubjects] (norma) {Búsqueda de hiperparámetros\\y normalización dentro de cada \textit{fold}};
 
 \node[paso, below=1.0cm of rama, yshift=-2.4cm] (featuresfinal) {Construcción de características finales\\Alpha, Beta y asimetría Alpha};
 \node[paso, below=of featuresfinal] (modelos) {Entrenamiento de regresión logística y árbol de decisión};
@@ -639,7 +641,7 @@ Los modelos finales también se guardan en formato \texttt{joblib}. Cada archivo
 
 Además del entrenamiento de clasificadores, se añadió un análisis de separabilidad para revisar cómo se distribuyen las muestras en el espacio de características. Este bloque no entrena un nuevo modelo predictivo, sino que permite observar si las características utilizadas tienden a agrupar las épocas por emoción o si, por el contrario, aparecen agrupaciones más relacionadas con el sujeto.
 
-El script \texttt{analyze\_separability.py} utiliza el mismo conjunto de variables que el entrenamiento principal y genera representaciones bidimensionales mediante \ac{PCA}\footnote{\url{https://en.wikipedia.org/wiki/Principal_component_analysis}} y \ac{LDA}\footnote{\url{https://en.wikipedia.org/wiki/Linear_discriminant_analysis}}. Para interpretar estas figuras conviene distinguir el papel de ambas proyecciones. \ac{PCA} no utiliza las etiquetas de emoción, sino que busca las direcciones donde los datos varían más. \ac{LDA}, en cambio, sí utiliza las etiquetas y proyecta las muestras intentando maximizar la separación entre clases. Por eso, comparar ambas representaciones permite diferenciar entre la estructura natural de los datos y la separación obtenida al usar información de clase. Estas visualizaciones se complementan con métricas sencillas de separación entre grupos, de forma que el análisis no dependa únicamente de la inspección visual de las figuras.
+El script \texttt{analyze\_separability.py} utiliza el mismo conjunto de variables que el entrenamiento principal y genera representaciones bidimensionales mediante \ac{PCA}\footnote{Técnica de reducción de dimensionalidad que busca las direcciones de mayor variabilidad de los datos \cite{wikipediaPCA}.} y \ac{LDA}\footnote{Técnica supervisada que proyecta los datos buscando aumentar la separación entre clases \cite{wikipediaLDA}.}. Para interpretar estas figuras conviene distinguir el papel de ambas proyecciones. \ac{PCA} no utiliza las etiquetas de emoción, sino que busca las direcciones donde los datos varían más. \ac{LDA}, en cambio, sí utiliza las etiquetas y proyecta las muestras intentando maximizar la separación entre clases. Por eso, comparar ambas representaciones permite diferenciar entre la estructura natural de los datos y la separación obtenida al usar información de clase. Estas visualizaciones se complementan con métricas sencillas de separación entre grupos, de forma que el análisis no dependa únicamente de la inspección visual de las figuras.
 
 \subsection{Entrada y construcción del espacio de análisis}
 
@@ -661,7 +663,7 @@ Una vez construido el espacio de análisis, el script genera las proyecciones en
 
 Además de las figuras, el script calcula métricas numéricas para comparar la separación de los grupos en distintos espacios. Estas métricas se calculan sobre el espacio original de características y sobre las dos proyecciones bidimensionales, de forma que se pueda contrastar si la separabilidad aparece antes o después de reducir la dimensionalidad.
 
-La primera medida utilizada es \textit{silhouette}\footnote{\url{https://en.wikipedia.org/wiki/Silhouette_(clustering)}}, que resume hasta qué punto cada muestra está más cerca de su propio grupo que de los demás. La segunda es el ratio entre centroides y dispersión interna, denominado en el código \texttt{centroid\_ratio}. Este valor compara la distancia media entre los centros de los grupos con la dispersión media de las muestras dentro de cada grupo; por tanto, valores más altos indican grupos más separados y compactos.
+La primera medida utilizada es \textit{silhouette}\footnote{Medida que compara la cercanía de una muestra a su propio grupo frente a otros grupos \cite{wikipediaSilhouetteClustering}.}, que resume hasta qué punto cada muestra está más cerca de su propio grupo que de los demás. La segunda es el ratio entre centroides y dispersión interna, denominado en el código \texttt{centroid\_ratio}. Este valor compara la distancia media entre los centros de los grupos con la dispersión media de las muestras dentro de cada grupo; por tanto, valores más altos indican grupos más separados y compactos.
 
 En el análisis global, estas métricas se calculan dos veces: una usando las etiquetas emocionales y otra usando los identificadores de sujeto. Esta comparación ayuda a detectar si el espacio separa mejor las emociones o a los participantes. En el análisis por sujeto, las métricas se calculan de forma independiente para cada participante utilizando únicamente las tres condiciones emocionales.
 
@@ -736,11 +738,11 @@ Por tanto, las explicaciones generadas en esta fase se orientan a comprender qu�
 
 \subsection{Cálculo de explicaciones out-of-fold}
 
-El cálculo de explicabilidad sigue la misma lógica que el entrenamiento \textit{within-subject}: los datos se procesan por sujeto, se dividen en particiones y cada modelo se ajusta únicamente con la parte de entrenamiento. La diferencia es que aquí no se explican los modelos finales guardados en formato \texttt{joblib}, ya que estos se entrenan con todas las épocas disponibles de cada participante. En su lugar, se entrenan modelos auxiliares por fold para que cada explicación se calcule sobre muestras que no han sido vistas durante el ajuste.
+El cálculo de explicabilidad sigue la misma lógica que el entrenamiento \textit{within-subject}: los datos se procesan por sujeto, se dividen en particiones y cada modelo se ajusta únicamente con la parte de entrenamiento. La diferencia es que aquí no se explican los modelos finales guardados en formato \texttt{joblib}, ya que estos se entrenan con todas las épocas disponibles de cada participante. En su lugar, se entrenan modelos auxiliares por \textit{fold} para que cada explicación se calcule sobre muestras que no han sido vistas durante el ajuste.
 
-Para cada sujeto se cargan las características, etiquetas y metadatos, y se construyen particiones temporales estratificadas por condición. Cada fold reserva épocas de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}, manteniendo bloques contiguos según el índice temporal de las frases. Si algún participante no dispone de suficientes épocas por clase para formar estas particiones, se omite en esta fase.
+Para cada sujeto se cargan las características, etiquetas y metadatos, y se construyen particiones temporales estratificadas por condición. Cada \textit{fold} reserva épocas de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}, manteniendo bloques contiguos según el índice temporal de las frases. Si algún participante no dispone de suficientes épocas por clase para formar estas particiones, se omite en esta fase.
 
-Dentro de cada fold se ajusta la normalización con las muestras de entrenamiento, se entrena una regresión logística con la misma configuración usada en el entrenamiento \textit{within-subject} y se predicen las muestras reservadas. Sobre esas muestras de test se calculan las explicaciones \ac{SHAP}, por lo que cada época explicada es \textit{out-of-fold}.
+Dentro de cada \textit{fold} se ajusta la normalización con las muestras de entrenamiento, se entrena una regresión logística con la misma configuración usada en el entrenamiento \textit{within-subject} y se predicen las muestras reservadas. Sobre esas muestras de test se calculan las explicaciones \ac{SHAP}, por lo que cada época explicada es \textit{out-of-fold}.
 
 Al tratarse de una regresión logística, el script utiliza una forma lineal de \ac{SHAP}. La contribución de una característica \(j\) para una clase \(c\) se calcula como:
 
@@ -748,15 +750,15 @@ Al tratarse de una regresión logística, el script utiliza una forma lineal de 
 \[
 \phi_j^{(c)}(x) = w_j^{(c)} \left(x_j - \bar{x}_{j,\mathrm{train}}\right)
 \]
-\caption{Contribución \acs{SHAP} lineal utilizada para la regresión logística en cada fold.}
+\caption{Contribución \acs{SHAP} lineal utilizada para la regresión logística en cada \textit{fold}.}
 \label{eq:shap_lineal}
 \end{myequation}
 
-donde \(w_j^{(c)}\) es el coeficiente aprendido por la regresión logística para esa clase, \(x_j\) es el valor de la característica en la muestra explicada y \(\bar{x}_{j,\mathrm{train}}\) es la media de esa característica en las muestras de entrenamiento del fold. De esta forma, la explicación conserva una relación directa con los coeficientes del modelo y con los valores reales de la muestra analizada.
+donde \(w_j^{(c)}\) es el coeficiente aprendido por la regresión logística para esa clase, \(x_j\) es el valor de la característica en la muestra explicada y \(\bar{x}_{j,\mathrm{train}}\) es la media de esa característica en las muestras de entrenamiento del \textit{fold}. De esta forma, la explicación conserva una relación directa con los coeficientes del modelo y con los valores reales de la muestra analizada.
 
 \subsection{Agregación de importancias}
 
-Una vez calculadas las explicaciones de todos los folds, el script reúne los valores \ac{SHAP} de cada sujeto. La agregación se realiza por clase usando las épocas cuya etiqueta real pertenece a esa condición emocional. Es decir, para resumir \texttt{JOY} se toman las épocas reales de \texttt{JOY} y las contribuciones asociadas a la salida de esa clase; el mismo criterio se aplica a \texttt{NEUTRO} y \texttt{SAD}.
+Una vez calculadas las explicaciones de todos los \textit{folds}, el script reúne los valores \ac{SHAP} de cada sujeto. La agregación se realiza por clase usando las épocas cuya etiqueta real pertenece a esa condición emocional. Es decir, para resumir \texttt{JOY} se toman las épocas reales de \texttt{JOY} y las contribuciones asociadas a la salida de esa clase; el mismo criterio se aplica a \texttt{NEUTRO} y \texttt{SAD}.
 
 Para cada combinación de sujeto, clase emocional y característica se calculan dos medidas principales. La primera es \texttt{mean\_abs\_shap}, que representa la magnitud media de la contribución sin tener en cuenta el signo; sirve para saber cuánto influye una característica en la decisión. La segunda es \texttt{mean\_signed\_shap}, que conserva el signo medio y permite distinguir si, de forma promedio, la característica empuja la predicción hacia una clase o en sentido contrario.
 
@@ -808,7 +810,7 @@ Junto a estas tablas se guardan las figuras generadas: ranking de característic
 
 \node[paso] (entrada) {\texttt{features\_X.npy}, etiquetas y metadatos};
 \node[paso, below=of entrada] (sujetos) {Recorrido por sujetos válidos};
-\node[paso, below=of sujetos] (folds) {Construcción de folds temporales estratificados por condición};
+\node[paso, below=of sujetos] (folds) {Construcción de \textit{folds} temporales estratificados por condición};
 \node[paso, below=of folds] (train) {Normalización con train y entrenamiento de LogReg};
 \node[paso, below=of train] (test) {Predicción del test y cálculo de SHAP lineal out-of-fold};
 \node[paso, below=of test] (agregacion) {Agregación por sujeto, clase y característica};

@@ -264,10 +264,10 @@
 \newlabel{sub@fig:casco_eeg}{{(b)}{27}{Subfigure 4 4.1(b)\relax }{subfigure.4.1.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Entorno y material utilizados durante el registro de las señales EEG.}}{27}{figure.caption.34}\protected@file@percent }
 \newlabel{fig:entorno_registro_eeg}{{4.1}{27}{Entorno y material utilizados durante el registro de las señales EEG}{figure.caption.34}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Descripción general de los datos}{27}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Descripción general de los datos}{28}{section.4.2}\protected@file@percent }
 \acronymused{EEG}
 \AC@undonewlabel{acro:EDF}
-\newlabel{acro:EDF}{{4.2}{27}{Descripción general de los datos}{section*.35}{}}
+\newlabel{acro:EDF}{{4.2}{28}{Descripción general de los datos}{section*.35}{}}
 \acronymused{EDF}
 \acronymused{EDF}
 \@writefile{toc}{\contentsline {section}{\numberline {4.3}Organización del repositorio}{28}{section.4.3}\protected@file@percent }
@@ -276,17 +276,14 @@
 \citation{githubDocs}
 \citation{pythonDocs}
 \citation{condaDocs}
-\citation{ubuntuDocs}
-\citation{nvidiaDocs}
 \@writefile{toc}{\contentsline {section}{\numberline {4.4}Entorno de trabajo}{31}{section.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Entorno físico y software}{31}{subsection.4.4.1}\protected@file@percent }
+\citation{ubuntuDocs}
+\citation{nvidiaDocs}
 \citation{mnePythonDocs}
 \citation{numpyDocs}
 \citation{pandasDocs}
 \citation{scipyDocs}
-\citation{sklearnDocs}
-\citation{matplotlibDocs}
-\citation{joblibDocs}
 \AC@undonewlabel{acro:GPU}
 \newlabel{acro:GPU}{{4.4.1}{32}{Entorno físico y software}{section*.36}{}}
 \acronymused{GPU}
@@ -295,6 +292,9 @@
 \AC@undonewlabel{acro:MEG}
 \newlabel{acro:MEG}{{4.4.2}{32}{Librerías y dependencias principales}{section*.37}{}}
 \acronymused{MEG}
+\citation{sklearnDocs}
+\citation{matplotlibDocs}
+\citation{joblibDocs}
 \@writefile{toc}{\contentsline {chapter}{\numberline {5}Desarrollo del sistema}{34}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -318,175 +318,196 @@
 \AC@undonewlabel{acro:ICA}
 \newlabel{acro:ICA}{{5.2}{35}{Preprocesado de registros EEG}{section*.39}{}}
 \acronymused{ICA}
+\citation{mneEventsFromRaw}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Carga de archivos y extracción de eventos}{36}{subsection.5.2.1}\protected@file@percent }
 \acronymused{EDF}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Selección de canales, renombrado y montaje EEG}{36}{subsection.5.2.2}\protected@file@percent }
+\acronymused{EDF}
+\citation{wikipedia1020System}
+\citation{wikipediaBandStopFilter}
+\citation{wikipediaUtilityFrequency}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Selección de canales, renombrado y montaje EEG}{37}{subsection.5.2.2}\protected@file@percent }
 \acronymused{EEG}
 \AC@undonewlabel{acro:EOG}
 \newlabel{acro:EOG}{{5.2.2}{37}{Selección de canales, renombrado y montaje EEG}{section*.40}{}}
 \acronymused{EOG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Filtrado y remuestreo}{37}{subsection.5.2.3}\protected@file@percent }
 \acronymused{EEG}
 \citation{aguilar2026eeg}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Filtrado y remuestreo}{38}{subsection.5.2.3}\protected@file@percent }
+\acronymused{EEG}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Detección de canales problemáticos y corrección de artefactos}{38}{subsection.5.2.4}\protected@file@percent }
 \acronymused{EEG}
 \acronymused{EOG}
+\citation{wikipediaStandardScore}
+\citation{wikipediaKurtosis}
 \@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.1}{\ignorespaces Cálculo del z-score para una métrica de canal.}}{39}{myequation.caption.41}\protected@file@percent }
 \newlabel{eq:zscore_canales}{{5.1}{39}{Cálculo del z-score para una métrica de canal}{myequation.caption.41}{}}
+\citation{wikipediaFastICA}
 \acronymused{EEG}
 \acronymused{ICA}
 \acronymused{EOG}
 \acronymused{EMG}
 \acronymused{ICA}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Segmentación en épocas y rechazo de segmentos anómalos}{40}{subsection.5.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.6}Almacenamiento de épocas y estadísticas de control}{40}{subsection.5.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.6}Almacenamiento de épocas y estadísticas de control}{41}{subsection.5.2.6}\protected@file@percent }
 \AC@undonewlabel{acro:FIF}
-\newlabel{acro:FIF}{{5.2.6}{40}{Almacenamiento de épocas y estadísticas de control}{section*.42}{}}
+\newlabel{acro:FIF}{{5.2.6}{41}{Almacenamiento de épocas y estadísticas de control}{section*.42}{}}
 \acronymused{FIF}
 \AC@undonewlabel{acro:JSON}
 \newlabel{acro:JSON}{{5.2.6}{41}{Almacenamiento de épocas y estadísticas de control}{section*.43}{}}
 \acronymused{JSON}
 \acronymused{ICA}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.7}Resumen}{41}{subsection.5.2.7}\protected@file@percent }
+\citation{he2009learning}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.7}Resumen}{42}{subsection.5.2.7}\protected@file@percent }
 \acronymused{EDF}
 \acronymused{ICA}
 \acronymused{FIF}
 \acronymused{JSON}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Resumen del flujo de preprocesado aplicado a cada registro \acs {EEG}.}}{41}{figure.caption.44}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Resumen del flujo de preprocesado aplicado a cada registro \acs {EEG}.}}{42}{figure.caption.44}\protected@file@percent }
 \acronymused{EEG}
-\newlabel{fig:flujo_preprocesado}{{5.2}{41}{Resumen del flujo de preprocesado aplicado a cada registro \acs {EEG}}{figure.caption.44}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.8}Control de sujetos válidos}{41}{subsection.5.2.8}\protected@file@percent }
+\newlabel{fig:flujo_preprocesado}{{5.2}{42}{Resumen del flujo de preprocesado aplicado a cada registro \acs {EEG}}{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.8}Control de sujetos válidos}{42}{subsection.5.2.8}\protected@file@percent }
+\citation{alarcao2019eeg}
+\citation{difronso2019dryeeg}
 \acronymused{EEG}
 \acronymused{JSON}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Extracción de características}{42}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Extracción de características}{43}{section.5.3}\protected@file@percent }
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Carga de épocas y sujetos válidos}{43}{subsection.5.3.1}\protected@file@percent }
+\citation{wikipediaFFT}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Carga de épocas y sujetos válidos}{44}{subsection.5.3.1}\protected@file@percent }
 \acronymused{FIF}
 \acronymused{EEG}
 \acronymused{EOG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Cálculo de potencia espectral por bandas}{43}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Cálculo de potencia espectral por bandas}{44}{subsection.5.3.2}\protected@file@percent }
 \AC@undonewlabel{acro:FFT}
-\newlabel{acro:FFT}{{5.3.2}{43}{Cálculo de potencia espectral por bandas}{section*.45}{}}
+\newlabel{acro:FFT}{{5.3.2}{44}{Cálculo de potencia espectral por bandas}{section*.45}{}}
 \acronymused{FFT}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.2}{\ignorespaces Transformada discreta de Fourier calculada de forma eficiente mediante \textit  {FFT}.}}{43}{myequation.caption.46}\protected@file@percent }
-\newlabel{eq:fft}{{5.2}{43}{Transformada discreta de Fourier calculada de forma eficiente mediante \textit {FFT}}{myequation.caption.46}{}}
 \citation{eeglabTimeFrequencyTutorial}
 \citation{eeglabTimeFrequencyTutorial}
 \citation{welch1967fft}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.2}{\ignorespaces Transformada discreta de Fourier calculada de forma eficiente mediante \textit  {FFT}.}}{45}{myequation.caption.46}\protected@file@percent }
+\newlabel{eq:fft}{{5.2}{45}{Transformada discreta de Fourier calculada de forma eficiente mediante \textit {FFT}}{myequation.caption.46}{}}
 \AC@undonewlabel{acro:PSD}
-\newlabel{acro:PSD}{{5.3.2}{44}{Cálculo de potencia espectral por bandas}{section*.47}{}}
+\newlabel{acro:PSD}{{5.3.2}{45}{Cálculo de potencia espectral por bandas}{section*.47}{}}
 \acronymused{PSD}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo de señal en dominio temporal y frecuencial}}{44}{figure.caption.48}\protected@file@percent }
-\newlabel{fig:ejemplo_psd}{{5.3}{44}{Ejemplo de señal en dominio temporal y frecuencial}{figure.caption.48}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo de señal en dominio temporal y frecuencial}}{45}{figure.caption.48}\protected@file@percent }
+\newlabel{fig:ejemplo_psd}{{5.3}{45}{Ejemplo de señal en dominio temporal y frecuencial}{figure.caption.48}{}}
 \acronymused{PSD}
 \acronymused{FFT}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.3}{\ignorespaces Estimación de la densidad espectral de potencia mediante el método de Welch.}}{44}{myequation.caption.49}\protected@file@percent }
-\newlabel{eq:welch_psd}{{5.3}{44}{Estimación de la densidad espectral de potencia mediante el método de Welch}{myequation.caption.49}{}}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.3}{\ignorespaces Estimación de la densidad espectral de potencia mediante el método de Welch.}}{46}{myequation.caption.49}\protected@file@percent }
+\newlabel{eq:welch_psd}{{5.3}{46}{Estimación de la densidad espectral de potencia mediante el método de Welch}{myequation.caption.49}{}}
 \acronymused{PSD}
 \acronymused{EEG}
 \acronymused{PSD}
 \acronymused{EEG}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.4}{\ignorespaces Potencia media de una banda de frecuencia para una época y un canal.}}{45}{myequation.caption.50}\protected@file@percent }
-\newlabel{eq:potencia_media_banda}{{5.4}{45}{Potencia media de una banda de frecuencia para una época y un canal}{myequation.caption.50}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Normalización respecto a la condición neutra}{45}{subsection.5.3.3}\protected@file@percent }
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.4}{\ignorespaces Potencia media de una banda de frecuencia para una época y un canal.}}{46}{myequation.caption.50}\protected@file@percent }
+\newlabel{eq:potencia_media_banda}{{5.4}{46}{Potencia media de una banda de frecuencia para una época y un canal}{myequation.caption.50}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Normalización respecto a la condición neutra}{46}{subsection.5.3.3}\protected@file@percent }
 \acronymused{PSD}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Ejemplo de transformación logarítmica en base 10.}}{46}{table.caption.51}\protected@file@percent }
-\newlabel{tab:ejemplo_log10}{{5.1}{46}{Ejemplo de transformación logarítmica en base 10}{table.caption.51}{}}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.5}{\ignorespaces Transformación logarítmica de la potencia espectral.}}{46}{myequation.caption.52}\protected@file@percent }
-\newlabel{eq:log_psd}{{5.5}{46}{Transformación logarítmica de la potencia espectral}{myequation.caption.52}{}}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.6}{\ignorespaces Referencia neutra de un sujeto para cada canal y banda.}}{46}{myequation.caption.53}\protected@file@percent }
-\newlabel{eq:baseline_neutro}{{5.6}{46}{Referencia neutra de un sujeto para cada canal y banda}{myequation.caption.53}{}}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.7}{\ignorespaces Diferencia logarítmica respecto a la condición neutra del mismo sujeto.}}{46}{myequation.caption.54}\protected@file@percent }
-\newlabel{eq:delta_neutro}{{5.7}{46}{Diferencia logarítmica respecto a la condición neutra del mismo sujeto}{myequation.caption.54}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Ejemplo de transformación logarítmica en base 10.}}{47}{table.caption.51}\protected@file@percent }
+\newlabel{tab:ejemplo_log10}{{5.1}{47}{Ejemplo de transformación logarítmica en base 10}{table.caption.51}{}}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.5}{\ignorespaces Transformación logarítmica de la potencia espectral.}}{47}{myequation.caption.52}\protected@file@percent }
+\newlabel{eq:log_psd}{{5.5}{47}{Transformación logarítmica de la potencia espectral}{myequation.caption.52}{}}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.6}{\ignorespaces Referencia neutra de un sujeto para cada canal y banda.}}{47}{myequation.caption.53}\protected@file@percent }
+\newlabel{eq:baseline_neutro}{{5.6}{47}{Referencia neutra de un sujeto para cada canal y banda}{myequation.caption.53}{}}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.7}{\ignorespaces Diferencia logarítmica respecto a la condición neutra del mismo sujeto.}}{48}{myequation.caption.54}\protected@file@percent }
+\newlabel{eq:delta_neutro}{{5.7}{48}{Diferencia logarítmica respecto a la condición neutra del mismo sujeto}{myequation.caption.54}{}}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.8}{\ignorespaces Normalización z-score por sujeto usando la condición neutra como referencia.}}{48}{myequation.caption.55}\protected@file@percent }
+\newlabel{eq:zscore_neutro}{{5.8}{48}{Normalización z-score por sujeto usando la condición neutra como referencia}{myequation.caption.55}{}}
 \citation{alarcao2019eeg}
 \citation{koelstra2012deap}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.8}{\ignorespaces Normalización z-score por sujeto usando la condición neutra como referencia.}}{47}{myequation.caption.55}\protected@file@percent }
-\newlabel{eq:zscore_neutro}{{5.8}{47}{Normalización z-score por sujeto usando la condición neutra como referencia}{myequation.caption.55}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Construcción del conjunto de características}{47}{subsection.5.3.4}\protected@file@percent }
 \citation{raufi2022alphatheta}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Construcción del conjunto de características}{49}{subsection.5.3.4}\protected@file@percent }
+\acronymused{EOG}
+\acronymused{EEG}
+\acronymused{EEG}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.9}{\ignorespaces Relación Theta/Alpha calculada como diferencia en escala logarítmica.}}{49}{myequation.caption.56}\protected@file@percent }
+\newlabel{eq:theta_alpha_ratio}{{5.9}{49}{Relación Theta/Alpha calculada como diferencia en escala logarítmica}{myequation.caption.56}{}}
+\acronymused{EEG}
 \citation{koelstra2012deap}
 \citation{smith2017frontal}
 \acronymused{EEG}
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.10}{\ignorespaces Asimetría Alpha entre un par de canales homólogos.}}{50}{myequation.caption.57}\protected@file@percent }
+\newlabel{eq:alpha_asymmetry}{{5.10}{50}{Asimetría Alpha entre un par de canales homólogos}{myequation.caption.57}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Ejemplo simplificado de la estructura del conjunto de características.}}{51}{table.caption.58}\protected@file@percent }
+\newlabel{tab:ejemplo_dataset_features}{{5.2}{51}{Ejemplo simplificado de la estructura del conjunto de características}{table.caption.58}{}}
 \acronymused{EEG}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.9}{\ignorespaces Relación Theta/Alpha calculada como diferencia en escala logarítmica.}}{48}{myequation.caption.56}\protected@file@percent }
-\newlabel{eq:theta_alpha_ratio}{{5.9}{48}{Relación Theta/Alpha calculada como diferencia en escala logarítmica}{myequation.caption.56}{}}
-\acronymused{EEG}
-\acronymused{EEG}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.10}{\ignorespaces Asimetría Alpha entre un par de canales homólogos.}}{49}{myequation.caption.57}\protected@file@percent }
-\newlabel{eq:alpha_asymmetry}{{5.10}{49}{Asimetría Alpha entre un par de canales homólogos}{myequation.caption.57}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Ejemplo simplificado de la estructura del conjunto de características.}}{49}{table.caption.58}\protected@file@percent }
-\newlabel{tab:ejemplo_dataset_features}{{5.2}{49}{Ejemplo simplificado de la estructura del conjunto de características}{table.caption.58}{}}
-\acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Guardado y check}{50}{subsection.5.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Archivos utilizados en entrenamiento y evaluación}{50}{subsubsection*.59}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Archivos de comprobación e información}{50}{subsubsection*.60}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.6}Resumen}{51}{subsection.5.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Guardado y comprobación}{51}{subsection.5.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Archivos utilizados en entrenamiento y evaluación}{51}{subsubsection*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Archivos de comprobación e información}{51}{subsubsection*.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.6}Resumen}{53}{subsection.5.3.6}\protected@file@percent }
 \acronymused{FIF}
 \acronymused{EEG}
 \acronymused{PSD}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}}{51}{figure.caption.61}\protected@file@percent }
-\newlabel{fig:flujo_extraccion_caracteristicas}{{5.4}{51}{Resumen del flujo de extracción de características aplicado a las épocas preprocesadas}{figure.caption.61}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Entrenamiento y evaluación de modelos}{51}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Entrada al entrenamiento}{52}{subsection.5.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Construcción de características dentro de cada partición}{52}{subsection.5.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}}{53}{figure.caption.61}\protected@file@percent }
+\newlabel{fig:flujo_extraccion_caracteristicas}{{5.4}{53}{Resumen del flujo de extracción de características aplicado a las épocas preprocesadas}{figure.caption.61}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Entrenamiento y evaluación de modelos}{53}{section.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Entrada al entrenamiento}{53}{subsection.5.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Construcción de características dentro de cada partición}{54}{subsection.5.4.2}\protected@file@percent }
+\acronymused{EEG}
+\citation{wikipediaElasticNet}
 \acronymused{EEG}
 \acronymused{EEG}
-\acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Clasificadores utilizados}{53}{subsection.5.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Entrenamiento \textit  {within-subject}}{54}{subsection.5.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.5}Entrenamiento \textit  {all-subjects}}{55}{subsection.5.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.6}Métricas, figuras y modelos guardados}{56}{subsection.5.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Clasificadores utilizados}{55}{subsection.5.4.3}\protected@file@percent }
+\citation{wikipediaHyperparameterOptimization}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Entrenamiento \textit  {within-subject}}{56}{subsection.5.4.4}\protected@file@percent }
+\citation{sklearnStratifiedGroupKFoldDocs}
+\citation{sklearnParameterGridDocs}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.5}Entrenamiento \textit  {all-subjects}}{57}{subsection.5.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.6}Métricas, figuras y modelos guardados}{58}{subsection.5.4.6}\protected@file@percent }
 \acronymused{JSON}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.7}Resumen}{57}{subsection.5.4.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Resumen del flujo de entrenamiento y evaluación de modelos.}}{57}{figure.caption.62}\protected@file@percent }
-\newlabel{fig:flujo_entrenamiento}{{5.5}{57}{Resumen del flujo de entrenamiento y evaluación de modelos}{figure.caption.62}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Análisis de separabilidad}{58}{section.5.5}\protected@file@percent }
+\citation{wikipediaPCA}
+\citation{wikipediaLDA}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.7}Resumen}{59}{subsection.5.4.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Resumen del flujo de entrenamiento y evaluación de modelos.}}{59}{figure.caption.62}\protected@file@percent }
+\newlabel{fig:flujo_entrenamiento}{{5.5}{59}{Resumen del flujo de entrenamiento y evaluación de modelos}{figure.caption.62}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Análisis de separabilidad}{59}{section.5.5}\protected@file@percent }
 \AC@undonewlabel{acro:PCA}
-\newlabel{acro:PCA}{{5.5}{58}{Análisis de separabilidad}{section*.63}{}}
+\newlabel{acro:PCA}{{5.5}{60}{Análisis de separabilidad}{section*.63}{}}
 \acronymused{PCA}
 \AC@undonewlabel{acro:LDA}
-\newlabel{acro:LDA}{{5.5}{58}{Análisis de separabilidad}{section*.64}{}}
+\newlabel{acro:LDA}{{5.5}{60}{Análisis de separabilidad}{section*.64}{}}
 \acronymused{LDA}
 \acronymused{PCA}
 \acronymused{LDA}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Entrada y construcción del espacio de análisis}{58}{subsection.5.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Entrada y construcción del espacio de análisis}{60}{subsection.5.5.1}\protected@file@percent }
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Proyecciones globales y por sujeto}{59}{subsection.5.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Métricas de separabilidad}{59}{subsection.5.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Resumen}{60}{subsection.5.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Proyecciones globales y por sujeto}{60}{subsection.5.5.2}\protected@file@percent }
+\citation{wikipediaSilhouetteClustering}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Métricas de separabilidad}{61}{subsection.5.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Resumen}{62}{subsection.5.5.4}\protected@file@percent }
 \acronymused{PCA}
 \acronymused{LDA}
 \acronymused{PCA}
 \acronymused{LDA}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Resumen del flujo de análisis de separabilidad.}}{60}{figure.caption.65}\protected@file@percent }
-\newlabel{fig:flujo_separabilidad}{{5.6}{60}{Resumen del flujo de análisis de separabilidad}{figure.caption.65}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Explicabilidad de los modelos}{60}{section.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Cálculo de explicaciones out-of-fold}{61}{subsection.5.6.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Resumen del flujo de análisis de separabilidad.}}{62}{figure.caption.65}\protected@file@percent }
+\newlabel{fig:flujo_separabilidad}{{5.6}{62}{Resumen del flujo de análisis de separabilidad}{figure.caption.65}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Explicabilidad de los modelos}{62}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Cálculo de explicaciones out-of-fold}{63}{subsection.5.6.1}\protected@file@percent }
 \acronymused{SHAP}
 \acronymused{SHAP}
-\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.11}{\ignorespaces Contribución \acs {SHAP} lineal utilizada para la regresión logística en cada fold.}}{61}{myequation.caption.66}\protected@file@percent }
+\@writefile{lomyequation}{\contentsline {myequation}{\numberline {5.11}{\ignorespaces Contribución \acs {SHAP} lineal utilizada para la regresión logística en cada \textit  {fold}.}}{63}{myequation.caption.66}\protected@file@percent }
 \acronymused{SHAP}
-\newlabel{eq:shap_lineal}{{5.11}{61}{Contribución \acs {SHAP} lineal utilizada para la regresión logística en cada fold}{myequation.caption.66}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Agregación de importancias}{62}{subsection.5.6.2}\protected@file@percent }
+\newlabel{eq:shap_lineal}{{5.11}{63}{Contribución \acs {SHAP} lineal utilizada para la regresión logística en cada \textit {fold}}{myequation.caption.66}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Agregación de importancias}{64}{subsection.5.6.2}\protected@file@percent }
 \acronymused{SHAP}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.3}Representaciones generadas}{63}{subsection.5.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.3}Representaciones generadas}{64}{subsection.5.6.3}\protected@file@percent }
 \acronymused{SHAP}
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.4}Guardado de resultados}{63}{subsection.5.6.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.5}Resumen}{65}{subsection.5.6.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{65}{figure.caption.67}\protected@file@percent }
-\newlabel{fig:flujo_explicabilidad}{{5.7}{65}{Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación}{figure.caption.67}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.4}Guardado de resultados}{65}{subsection.5.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.5}Resumen}{66}{subsection.5.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{66}{figure.caption.67}\protected@file@percent }
+\newlabel{fig:flujo_explicabilidad}{{5.7}{66}{Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación}{figure.caption.67}{}}
 \citation{alarcao2019eeg}
 \citation{smith2017frontal}
 \citation{lotte2007classification}
 \citation{rajpoot2022subject}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Resultados y discusión}{66}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Resultados y discusión}{67}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{locode}{\addvspace {10\p@ }}
 \@writefile{lomyequation}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Análisis de separabilidad}{66}{section.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Interpretación de las representaciones}{66}{subsection.6.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Análisis de separabilidad}{67}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Interpretación de las representaciones}{67}{subsection.6.1.1}\protected@file@percent }
 \acronymused{EEG}
 \acronymused{PCA}
 \acronymused{LDA}
@@ -501,95 +522,95 @@
 \acronymused{LDA}
 \acronymused{LDA}
 \acronymused{PCA}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Separabilidad global}{68}{subsection.6.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces \acs {PCA} global del espacio de características coloreada por condición emocional.}}{68}{figure.caption.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Separabilidad global}{69}{subsection.6.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces \acs {PCA} global del espacio de características coloreada por condición emocional.}}{69}{figure.caption.68}\protected@file@percent }
 \acronymused{PCA}
-\newlabel{fig:pca_global_condicion}{{6.1}{68}{\acs {PCA} global del espacio de características coloreada por condición emocional}{figure.caption.68}{}}
+\newlabel{fig:pca_global_condicion}{{6.1}{69}{\acs {PCA} global del espacio de características coloreada por condición emocional}{figure.caption.68}{}}
 \citation{rajpoot2022subject}
 \acronymused{PCA}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces \acs {PCA} global del espacio de características coloreada por sujeto.}}{69}{figure.caption.69}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces \acs {PCA} global del espacio de características coloreada por sujeto.}}{70}{figure.caption.69}\protected@file@percent }
 \acronymused{PCA}
-\newlabel{fig:pca_global_sujeto}{{6.2}{69}{\acs {PCA} global del espacio de características coloreada por sujeto}{figure.caption.69}{}}
+\newlabel{fig:pca_global_sujeto}{{6.2}{70}{\acs {PCA} global del espacio de características coloreada por sujeto}{figure.caption.69}{}}
 \acronymused{PCA}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces \acs {LDA} global del espacio de características coloreada por condición emocional.}}{70}{figure.caption.70}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces \acs {LDA} global del espacio de características coloreada por condición emocional.}}{71}{figure.caption.70}\protected@file@percent }
 \acronymused{LDA}
-\newlabel{fig:lda_global_condicion}{{6.3}{70}{\acs {LDA} global del espacio de características coloreada por condición emocional}{figure.caption.70}{}}
+\newlabel{fig:lda_global_condicion}{{6.3}{71}{\acs {LDA} global del espacio de características coloreada por condición emocional}{figure.caption.70}{}}
 \acronymused{PCA}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces \acs {LDA} global del espacio de características coloreada por sujeto.}}{70}{figure.caption.71}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces \acs {LDA} global del espacio de características coloreada por sujeto.}}{71}{figure.caption.71}\protected@file@percent }
 \acronymused{LDA}
-\newlabel{fig:lda_global_sujeto}{{6.4}{70}{\acs {LDA} global del espacio de características coloreada por sujeto}{figure.caption.71}{}}
+\newlabel{fig:lda_global_sujeto}{{6.4}{71}{\acs {LDA} global del espacio de características coloreada por sujeto}{figure.caption.71}{}}
 \acronymused{LDA}
 \acronymused{PCA}
 \citation{alarcao2019eeg}
 \citation{rajpoot2022subject}
 \acronymused{PCA}
 \acronymused{LDA}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}Separabilidad dentro de cada sujeto}{71}{subsection.6.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}Separabilidad dentro de cada sujeto}{72}{subsection.6.1.3}\protected@file@percent }
 \acronymused{PCA}
 \acronymused{LDA}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces \acs {PCA} dentro de sujeto para dos participantes.}}{71}{figure.caption.72}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces \acs {PCA} dentro de sujeto para dos participantes.}}{72}{figure.caption.72}\protected@file@percent }
 \acronymused{PCA}
-\newlabel{fig:pca_within_547_552}{{6.5}{71}{\acs {PCA} dentro de sujeto para dos participantes}{figure.caption.72}{}}
+\newlabel{fig:pca_within_547_552}{{6.5}{72}{\acs {PCA} dentro de sujeto para dos participantes}{figure.caption.72}{}}
 \acronymused{PCA}
 \acronymused{PCA}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces \acs {LDA} dentro de sujeto para dos participantes.}}{72}{figure.caption.73}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces \acs {LDA} dentro de sujeto para dos participantes.}}{73}{figure.caption.73}\protected@file@percent }
 \acronymused{LDA}
-\newlabel{fig:lda_within_547_552}{{6.6}{72}{\acs {LDA} dentro de sujeto para dos participantes}{figure.caption.73}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.4}Resumen de separabilidad}{72}{subsection.6.1.4}\protected@file@percent }
+\newlabel{fig:lda_within_547_552}{{6.6}{73}{\acs {LDA} dentro de sujeto para dos participantes}{figure.caption.73}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.4}Resumen de separabilidad}{73}{subsection.6.1.4}\protected@file@percent }
 \citation{sklearnMetrics}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Resultados de entrenamiento y evaluación}{73}{section.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Regresión logística}{73}{subsection.6.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit  {all-subjects}.}}{74}{figure.caption.74}\protected@file@percent }
-\newlabel{fig:confusion_logreg_all}{{6.7}{74}{Matriz de confusión de la regresión logística en el escenario \textit {all-subjects}}{figure.caption.74}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit  {within-subject}.}}{74}{figure.caption.75}\protected@file@percent }
-\newlabel{fig:confusion_logreg_within}{{6.8}{74}{Matriz de confusión de la regresión logística en el escenario \textit {within-subject}}{figure.caption.75}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Resultados de entrenamiento y evaluación}{74}{section.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Regresión logística}{74}{subsection.6.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit  {all-subjects}.}}{75}{figure.caption.74}\protected@file@percent }
+\newlabel{fig:confusion_logreg_all}{{6.7}{75}{Matriz de confusión de la regresión logística en el escenario \textit {all-subjects}}{figure.caption.74}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit  {within-subject}.}}{75}{figure.caption.75}\protected@file@percent }
+\newlabel{fig:confusion_logreg_within}{{6.8}{75}{Matriz de confusión de la regresión logística en el escenario \textit {within-subject}}{figure.caption.75}{}}
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Árbol de decisión}{75}{subsection.6.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit  {all-subjects}.}}{76}{figure.caption.76}\protected@file@percent }
-\newlabel{fig:confusion_tree_all}{{6.9}{76}{Matriz de confusión del árbol de decisión en el escenario \textit {all-subjects}}{figure.caption.76}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit  {within-subject}.}}{76}{figure.caption.77}\protected@file@percent }
-\newlabel{fig:confusion_tree_within}{{6.10}{76}{Matriz de confusión del árbol de decisión en el escenario \textit {within-subject}}{figure.caption.77}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Árbol de decisión}{76}{subsection.6.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit  {all-subjects}.}}{77}{figure.caption.76}\protected@file@percent }
+\newlabel{fig:confusion_tree_all}{{6.9}{77}{Matriz de confusión del árbol de decisión en el escenario \textit {all-subjects}}{figure.caption.76}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit  {within-subject}.}}{77}{figure.caption.77}\protected@file@percent }
+\newlabel{fig:confusion_tree_within}{{6.10}{77}{Matriz de confusión del árbol de decisión en el escenario \textit {within-subject}}{figure.caption.77}{}}
 \citation{lundberg2017shap}
 \citation{alarcao2019eeg}
 \citation{koelstra2012deap}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Comparación general}{77}{subsection.6.2.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Resumen comparativo de rendimiento por clasificador y escenario. En las columnas de cada emoción se muestra el porcentaje de acierto de esa clase.}}{77}{table.caption.78}\protected@file@percent }
-\newlabel{tab:comparacion_entrenamiento}{{6.1}{77}{Resumen comparativo de rendimiento por clasificador y escenario. En las columnas de cada emoción se muestra el porcentaje de acierto de esa clase}{table.caption.78}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Análisis de explicabilidad}{77}{section.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Comparación general}{78}{subsection.6.2.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Resumen comparativo de rendimiento por clasificador y escenario. En las columnas de cada emoción se muestra el porcentaje de acierto de esa clase.}}{78}{table.caption.78}\protected@file@percent }
+\newlabel{tab:comparacion_entrenamiento}{{6.1}{78}{Resumen comparativo de rendimiento por clasificador y escenario. En las columnas de cada emoción se muestra el porcentaje de acierto de esa clase}{table.caption.78}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Análisis de explicabilidad}{78}{section.6.3}\protected@file@percent }
 \acronymused{SHAP}
 \citation{smith2017frontal}
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Características más relevantes}{78}{subsection.6.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Características con mayor importancia media absoluta según \acs {SHAP} en el modelo \textit  {within-subject}.}}{78}{figure.caption.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Características más relevantes}{79}{subsection.6.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Características con mayor importancia media absoluta según \acs {SHAP} en el modelo \textit  {within-subject}.}}{79}{figure.caption.79}\protected@file@percent }
 \acronymused{SHAP}
-\newlabel{fig:top_features_global}{{6.11}{78}{Características con mayor importancia media absoluta según \acs {SHAP} en el modelo \textit {within-subject}}{figure.caption.79}{}}
+\newlabel{fig:top_features_global}{{6.11}{79}{Características con mayor importancia media absoluta según \acs {SHAP} en el modelo \textit {within-subject}}{figure.caption.79}{}}
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Importancia por bandas}{79}{subsection.6.3.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Importancia relativa de las bandas Alpha y Beta por condición emocional.}}{79}{figure.caption.80}\protected@file@percent }
-\newlabel{fig:band_importance_class}{{6.12}{79}{Importancia relativa de las bandas Alpha y Beta por condición emocional}{figure.caption.80}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Importancia por bandas}{80}{subsection.6.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Importancia relativa de las bandas Alpha y Beta por condición emocional.}}{80}{figure.caption.80}\protected@file@percent }
+\newlabel{fig:band_importance_class}{{6.12}{80}{Importancia relativa de las bandas Alpha y Beta por condición emocional}{figure.caption.80}{}}
 \citation{rajpoot2022subject}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Topomaps globales}{80}{subsection.6.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Topomaps globales}{81}{subsection.6.3.3}\protected@file@percent }
 \acronymused{SHAP}
 \acronymused{EEG}
 \acronymused{SHAP}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {JOY}.}}{80}{figure.caption.81}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {JOY}.}}{81}{figure.caption.81}\protected@file@percent }
 \acronymused{SHAP}
-\newlabel{fig:topomap_signed_joy}{{6.13}{80}{Topomap firmado de \acs {SHAP} para la clase \texttt {JOY}}{figure.caption.81}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {NEUTRO}.}}{81}{figure.caption.82}\protected@file@percent }
+\newlabel{fig:topomap_signed_joy}{{6.13}{81}{Topomap firmado de \acs {SHAP} para la clase \texttt {JOY}}{figure.caption.81}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {NEUTRO}.}}{82}{figure.caption.82}\protected@file@percent }
 \acronymused{SHAP}
-\newlabel{fig:topomap_signed_neutro}{{6.14}{81}{Topomap firmado de \acs {SHAP} para la clase \texttt {NEUTRO}}{figure.caption.82}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {SAD}.}}{81}{figure.caption.83}\protected@file@percent }
+\newlabel{fig:topomap_signed_neutro}{{6.14}{82}{Topomap firmado de \acs {SHAP} para la clase \texttt {NEUTRO}}{figure.caption.82}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt  {SAD}.}}{82}{figure.caption.83}\protected@file@percent }
 \acronymused{SHAP}
-\newlabel{fig:topomap_signed_sad}{{6.15}{81}{Topomap firmado de \acs {SHAP} para la clase \texttt {SAD}}{figure.caption.83}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}Diferencias entre sujetos}{82}{subsection.6.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Topomaps firmados por sujeto para dos participantes representativos.}}{82}{figure.caption.84}\protected@file@percent }
-\newlabel{fig:topomap_subject_547_552}{{6.16}{82}{Topomaps firmados por sujeto para dos participantes representativos}{figure.caption.84}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}Agrupación por clusters}{83}{subsection.6.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.17}{\ignorespaces Importancia relativa por cluster y condición emocional.}}{84}{figure.caption.85}\protected@file@percent }
-\newlabel{fig:cluster_importance_class}{{6.17}{84}{Importancia relativa por cluster y condición emocional}{figure.caption.85}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.6}Resumen de explicabilidad}{84}{subsection.6.3.6}\protected@file@percent }
+\newlabel{fig:topomap_signed_sad}{{6.15}{82}{Topomap firmado de \acs {SHAP} para la clase \texttt {SAD}}{figure.caption.83}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}Diferencias entre sujetos}{83}{subsection.6.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Topomaps firmados por sujeto para dos participantes representativos.}}{83}{figure.caption.84}\protected@file@percent }
+\newlabel{fig:topomap_subject_547_552}{{6.16}{83}{Topomaps firmados por sujeto para dos participantes representativos}{figure.caption.84}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}Agrupación por clusters}{84}{subsection.6.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.17}{\ignorespaces Importancia relativa por cluster y condición emocional.}}{85}{figure.caption.85}\protected@file@percent }
+\newlabel{fig:cluster_importance_class}{{6.17}{85}{Importancia relativa por cluster y condición emocional}{figure.caption.85}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.6}Resumen de explicabilidad}{85}{subsection.6.3.6}\protected@file@percent }
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusiones}{86}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Conclusiones}{87}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{locode}{\addvspace {10\p@ }}
@@ -597,16 +618,16 @@
 \acronymused{EEG}
 \acronymused{EDF}
 \acronymused{EEG}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Líneas futuras}{87}{section.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Líneas futuras}{88}{section.7.1}\protected@file@percent }
 \citation{*}
 \bibstyle{unsrt}
 \bibdata{bibliografia}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Repositorio del proyecto}{89}{appendix.Alph1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Repositorio del proyecto}{90}{appendix.Alph1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{locode}{\addvspace {10\p@ }}
 \@writefile{lomyequation}{\addvspace {10\p@ }}
-\newlabel{anexo:repositorio}{{A}{89}{Repositorio del proyecto}{appendix.Alph1}{}}
+\newlabel{anexo:repositorio}{{A}{90}{Repositorio del proyecto}{appendix.Alph1}{}}
 \bibcite{psycolab2021lobulos}{1}
 \bibcite{novo2010mapeo}{2}
 \bibcite{rinconpsicologia2024emociones}{3}
@@ -615,9 +636,9 @@
 \bibcite{alarcao2019eeg}{6}
 \bibcite{mayo2024eeg}{7}
 \bibcite{keltner2016expression}{8}
+\@writefile{toc}{\contentsline {chapter}{Bibliograf\'{\i }a}{91}{appendix*.86}\protected@file@percent }
 \bibcite{ekman1971constants}{9}
 \bibcite{scherer1986vocal}{10}
-\@writefile{toc}{\contentsline {chapter}{Bibliograf\'{\i }a}{90}{appendix*.86}\protected@file@percent }
 \bibcite{uriguen2015artifact}{11}
 \bibcite{pantic2000automatic}{12}
 \bibcite{martindiego2006emociones}{13}
@@ -657,13 +678,30 @@
 \bibcite{matplotlibDocs}{47}
 \bibcite{joblibDocs}{48}
 \bibcite{gramfort2013mne}{49}
-\bibcite{aguilar2026eeg}{50}
-\bibcite{eeglabTimeFrequencyTutorial}{51}
-\bibcite{welch1967fft}{52}
-\bibcite{koelstra2012deap}{53}
-\bibcite{smith2017frontal}{54}
-\bibcite{sklearnPcaDocs}{55}
-\bibcite{sklearnLdaDocs}{56}
-\bibcite{rousseeuw1987silhouettes}{57}
-\bibcite{topic2021featuremaps}{58}
-\gdef \@abspage@last{109}
+\bibcite{mneEventsFromRaw}{50}
+\bibcite{wikipedia1020System}{51}
+\bibcite{wikipediaBandStopFilter}{52}
+\bibcite{wikipediaUtilityFrequency}{53}
+\bibcite{aguilar2026eeg}{54}
+\bibcite{wikipediaStandardScore}{55}
+\bibcite{wikipediaKurtosis}{56}
+\bibcite{wikipediaFastICA}{57}
+\bibcite{he2009learning}{58}
+\bibcite{difronso2019dryeeg}{59}
+\bibcite{wikipediaFFT}{60}
+\bibcite{eeglabTimeFrequencyTutorial}{61}
+\bibcite{welch1967fft}{62}
+\bibcite{koelstra2012deap}{63}
+\bibcite{smith2017frontal}{64}
+\bibcite{wikipediaElasticNet}{65}
+\bibcite{wikipediaHyperparameterOptimization}{66}
+\bibcite{sklearnStratifiedGroupKFoldDocs}{67}
+\bibcite{sklearnParameterGridDocs}{68}
+\bibcite{wikipediaPCA}{69}
+\bibcite{wikipediaLDA}{70}
+\bibcite{wikipediaSilhouetteClustering}{71}
+\bibcite{sklearnPcaDocs}{72}
+\bibcite{sklearnLdaDocs}{73}
+\bibcite{rousseeuw1987silhouettes}{74}
+\bibcite{topic2021featuremaps}{75}
+\gdef \@abspage@last{112}

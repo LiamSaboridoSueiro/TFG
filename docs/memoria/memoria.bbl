@@ -5,6 +5,7 @@
 \newblock L{\'o}bulos cerebrales para principiantes, 2021.
 \newblock
   \url{https://www.psycolab.com/lobulos-cerebrales-para-principiantes/}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{novo2010mapeo}
 Carlos Novo, Leticia Chac{\'o}n~Guti{\'e}rrez, and Jos{\'e}~Alberto
@@ -12,35 +13,41 @@ Carlos Novo, Leticia Chac{\'o}n~Guti{\'e}rrez, and Jos{\'e}~Alberto
 \newblock Mapeo electroencefalogr{\'a}fico y neurofeedback, 2010.
 \newblock
   \url{https://www.researchgate.net/figure/Figura-3-Sistema-Internacional-10-20-para-la-colocacion-de-los-electrodos_fig2_282294960}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{rinconpsicologia2024emociones}
 Jennifer Delgado.
 \newblock Lista de 290 emociones y sentimientos: c{\'o}mo diferenciarlos, 2024.
 \newblock
   \url{https://rinconpsicologia.com/lista-de-emociones-y-sentimientos/}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{rodriguez2021crossvalidation}
 Gladys~Andrea Rodr{\'i}guez~Guerrero.
 \newblock Cross-validation, 2021.
 \newblock
   \url{https://gladysandrea-rodriguez.medium.com/cross-validation-11e9ea688506}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{benhay2018confusionMatrix}
 Ben Hayes.
 \newblock Demystifying the confusion matrix, 2018.
-\newblock \url{https://benhay.es/posts/demystifying-confusion-matrix/}.
+\newblock \url{https://benhay.es/posts/demystifying-confusion-matrix/}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{alarcao2019eeg}
 Soraia~M. Alarc{\~a}o and Manuel~J. Fonseca.
 \newblock Emotions recognition using eeg signals: A survey.
 \newblock {\em IEEE Transactions on Affective Computing}, 10(3):374--393, 2019.
-\newblock \url{https://ieeexplore.ieee.org/abstract/document/7946165}.
+\newblock \url{https://ieeexplore.ieee.org/abstract/document/7946165}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{mayo2024eeg}
 {Mayo Clinic}.
 \newblock Electroencefalograf{\'i}a ({EEG}), 2024.
 \newblock
   \url{https://www.mayoclinic.org/es/tests-procedures/eeg/about/pac-20393875}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{keltner2016expression}
 Dacher Keltner, Jessica~L. Tracy, Disa~A. Sauter, Daniel~T. Cordaro, and Greg
@@ -65,7 +72,8 @@ Klaus~R. Scherer.
 Jose~Antonio Urig{\"u}en and Begonya Garcia-Zapirain.
 \newblock {EEG} artifact removal---state-of-the-art and guidelines.
 \newblock {\em Journal of Neural Engineering}, 12(3):031001, 2015.
-\newblock \url{https://doi.org/10.1088/1741-2560/12/3/031001}.
+\newblock \url{https://doi.org/10.1088/1741-2560/12/3/031001}. Último acceso:
+  30 de mayo de 2026.
 
 \bibitem{pantic2000automatic}
 Maja Pantic and Leon J.~M. Rothkrantz.
@@ -81,32 +89,37 @@ Isaac Mart{\'i}n~de Diego, {\'A}ngel Serrano, Cristina Conde, and Enrique
   Sociedad de la Informaci{\'o}n}, 7(2):92--106, 2006.
 \newblock
   \url{https://revistas.usal.es/tres/index.php/eks/article/view/19413/19414}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{shu2018physiological}
 Lin Shu, Jinyan Xie, Mingyue Yang, Ziyi Li, Zhenqi Li, Dan Liao, Xiangmin Xu,
   and Xinyi Yang.
 \newblock A review of emotion recognition using physiological signals.
 \newblock {\em Sensors}, 18(7):2074, 2018.
-\newblock \url{https://www.mdpi.com/1424-8220/18/7/2074}.
+\newblock \url{https://www.mdpi.com/1424-8220/18/7/2074}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{molnar2022interpretable}
 Christoph Molnar.
 \newblock {\em Interpretable Machine Learning}.
 \newblock 2 edition, 2022.
-\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
+\newblock \url{https://christophm.github.io/interpretable-ml-book/}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{rudin2019interpretable}
 Cynthia Rudin.
 \newblock Stop explaining black box machine learning models for high stakes
   decisions and use interpretable models instead.
 \newblock {\em Nature Machine Intelligence}, 1:206--215, 2019.
-\newblock \url{https://www.nature.com/articles/s42256-019-0048-x}.
+\newblock \url{https://www.nature.com/articles/s42256-019-0048-x}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{allen2015gtd}
 David Allen.
 \newblock {\em Getting Things Done: The Art of Stress-Free Productivity}.
 \newblock Penguin Books, revised edition edition, 2015.
-\newblock \url{https://gettingthingsdone.com/}.
+\newblock \url{https://gettingthingsdone.com/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{luck2014erp}
 Steven~J. Luck.
@@ -127,13 +140,15 @@ Robert Oostenveld and Peter Praamstra.
 \newblock {\em Clinical Neurophysiology}, 112(4):713--719, 2001.
 \newblock
   \url{https://www.sciencedirect.com/science/article/abs/pii/S1388245700005277}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{raufi2022alphatheta}
 Bujar Raufi and Luca Longo.
 \newblock An evaluation of the {EEG} alpha-to-theta and theta-to-alpha band
   ratios as indexes of mental workload.
 \newblock {\em Frontiers in Neuroinformatics}, 16:861967, 2022.
-\newblock \url{https://doi.org/10.3389/fninf.2022.861967}.
+\newblock \url{https://doi.org/10.3389/fninf.2022.861967}. Último acceso: 30
+  de mayo de 2026.
 
 \bibitem{rajpoot2022subject}
 Arjun, Aniket~Singh Rajpoot, and Mahesh~Raveendranatha Panicker.
@@ -142,6 +157,7 @@ Arjun, Aniket~Singh Rajpoot, and Mahesh~Raveendranatha Panicker.
 \newblock {\em Biomedical Signal Processing and Control}, 75:103547, 2022.
 \newblock
   \url{https://www.sciencedirect.com/science/article/abs/pii/S1746809422000696}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{bishop2006pattern}
 Christopher~M. Bishop.
@@ -155,43 +171,51 @@ Fabien Lotte, Marco Congedo, Anatole L{\'e}cuyer, Fabrice Lamarche, and Bruno
   interfaces.
 \newblock {\em Journal of Neural Engineering}, 4(2):R1--R13, 2007.
 \newblock \url{https://iopscience.iop.org/article/10.1088/1741-2560/4/2/R01}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{goodfellow2016deep}
 Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
 \newblock {\em Deep Learning}.
 \newblock MIT Press, 2016.
-\newblock \url{https://www.deeplearningbook.org/}.
+\newblock \url{https://www.deeplearningbook.org/}. Último acceso: 30 de mayo
+  de 2026.
 
 \bibitem{breiman2001randomforests}
 Leo Breiman.
 \newblock Random forests.
 \newblock {\em Machine Learning}, 45(1):5--32, 2001.
-\newblock \url{https://doi.org/10.1023/A:1010933404324}.
+\newblock \url{https://doi.org/10.1023/A:1010933404324}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{openai2026chatgpt}
 {OpenAI}.
 \newblock Chatgpt, 2026.
-\newblock \url{https://openai.com/chatgpt/}.
+\newblock \url{https://openai.com/chatgpt/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{wikipediaLogisticRegression}
 {Wikipedia contributors}.
 \newblock Logistic regression, 2026.
-\newblock \url{https://en.wikipedia.org/wiki/Logistic_regression}.
+\newblock \url{https://en.wikipedia.org/wiki/Logistic_regression}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{morenoSfRegresionLogisticaPython}
 Ignacio Moreno~Hojas.
 \newblock Regresi{\'o}n log{\'i}stica en python, s. f.
 \newblock \url{https://www.statdeveloper.com/regresion-logistica-en-python/}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{codificandobitsSfRegresionMulticlase}
 {Codificando Bits}.
 \newblock Qu{\'e} es la regresi{\'o}n multiclase, s. f.
-\newblock \url{https://codificandobits.com/blog/regresion-multiclase/}.
+\newblock \url{https://codificandobits.com/blog/regresion-multiclase/}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{wikipediaDecisionTreeLearning}
 {Wikipedia contributors}.
 \newblock Decision tree learning, 2026.
-\newblock \url{https://en.wikipedia.org/wiki/Decision_tree_learning}.
+\newblock \url{https://en.wikipedia.org/wiki/Decision_tree_learning}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{kohavi1995crossvalidation}
 Ron Kohavi.
@@ -199,7 +223,8 @@ Ron Kohavi.
   model selection.
 \newblock In {\em Proceedings of the 14th International Joint Conference on
   Artificial Intelligence}, pages 1137--1145. Morgan Kaufmann, 1995.
-\newblock \url{https://www.ijcai.org/Proceedings/95-2/Papers/016.pdf}.
+\newblock \url{https://www.ijcai.org/Proceedings/95-2/Papers/016.pdf}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{brookshire2024leakage}
 Geoffrey Brookshire, Jake Kasper, Nicholas~M. Blauch, Yunan~Charles Wu, Ryan
@@ -207,19 +232,22 @@ Geoffrey Brookshire, Jake Kasper, Nicholas~M. Blauch, Yunan~Charles Wu, Ryan
   Ch{\'e} Lucero.
 \newblock Data leakage in deep learning studies of translational {EEG}.
 \newblock {\em Frontiers in Neuroscience}, 18:1373515, 2024.
-\newblock \url{https://doi.org/10.3389/fnins.2024.1373515}.
+\newblock \url{https://doi.org/10.3389/fnins.2024.1373515}. Último acceso: 30
+  de mayo de 2026.
 
 \bibitem{kaufman2012leakage}
 Shachar Kaufman, Saharon Rosset, Claudia Perlich, and Ori Stitelman.
 \newblock Leakage in data mining: Formulation, detection, and avoidance.
 \newblock {\em ACM Transactions on Knowledge Discovery from Data}, 6(4):15,
   2012.
-\newblock \url{https://doi.org/10.1145/2382577.2382579}.
+\newblock \url{https://doi.org/10.1145/2382577.2382579}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{sklearnMetrics}
 {scikit-learn developers}.
 \newblock Metrics and scoring: Quantifying the quality of predictions, 2026.
 \newblock \url{https://scikit-learn.org/stable/modules/model_evaluation.html}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{lundberg2017shap}
 Scott~M. Lundberg and Su-In Lee.
@@ -228,66 +256,75 @@ Scott~M. Lundberg and Su-In Lee.
   volume~30, 2017.
 \newblock
   \url{https://proceedings.neurips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{githubDocs}
 {GitHub}.
 \newblock {GitHub Docs}, 2026.
-\newblock \url{https://docs.github.com/}.
+\newblock \url{https://docs.github.com/}. Último acceso: 30 de mayo de 2026.
 
 \bibitem{pythonDocs}
 {Python Software Foundation}.
 \newblock {Python Documentation}, 2026.
-\newblock \url{https://www.python.org/doc/}.
+\newblock \url{https://www.python.org/doc/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{condaDocs}
 {Anaconda, Inc.}
 \newblock {Conda Documentation}, 2026.
-\newblock \url{https://docs.conda.io/}.
+\newblock \url{https://docs.conda.io/}. Último acceso: 30 de mayo de 2026.
 
 \bibitem{ubuntuDocs}
 {Canonical Ltd.}
 \newblock {Ubuntu Documentation}, 2026.
-\newblock \url{https://ubuntu.com/about}.
+\newblock \url{https://ubuntu.com/about}. Último acceso: 30 de mayo de 2026.
 
 \bibitem{nvidiaDocs}
 {NVIDIA Corporation}.
 \newblock {NVIDIA Documentation}, 2026.
-\newblock \url{https://docs.nvidia.com/}.
+\newblock \url{https://docs.nvidia.com/}. Último acceso: 30 de mayo de 2026.
 
 \bibitem{mnePythonDocs}
 {MNE-Python developers}.
 \newblock {MNE-Python Documentation}, 2026.
-\newblock \url{https://mne.tools/stable/index.html}.
+\newblock \url{https://mne.tools/stable/index.html}. Último acceso: 30 de mayo
+  de 2026.
 
 \bibitem{numpyDocs}
 {NumPy developers}.
 \newblock {NumPy Documentation}, 2026.
-\newblock \url{https://numpy.org/doc/stable/}.
+\newblock \url{https://numpy.org/doc/stable/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{pandasDocs}
 {pandas developers}.
 \newblock {pandas Documentation}, 2026.
-\newblock \url{https://pandas.pydata.org/docs/}.
+\newblock \url{https://pandas.pydata.org/docs/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{scipyDocs}
 {SciPy developers}.
 \newblock {SciPy Documentation}, 2026.
-\newblock \url{https://docs.scipy.org/doc/scipy/}.
+\newblock \url{https://docs.scipy.org/doc/scipy/}. Último acceso: 30 de mayo
+  de 2026.
 
 \bibitem{sklearnDocs}
 {scikit-learn developers}.
 \newblock {scikit-learn Documentation}, 2026.
-\newblock \url{https://scikit-learn.org/stable/}.
+\newblock \url{https://scikit-learn.org/stable/}. Último acceso: 30 de mayo de
+  2026.
 
 \bibitem{matplotlibDocs}
 {Matplotlib developers}.
 \newblock {Matplotlib Documentation}, 2026.
-\newblock \url{https://matplotlib.org/stable/index.html}.
+\newblock \url{https://matplotlib.org/stable/index.html}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{joblibDocs}
 {joblib developers}.
 \newblock {joblib Documentation}, 2026.
-\newblock \url{https://joblib.readthedocs.io/en/stable/}.
+\newblock \url{https://joblib.readthedocs.io/en/stable/}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{gramfort2013mne}
 Alexandre Gramfort, Martin Luessi, Eric Larson, Denis~A. Engemann, Daniel
@@ -297,6 +334,32 @@ Alexandre Gramfort, Martin Luessi, Eric Larson, Denis~A. Engemann, Daniel
 \newblock {\em Frontiers in Neuroscience}, 7:267, 2013.
 \newblock
   \url{https://www.frontiersin.org/articles/10.3389/fnins.2013.00267/full}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{mneEventsFromRaw}
+{MNE-Python developers}.
+\newblock Parsing events from raw data, 2026.
+\newblock
+  \url{https://mne.tools/stable/auto_tutorials/intro/20_events_from_raw.html}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{wikipedia1020System}
+{Wikipedia contributors}.
+\newblock 10--20 system ({EEG}), 2026.
+\newblock \url{https://en.wikipedia.org/wiki/10-20_system_(EEG)}. Último
+  acceso: 30 de mayo de 2026.
+
+\bibitem{wikipediaBandStopFilter}
+{Wikipedia contributors}.
+\newblock Band-stop filter, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Band-stop_filter}. Último acceso:
+  30 de mayo de 2026.
+
+\bibitem{wikipediaUtilityFrequency}
+{Wikipedia contributors}.
+\newblock Utility frequency, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Utility_frequency}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{aguilar2026eeg}
 Marta Aguilar~D{\'i}az.
@@ -306,11 +369,53 @@ Marta Aguilar~D{\'i}az.
   2026.
 \newblock Tutor: {\'A}lvaro Garc{\'i}a L{\'o}pez. Curso acad{\'e}mico 2025/26.
 
+\bibitem{wikipediaStandardScore}
+{Wikipedia contributors}.
+\newblock Standard score, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Standard_score}. Último acceso:
+  30 de mayo de 2026.
+
+\bibitem{wikipediaKurtosis}
+{Wikipedia contributors}.
+\newblock Kurtosis, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Kurtosis}. Último acceso: 30 de
+  mayo de 2026.
+
+\bibitem{wikipediaFastICA}
+{Wikipedia contributors}.
+\newblock {FastICA}, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/FastICA}. Último acceso: 30 de
+  mayo de 2026.
+
+\bibitem{he2009learning}
+Haibo He and Edwardo~A. Garcia.
+\newblock Learning from imbalanced data.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  21(9):1263--1284, 2009.
+\newblock \url{https://doi.org/10.1109/TKDE.2008.239}. Último acceso: 30 de
+  mayo de 2026.
+
+\bibitem{difronso2019dryeeg}
+Selenia di~Fronso, Patrique Fiedler, Gabriella Tamburro, Jens Haueisen,
+  Maurizio Bertollo, and Silvia Comani.
+\newblock Dry {EEG} in sports sciences: A fast and reliable tool to assess
+  individual alpha peak frequency changes induced by physical effort.
+\newblock {\em Frontiers in Neuroscience}, 13:982, 2019.
+\newblock \url{https://doi.org/10.3389/fnins.2019.00982}. Último acceso: 30 de
+  mayo de 2026.
+
+\bibitem{wikipediaFFT}
+{Wikipedia contributors}.
+\newblock Fast fourier transform, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Fast_Fourier_transform}. Último
+  acceso: 30 de mayo de 2026.
+
 \bibitem{eeglabTimeFrequencyTutorial}
 {EEGLAB}.
 \newblock Time-frequency analysis tutorial, 2026.
 \newblock
   \url{https://eeglab.org/tutorials/ConceptsGuide/Time_frequency_tutorial.html}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{welch1967fft}
 Peter~D. Welch.
@@ -318,14 +423,16 @@ Peter~D. Welch.
   spectra: A method based on time averaging over short, modified periodograms.
 \newblock {\em IEEE Transactions on Audio and Electroacoustics}, 15(2):70--73,
   1967.
-\newblock \url{https://doi.org/10.1109/TAU.1967.1161901}.
+\newblock \url{https://doi.org/10.1109/TAU.1967.1161901}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{koelstra2012deap}
 Sander Koelstra, Christian M{\"u}hl, Mohammad Soleymani, Jong-Seok Lee, Ashkan
   Yazdani, Touradj Ebrahimi, Thierry Pun, Anton Nijholt, and Ioannis Patras.
 \newblock {DEAP}: A database for emotion analysis using physiological signals.
 \newblock {\em IEEE Transactions on Affective Computing}, 3(1):18--31, 2012.
-\newblock \url{https://doi.org/10.1109/T-AFFC.2011.15}.
+\newblock \url{https://doi.org/10.1109/T-AFFC.2011.15}. Último acceso: 30 de
+  mayo de 2026.
 
 \bibitem{smith2017frontal}
 Ezra~E. Smith, Samantha~J. Reznik, Jennifer~L. Stewart, and John J.~B. Allen.
@@ -333,19 +440,66 @@ Ezra~E. Smith, Samantha~J. Reznik, Jennifer~L. Stewart, and John J.~B. Allen.
   primer on recording, processing, analyzing, and interpreting frontal alpha
   asymmetry.
 \newblock {\em International Journal of Psychophysiology}, 111:98--114, 2017.
-\newblock \url{https://doi.org/10.1016/j.ijpsycho.2016.11.005}.
+\newblock \url{https://doi.org/10.1016/j.ijpsycho.2016.11.005}. Último acceso:
+  30 de mayo de 2026.
+
+\bibitem{wikipediaElasticNet}
+{Wikipedia contributors}.
+\newblock Elastic net regularization, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Elastic_net_regularization}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{wikipediaHyperparameterOptimization}
+{Wikipedia contributors}.
+\newblock Hyperparameter optimization, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Hyperparameter_optimization}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{sklearnStratifiedGroupKFoldDocs}
+{scikit-learn developers}.
+\newblock {StratifiedGroupKFold}, 2026.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{sklearnParameterGridDocs}
+{scikit-learn developers}.
+\newblock {ParameterGrid}, 2026.
+\newblock
+  \url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ParameterGrid.html}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{wikipediaPCA}
+{Wikipedia contributors}.
+\newblock Principal component analysis, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Principal_component_analysis}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{wikipediaLDA}
+{Wikipedia contributors}.
+\newblock Linear discriminant analysis, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Linear_discriminant_analysis}.
+  Último acceso: 30 de mayo de 2026.
+
+\bibitem{wikipediaSilhouetteClustering}
+{Wikipedia contributors}.
+\newblock Silhouette (clustering), 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Silhouette_(clustering)}. Último
+  acceso: 30 de mayo de 2026.
 
 \bibitem{sklearnPcaDocs}
 {scikit-learn developers}.
 \newblock {sklearn.decomposition.PCA}, 2026.
 \newblock
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{sklearnLdaDocs}
 {scikit-learn developers}.
 \newblock {sklearn.discriminant\_analysis.LinearDiscriminantAnalysis}, 2026.
 \newblock
   \url{https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html}.
+  Último acceso: 30 de mayo de 2026.
 
 \bibitem{rousseeuw1987silhouettes}
 Peter~J. Rousseeuw.
@@ -353,7 +507,8 @@ Peter~J. Rousseeuw.
   cluster analysis.
 \newblock {\em Journal of Computational and Applied Mathematics}, 20:53--65,
   1987.
-\newblock \url{https://doi.org/10.1016/0377-0427(87)90125-7}.
+\newblock \url{https://doi.org/10.1016/0377-0427(87)90125-7}. Último acceso:
+  30 de mayo de 2026.
 
 \bibitem{topic2021featuremaps}
 Ante Topic and Mladen Russo.
@@ -363,5 +518,6 @@ Ante Topic and Mladen Russo.
   24(6):1442--1454, 2021.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S2215098621000768}.
+  Último acceso: 30 de mayo de 2026.
 
 \end{thebibliography}

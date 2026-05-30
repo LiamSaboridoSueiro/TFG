@@ -52,24 +52,27 @@ def process_edf(edf_path: Path):
     clean_events = np.array(clean_events)
 
 
-    # ---------------------------------------------------------------------- SELECCIÓN DE EVENTOS (Solo finales de frase)
+    # ---------------------------------------------------------------------- SELECCIÓN DE EVENTOS (Solo inicios de frase)
 
-    # Identificamos eventos de FIN de frase
+    # Identificamos eventos de INICIO de frase.
+    # El protocolo registra inicio -> fin (~3 s) -> siguiente inicio (~1.5 s).
+    # Por tanto, el primer evento y los eventos que aparecen tras intervalos
+    # menores de 2 s corresponden a inicios de estímulo.
     clean_event_times = clean_events[:, 0] / raw.info["sfreq"]
     intervals = np.diff(clean_event_times)
 
     short_intervals = intervals[intervals < 2.0]
     long_intervals = intervals[intervals >= 2.0]
 
-    # Si no hay intervalos largos, todos los triggers son fin de frase
-    # (protocolo sin trigger de inicio grabado)
+    # Si no hay intervalos largos, todos los triggers se tratan como eventos
+    # relevantes para crear épocas.
     if len(long_intervals) == 0:
-        fin_mask = np.ones(len(clean_events), dtype=bool)
+        inicio_mask = np.ones(len(clean_events), dtype=bool)
     else:
-        fin_mask = np.concatenate([[False], intervals < 2.0])
+        inicio_mask = np.concatenate([[True], intervals < 2.0])
 
     # Eventos seleccionados
-    clean_events_fin = clean_events[fin_mask]
+    clean_events_inicio = clean_events[inicio_mask]
 
 
     # ----------------------------------------------------------------------  SELECCIÓN DE CANALES EEG
@@ -149,12 +152,12 @@ def process_edf(edf_path: Path):
     # Si hubo cambio de frecuencia, reajustamos las muestras de los eventos
     # para que sigan apuntando al mismo instante temporal
     if sfreq_new != sfreq_orig:
-        clean_events_fin_resampled = clean_events_fin.copy()
-        clean_events_fin_resampled[:, 0] = np.round(
-            clean_events_fin[:, 0] * (sfreq_new / raw.info["sfreq"])
+        clean_events_inicio_resampled = clean_events_inicio.copy()
+        clean_events_inicio_resampled[:, 0] = np.round(
+            clean_events_inicio[:, 0] * (sfreq_new / raw.info["sfreq"])
         ).astype(int)
     else:
-        clean_events_fin_resampled = clean_events_fin
+        clean_events_inicio_resampled = clean_events_inicio
 
 
     # ---------------------------------------------------------------------- DETECCIÓN DE CANALES MALOS
@@ -313,7 +316,7 @@ def process_edf(edf_path: Path):
 
     epochs = mne.Epochs(
         raw_eeg64_ica,
-        clean_events_fin_resampled,
+        clean_events_inicio_resampled,
         event_id={"frase": 1},
         tmin=-1.5,
         tmax=1.0,
