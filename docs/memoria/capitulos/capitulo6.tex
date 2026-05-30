@@ -33,7 +33,7 @@ La primera comprobación consistió en representar todas las épocas en un únic
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figs/separability/PCA_global_condicion.png}
-    \caption{\ac{PCA} global del espacio de características coloreada por condición emocional.}
+    \caption{\acs{PCA} global del espacio de características coloreada por condición emocional.}
     \label{fig:pca_global_condicion}
 \end{figure}
 
@@ -43,7 +43,7 @@ En la Figura~\ref{fig:pca_global_condicion}, la proyección \ac{PCA} coloreada p
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figs/separability/PCA_global_sujeto.png}
-    \caption{\ac{PCA} global del espacio de características coloreada por sujeto.}
+    \caption{\acs{PCA} global del espacio de características coloreada por sujeto.}
     \label{fig:pca_global_sujeto}
 \end{figure}
 
@@ -55,7 +55,7 @@ La misma proyección, coloreada por participante, se muestra en la Figura~\ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figs/separability/LDA_global_condicion.png}
-    \caption{\ac{LDA} global del espacio de características coloreada por condición emocional.}
+    \caption{\acs{LDA} global del espacio de características coloreada por condición emocional.}
     \label{fig:lda_global_condicion}
 \end{figure}
 
@@ -66,7 +66,7 @@ En la Figura~\ref{fig:lda_global_condicion} se observa una separación más clar
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figs/separability/LDA_global_sujeto.png}
-    \caption{\ac{LDA} global del espacio de características coloreada por sujeto.}
+    \caption{\acs{LDA} global del espacio de características coloreada por sujeto.}
     \label{fig:lda_global_sujeto}
 \end{figure}
 
@@ -96,7 +96,7 @@ Las Figuras~\ref{fig:pca_within_547_552} y~\ref{fig:lda_within_547_552} muestran
 
         \small Sujeto 211-000552
     \end{minipage}
-    \caption{\ac{PCA} dentro de sujeto para dos participantes.}
+    \caption{\acs{PCA} dentro de sujeto para dos participantes.}
     \label{fig:pca_within_547_552}
 \end{figure}
 
@@ -117,7 +117,7 @@ En la Figura~\ref{fig:pca_within_547_552} las emociones aparecen más organizada
 
         \small Sujeto 211-000552
     \end{minipage}
-    \caption{\ac{LDA} dentro de sujeto para dos participantes.}
+    \caption{\acs{LDA} dentro de sujeto para dos participantes.}
     \label{fig:lda_within_547_552}
 \end{figure}
 
@@ -221,7 +221,7 @@ La Figura~\ref{fig:top_features_global} muestra las 25 características con mayo
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figs/explicabilidad/01_top_features_global.png}
-    \caption{Características con mayor importancia media absoluta según \ac{SHAP} en el modelo \textit{within-subject}.}
+    \caption{Características con mayor importancia media absoluta según \acs{SHAP} en el modelo \textit{within-subject}.}
     \label{fig:top_features_global}
 \end{figure}
 
@@ -251,7 +251,7 @@ Los mapas topográficos firmados permiten observar dónde contribuyen más las c
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_JOY.png}
-    \caption{Topomap firmado de \ac{SHAP} para la clase \texttt{JOY}.}
+    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{JOY}.}
     \label{fig:topomap_signed_joy}
 \end{figure}
 
@@ -260,7 +260,7 @@ En la Figura~\ref{fig:topomap_signed_joy}, \texttt{JOY} muestra contribuciones p
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_NEUTRO.png}
-    \caption{Topomap firmado de \ac{SHAP} para la clase \texttt{NEUTRO}.}
+    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{NEUTRO}.}
     \label{fig:topomap_signed_neutro}
 \end{figure}
 
@@ -269,7 +269,7 @@ La Figura~\ref{fig:topomap_signed_neutro} presenta una distribución más locali
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_SAD.png}
-    \caption{Topomap firmado de \ac{SHAP} para la clase \texttt{SAD}.}
+    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{SAD}.}
     \label{fig:topomap_signed_sad}
 \end{figure}
 
@@ -332,4 +332,3 @@ El cluster occipital no es el núcleo principal de una tarea auditiva, pero su a
 El análisis de explicabilidad es coherente con los resultados obtenidos en el entrenamiento. En los modelos \textit{within-subject}, las decisiones se apoyan principalmente en características asociadas a la potencia Beta, con especial presencia en zonas frontales, temporales y posteriores. La potencia Alpha y las asimetrías Alpha también aportan información, aunque con un papel más complementario.
 
 Aun así, las diferencias entre sujetos siguen siendo visibles. Por ello, los resultados no deben interpretarse como la existencia de un patrón universal de \ac{EEG} para cada emoción, sino como la presencia de regularidades individuales que, dentro de cada participante, permiten diferenciar las tres condiciones analizadas.
-

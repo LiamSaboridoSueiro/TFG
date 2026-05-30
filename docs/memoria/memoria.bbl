@@ -1,16 +1,77 @@
 \begin{thebibliography}{10}
 
-\bibitem{mayo2024eeg}
-{Mayo Clinic}.
-\newblock Electroencefalograf{\'i}a ({EEG}), 2024.
+\bibitem{psycolab2021lobulos}
+{Psycolab}.
+\newblock L{\'o}bulos cerebrales para principiantes, 2021.
 \newblock
-  \url{https://www.mayoclinic.org/es/tests-procedures/eeg/about/pac-20393875}.
+  \url{https://www.psycolab.com/lobulos-cerebrales-para-principiantes/}.
+
+\bibitem{novo2010mapeo}
+Carlos Novo, Leticia Chac{\'o}n~Guti{\'e}rrez, and Jos{\'e}~Alberto
+  Barradas~Bribiesca.
+\newblock Mapeo electroencefalogr{\'a}fico y neurofeedback, 2010.
+\newblock
+  \url{https://www.researchgate.net/figure/Figura-3-Sistema-Internacional-10-20-para-la-colocacion-de-los-electrodos_fig2_282294960}.
+
+\bibitem{rinconpsicologia2024emociones}
+Jennifer Delgado.
+\newblock Lista de 290 emociones y sentimientos: c{\'o}mo diferenciarlos, 2024.
+\newblock
+  \url{https://rinconpsicologia.com/lista-de-emociones-y-sentimientos/}.
+
+\bibitem{rodriguez2021crossvalidation}
+Gladys~Andrea Rodr{\'i}guez~Guerrero.
+\newblock Cross-validation, 2021.
+\newblock
+  \url{https://gladysandrea-rodriguez.medium.com/cross-validation-11e9ea688506}.
+
+\bibitem{benhay2018confusionMatrix}
+Ben Hayes.
+\newblock Demystifying the confusion matrix, 2018.
+\newblock \url{https://benhay.es/posts/demystifying-confusion-matrix/}.
 
 \bibitem{alarcao2019eeg}
 Soraia~M. Alarc{\~a}o and Manuel~J. Fonseca.
 \newblock Emotions recognition using eeg signals: A survey.
 \newblock {\em IEEE Transactions on Affective Computing}, 10(3):374--393, 2019.
 \newblock \url{https://ieeexplore.ieee.org/abstract/document/7946165}.
+
+\bibitem{mayo2024eeg}
+{Mayo Clinic}.
+\newblock Electroencefalograf{\'i}a ({EEG}), 2024.
+\newblock
+  \url{https://www.mayoclinic.org/es/tests-procedures/eeg/about/pac-20393875}.
+
+\bibitem{keltner2016expression}
+Dacher Keltner, Jessica~L. Tracy, Disa~A. Sauter, Daniel~T. Cordaro, and Greg
+  McNeil.
+\newblock Expression of emotion.
+\newblock In Lisa~Feldman Barrett, Michael Lewis, and Jeannette~M.
+  Haviland-Jones, editors, {\em Handbook of Emotions}, pages 467--482. Guilford
+  Press, 4 edition, 2016.
+
+\bibitem{ekman1971constants}
+Paul Ekman and Wallace~V. Friesen.
+\newblock Constants across cultures in the face and emotion.
+\newblock {\em Journal of Personality and Social Psychology}, 17(2):124--129,
+  1971.
+
+\bibitem{scherer1986vocal}
+Klaus~R. Scherer.
+\newblock Vocal affect expression: A review and a model for future research.
+\newblock {\em Psychological Bulletin}, 99(2):143--165, 1986.
+
+\bibitem{uriguen2015artifact}
+Jose~Antonio Urig{\"u}en and Begonya Garcia-Zapirain.
+\newblock {EEG} artifact removal---state-of-the-art and guidelines.
+\newblock {\em Journal of Neural Engineering}, 12(3):031001, 2015.
+\newblock \url{https://doi.org/10.1088/1741-2560/12/3/031001}.
+
+\bibitem{pantic2000automatic}
+Maja Pantic and Leon J.~M. Rothkrantz.
+\newblock Automatic analysis of facial expressions: The state of the art.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  22(12):1424--1445, 2000.
 
 \bibitem{martindiego2006emociones}
 Isaac Mart{\'i}n~de Diego, {\'A}ngel Serrano, Cristina Conde, and Enrique
@@ -41,11 +102,16 @@ Cynthia Rudin.
 \newblock {\em Nature Machine Intelligence}, 1:206--215, 2019.
 \newblock \url{https://www.nature.com/articles/s42256-019-0048-x}.
 
-\bibitem{psycolab2021lobulos}
-{Psycolab}.
-\newblock L{\'o}bulos cerebrales para principiantes, 2021.
-\newblock
-  \url{https://www.psycolab.com/lobulos-cerebrales-para-principiantes/}.
+\bibitem{allen2015gtd}
+David Allen.
+\newblock {\em Getting Things Done: The Art of Stress-Free Productivity}.
+\newblock Penguin Books, revised edition edition, 2015.
+\newblock \url{https://gettingthingsdone.com/}.
+
+\bibitem{luck2014erp}
+Steven~J. Luck.
+\newblock {\em An Introduction to the Event-Related Potential Technique}.
+\newblock MIT Press, 2 edition, 2014.
 
 \bibitem{klem1999tentwenty}
 G.~H. Klem, H.~O. L{\"u}ders, H.~H. Jasper, and C.~Elger.
@@ -62,18 +128,12 @@ Robert Oostenveld and Peter Praamstra.
 \newblock
   \url{https://www.sciencedirect.com/science/article/abs/pii/S1388245700005277}.
 
-\bibitem{novo2010mapeo}
-Carlos Novo, Leticia Chac{\'o}n~Guti{\'e}rrez, and Jos{\'e}~Alberto
-  Barradas~Bribiesca.
-\newblock Mapeo electroencefalogr{\'a}fico y neurofeedback, 2010.
-\newblock
-  \url{https://www.researchgate.net/figure/Figura-3-Sistema-Internacional-10-20-para-la-colocacion-de-los-electrodos_fig2_282294960}.
-
-\bibitem{rinconpsicologia2024emociones}
-Jennifer Delgado.
-\newblock Lista de 290 emociones y sentimientos: c{\'o}mo diferenciarlos, 2024.
-\newblock
-  \url{https://rinconpsicologia.com/lista-de-emociones-y-sentimientos/}.
+\bibitem{raufi2022alphatheta}
+Bujar Raufi and Luca Longo.
+\newblock An evaluation of the {EEG} alpha-to-theta and theta-to-alpha band
+  ratios as indexes of mental workload.
+\newblock {\em Frontiers in Neuroinformatics}, 16:861967, 2022.
+\newblock \url{https://doi.org/10.3389/fninf.2022.861967}.
 
 \bibitem{rajpoot2022subject}
 Arjun, Aniket~Singh Rajpoot, and Mahesh~Raveendranatha Panicker.
@@ -96,6 +156,28 @@ Fabien Lotte, Marco Congedo, Anatole L{\'e}cuyer, Fabrice Lamarche, and Bruno
 \newblock {\em Journal of Neural Engineering}, 4(2):R1--R13, 2007.
 \newblock \url{https://iopscience.iop.org/article/10.1088/1741-2560/4/2/R01}.
 
+\bibitem{goodfellow2016deep}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{https://www.deeplearningbook.org/}.
+
+\bibitem{breiman2001randomforests}
+Leo Breiman.
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32, 2001.
+\newblock \url{https://doi.org/10.1023/A:1010933404324}.
+
+\bibitem{openai2026chatgpt}
+{OpenAI}.
+\newblock Chatgpt, 2026.
+\newblock \url{https://openai.com/chatgpt/}.
+
+\bibitem{wikipediaLogisticRegression}
+{Wikipedia contributors}.
+\newblock Logistic regression, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Logistic_regression}.
+
 \bibitem{morenoSfRegresionLogisticaPython}
 Ignacio Moreno~Hojas.
 \newblock Regresi{\'o}n log{\'i}stica en python, s. f.
@@ -106,10 +188,10 @@ Ignacio Moreno~Hojas.
 \newblock Qu{\'e} es la regresi{\'o}n multiclase, s. f.
 \newblock \url{https://codificandobits.com/blog/regresion-multiclase/}.
 
-\bibitem{adrigm2013adivinador}
-adrigm.
-\newblock Crear un adivinador, 2013.
-\newblock \url{https://www.genbeta.com/desarrollo/crear-un-adivinador}.
+\bibitem{wikipediaDecisionTreeLearning}
+{Wikipedia contributors}.
+\newblock Decision tree learning, 2026.
+\newblock \url{https://en.wikipedia.org/wiki/Decision_tree_learning}.
 
 \bibitem{kohavi1995crossvalidation}
 Ron Kohavi.
@@ -118,12 +200,6 @@ Ron Kohavi.
 \newblock In {\em Proceedings of the 14th International Joint Conference on
   Artificial Intelligence}, pages 1137--1145. Morgan Kaufmann, 1995.
 \newblock \url{https://www.ijcai.org/Proceedings/95-2/Papers/016.pdf}.
-
-\bibitem{rodriguez2021crossvalidation}
-Gladys~Andrea Rodr{\'i}guez~Guerrero.
-\newblock Cross-validation, 2021.
-\newblock
-  \url{https://gladysandrea-rodriguez.medium.com/cross-validation-11e9ea688506}.
 
 \bibitem{brookshire2024leakage}
 Geoffrey Brookshire, Jake Kasper, Nicholas~M. Blauch, Yunan~Charles Wu, Ryan
@@ -145,11 +221,6 @@ Shachar Kaufman, Saharon Rosset, Claudia Perlich, and Ori Stitelman.
 \newblock Metrics and scoring: Quantifying the quality of predictions, 2026.
 \newblock \url{https://scikit-learn.org/stable/modules/model_evaluation.html}.
 
-\bibitem{benhay2018confusionMatrix}
-Ben Hayes.
-\newblock Demystifying the confusion matrix, 2018.
-\newblock \url{https://benhay.es/posts/demystifying-confusion-matrix/}.
-
 \bibitem{lundberg2017shap}
 Scott~M. Lundberg and Su-In Lee.
 \newblock A unified approach to interpreting model predictions.
@@ -157,6 +228,66 @@ Scott~M. Lundberg and Su-In Lee.
   volume~30, 2017.
 \newblock
   \url{https://proceedings.neurips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf}.
+
+\bibitem{githubDocs}
+{GitHub}.
+\newblock {GitHub Docs}, 2026.
+\newblock \url{https://docs.github.com/}.
+
+\bibitem{pythonDocs}
+{Python Software Foundation}.
+\newblock {Python Documentation}, 2026.
+\newblock \url{https://www.python.org/doc/}.
+
+\bibitem{condaDocs}
+{Anaconda, Inc.}
+\newblock {Conda Documentation}, 2026.
+\newblock \url{https://docs.conda.io/}.
+
+\bibitem{ubuntuDocs}
+{Canonical Ltd.}
+\newblock {Ubuntu Documentation}, 2026.
+\newblock \url{https://ubuntu.com/about}.
+
+\bibitem{nvidiaDocs}
+{NVIDIA Corporation}.
+\newblock {NVIDIA Documentation}, 2026.
+\newblock \url{https://docs.nvidia.com/}.
+
+\bibitem{mnePythonDocs}
+{MNE-Python developers}.
+\newblock {MNE-Python Documentation}, 2026.
+\newblock \url{https://mne.tools/stable/index.html}.
+
+\bibitem{numpyDocs}
+{NumPy developers}.
+\newblock {NumPy Documentation}, 2026.
+\newblock \url{https://numpy.org/doc/stable/}.
+
+\bibitem{pandasDocs}
+{pandas developers}.
+\newblock {pandas Documentation}, 2026.
+\newblock \url{https://pandas.pydata.org/docs/}.
+
+\bibitem{scipyDocs}
+{SciPy developers}.
+\newblock {SciPy Documentation}, 2026.
+\newblock \url{https://docs.scipy.org/doc/scipy/}.
+
+\bibitem{sklearnDocs}
+{scikit-learn developers}.
+\newblock {scikit-learn Documentation}, 2026.
+\newblock \url{https://scikit-learn.org/stable/}.
+
+\bibitem{matplotlibDocs}
+{Matplotlib developers}.
+\newblock {Matplotlib Documentation}, 2026.
+\newblock \url{https://matplotlib.org/stable/index.html}.
+
+\bibitem{joblibDocs}
+{joblib developers}.
+\newblock {joblib Documentation}, 2026.
+\newblock \url{https://joblib.readthedocs.io/en/stable/}.
 
 \bibitem{gramfort2013mne}
 Alexandre Gramfort, Martin Luessi, Eric Larson, Denis~A. Engemann, Daniel
@@ -166,12 +297,6 @@ Alexandre Gramfort, Martin Luessi, Eric Larson, Denis~A. Engemann, Daniel
 \newblock {\em Frontiers in Neuroscience}, 7:267, 2013.
 \newblock
   \url{https://www.frontiersin.org/articles/10.3389/fnins.2013.00267/full}.
-
-\bibitem{uriguen2015artifact}
-Jose~Antonio Urig{\"u}en and Begonya Garcia-Zapirain.
-\newblock {EEG} artifact removal---state-of-the-art and guidelines.
-\newblock {\em Journal of Neural Engineering}, 12(3):031001, 2015.
-\newblock \url{https://doi.org/10.1088/1741-2560/12/3/031001}.
 
 \bibitem{aguilar2026eeg}
 Marta Aguilar~D{\'i}az.
@@ -201,13 +326,6 @@ Sander Koelstra, Christian M{\"u}hl, Mohammad Soleymani, Jong-Seok Lee, Ashkan
 \newblock {DEAP}: A database for emotion analysis using physiological signals.
 \newblock {\em IEEE Transactions on Affective Computing}, 3(1):18--31, 2012.
 \newblock \url{https://doi.org/10.1109/T-AFFC.2011.15}.
-
-\bibitem{raufi2022alphatheta}
-Bujar Raufi and Luca Longo.
-\newblock An evaluation of the {EEG} alpha-to-theta and theta-to-alpha band
-  ratios as indexes of mental workload.
-\newblock {\em Frontiers in Neuroinformatics}, 16:861967, 2022.
-\newblock \url{https://doi.org/10.3389/fninf.2022.861967}.
 
 \bibitem{smith2017frontal}
 Ezra~E. Smith, Samantha~J. Reznik, Jennifer~L. Stewart, and John J.~B. Allen.
@@ -245,40 +363,5 @@ Ante Topic and Mladen Russo.
   24(6):1442--1454, 2021.
 \newblock
   \url{https://www.sciencedirect.com/science/article/pii/S2215098621000768}.
-
-\bibitem{mnePythonDocs}
-{MNE-Python developers}.
-\newblock {MNE-Python Documentation}, 2026.
-\newblock \url{https://mne.tools/stable/index.html}.
-
-\bibitem{numpyDocs}
-{NumPy developers}.
-\newblock {NumPy Documentation}, 2026.
-\newblock \url{https://numpy.org/doc/stable/}.
-
-\bibitem{pandasDocs}
-{pandas developers}.
-\newblock {pandas Documentation}, 2026.
-\newblock \url{https://pandas.pydata.org/docs/}.
-
-\bibitem{scipyDocs}
-{SciPy developers}.
-\newblock {SciPy Documentation}, 2026.
-\newblock \url{https://docs.scipy.org/doc/scipy/}.
-
-\bibitem{sklearnDocs}
-{scikit-learn developers}.
-\newblock {scikit-learn Documentation}, 2026.
-\newblock \url{https://scikit-learn.org/stable/}.
-
-\bibitem{matplotlibDocs}
-{Matplotlib developers}.
-\newblock {Matplotlib Documentation}, 2026.
-\newblock \url{https://matplotlib.org/stable/index.html}.
-
-\bibitem{joblibDocs}
-{joblib developers}.
-\newblock {joblib Documentation}, 2026.
-\newblock \url{https://joblib.readthedocs.io/en/stable/}.
 
 \end{thebibliography}

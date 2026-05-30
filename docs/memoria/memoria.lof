@@ -2,42 +2,42 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Principales lóbulos de la corteza cerebral. Fuente: \cite {psycolab2021lobulos}.}}{10}{figure.caption.20}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Sistema internacional 10-20 para la colocación de electrodos EEG. Fuente: \cite {novo2010mapeo}.}}{11}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Representación simplificada de emociones según valencia y arousal. Adaptado de \cite {rinconpsicologia2024emociones}.}}{13}{figure.caption.23}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Comparación entre regresión logística binaria y multiclase.}}{17}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de estructura de árbol de decisión. Fuente: \cite {adrigm2013adivinador}.}}{17}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Esquema de validación cruzada \textit {k-fold}. Fuente: \cite {rodriguez2021crossvalidation}.}}{19}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Ejemplo de matriz de confusión binaria. Fuente: \cite {benhay2018confusionMatrix}.}}{21}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Ejemplo de topomaps por banda espectral para la clase alegría.}}{23}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Ejemplo de importancia de características mediante valores SHAP.}}{24}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Principales lóbulos de la corteza cerebral. Fuente: \cite {psycolab2021lobulos}.}}{11}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sistema internacional 10-20 para la colocación de electrodos EEG. Fuente: \cite {novo2010mapeo}.}}{12}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Representación simplificada de emociones según valencia y arousal. Adaptado de \cite {rinconpsicologia2024emociones}.}}{14}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Comparación entre regresión logística binaria y multiclase.}}{18}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de estructura de un árbol de decisión para elegir qué medio de transporte usar. Elaboración propia.}}{18}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Esquema de validación cruzada \textit {k-fold}. Fuente: \cite {rodriguez2021crossvalidation}.}}{20}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Ejemplo de matriz de confusión binaria. Fuente: \cite {benhay2018confusionMatrix}.}}{22}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Ejemplo de topomaps por banda espectral para la clase alegría.}}{24}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Ejemplo de importancia de características mediante valores SHAP.}}{25}{figure.caption.33}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Entorno y material utilizados durante el registro de las señales EEG.}}{26}{figure.caption.35}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Entorno y material utilizados durante el registro de las señales EEG.}}{27}{figure.caption.34}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Flujo general del sistema desarrollado.}}{33}{figure.caption.39}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Resumen del flujo de preprocesado aplicado a cada registro \ac {EEG}.}}{40}{figure.caption.45}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo de señal en dominio temporal y frecuencial}}{43}{figure.caption.49}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}}{50}{figure.caption.62}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Resumen del flujo de entrenamiento y evaluación de modelos.}}{56}{figure.caption.63}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Resumen del flujo de análisis de separabilidad.}}{59}{figure.caption.64}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{63}{figure.caption.66}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Flujo general del sistema desarrollado.}}{34}{figure.caption.38}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Resumen del flujo de preprocesado aplicado a cada registro \acs {EEG}.}}{41}{figure.caption.44}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo de señal en dominio temporal y frecuencial}}{44}{figure.caption.48}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Resumen del flujo de extracción de características aplicado a las épocas preprocesadas.}}{51}{figure.caption.61}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Resumen del flujo de entrenamiento y evaluación de modelos.}}{57}{figure.caption.62}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Resumen del flujo de análisis de separabilidad.}}{60}{figure.caption.65}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}}{65}{figure.caption.67}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces \ac {PCA} global del espacio de características coloreada por condición emocional.}}{66}{figure.caption.67}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces \ac {PCA} global del espacio de características coloreada por sujeto.}}{67}{figure.caption.68}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces \ac {LDA} global del espacio de características coloreada por condición emocional.}}{68}{figure.caption.69}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces \ac {LDA} global del espacio de características coloreada por sujeto.}}{68}{figure.caption.70}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces \ac {PCA} dentro de sujeto para dos participantes.}}{69}{figure.caption.71}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces \ac {LDA} dentro de sujeto para dos participantes.}}{70}{figure.caption.72}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit {all-subjects}.}}{72}{figure.caption.73}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit {within-subject}.}}{72}{figure.caption.74}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit {all-subjects}.}}{74}{figure.caption.75}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit {within-subject}.}}{74}{figure.caption.76}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Características con mayor importancia media absoluta según \ac {SHAP} en el modelo \textit {within-subject}.}}{76}{figure.caption.78}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Importancia relativa de las bandas Alpha y Beta por condición emocional.}}{77}{figure.caption.79}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Topomap firmado de \ac {SHAP} para la clase \texttt {JOY}.}}{78}{figure.caption.80}%
-\contentsline {figure}{\numberline {6.14}{\ignorespaces Topomap firmado de \ac {SHAP} para la clase \texttt {NEUTRO}.}}{79}{figure.caption.81}%
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Topomap firmado de \ac {SHAP} para la clase \texttt {SAD}.}}{79}{figure.caption.82}%
-\contentsline {figure}{\numberline {6.16}{\ignorespaces Topomaps firmados por sujeto para dos participantes representativos.}}{80}{figure.caption.83}%
-\contentsline {figure}{\numberline {6.17}{\ignorespaces Importancia relativa por cluster y condición emocional.}}{82}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces \acs {PCA} global del espacio de características coloreada por condición emocional.}}{68}{figure.caption.68}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces \acs {PCA} global del espacio de características coloreada por sujeto.}}{69}{figure.caption.69}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces \acs {LDA} global del espacio de características coloreada por condición emocional.}}{70}{figure.caption.70}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces \acs {LDA} global del espacio de características coloreada por sujeto.}}{70}{figure.caption.71}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces \acs {PCA} dentro de sujeto para dos participantes.}}{71}{figure.caption.72}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces \acs {LDA} dentro de sujeto para dos participantes.}}{72}{figure.caption.73}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit {all-subjects}.}}{74}{figure.caption.74}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Matriz de confusión de la regresión logística en el escenario \textit {within-subject}.}}{74}{figure.caption.75}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit {all-subjects}.}}{76}{figure.caption.76}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Matriz de confusión del árbol de decisión en el escenario \textit {within-subject}.}}{76}{figure.caption.77}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Características con mayor importancia media absoluta según \acs {SHAP} en el modelo \textit {within-subject}.}}{78}{figure.caption.79}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Importancia relativa de las bandas Alpha y Beta por condición emocional.}}{79}{figure.caption.80}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt {JOY}.}}{80}{figure.caption.81}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt {NEUTRO}.}}{81}{figure.caption.82}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Topomap firmado de \acs {SHAP} para la clase \texttt {SAD}.}}{81}{figure.caption.83}%
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Topomaps firmados por sujeto para dos participantes representativos.}}{82}{figure.caption.84}%
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Importancia relativa por cluster y condición emocional.}}{84}{figure.caption.85}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

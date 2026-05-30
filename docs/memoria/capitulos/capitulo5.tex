@@ -55,7 +55,7 @@ La Figura~\ref{fig:flujo_general_sistema} resume el flujo seguido por el sistema
 
 \node[fase, fill=orange!22, below=of train] (explain) {Explicabilidad\\\texttt{explicability.py}};
 
-\node[dato, above=0.3cm of prep] (raw) {registros \ac{EDF}};
+\node[dato, above=0.3cm of prep] (raw) {registros \acs{EDF}};
 \node[dato, below=0.3cm of sep] (sepout) {resultados de separabilidad};
 \node[dato, below=0.3cm of explain] (expout) {resultados de explicabilidad};
 
@@ -196,14 +196,14 @@ La salida de esta etapa queda formada por dos elementos principales: por un lado
     flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
 ]
 
-\node[paso] (edf) {Registros crudos en formato \ac{EDF}};
+\node[paso] (edf) {Registros crudos en formato \acs{EDF}};
 \node[paso, below=of edf] (eventos) {Extracción y limpieza de eventos del canal \texttt{STIM}};
 \node[paso, below=of eventos] (finales) {Selección de eventos de final de frase};
 \node[paso, below=of finales] (canales) {Selección, renombrado de canales y montaje \texttt{standard\_1005}};
 \node[paso, below=of canales] (filtros) {Filtrado a 50 Hz, pasa banda 0,5--40 Hz y remuestreo a 250 Hz};
-\node[paso, below=of filtros] (artefactos) {Detección de canales malos, rereferenciación, \ac{ICA} e interpolación};
+\node[paso, below=of filtros] (artefactos) {Detección de canales malos, rereferenciación, \acs{ICA} e interpolación};
 \node[paso, below=of artefactos] (epocas) {Segmentación en épocas y rechazo de segmentos anómalos};
-\node[paso, below=of epocas] (salida) {Guardado de épocas en \ac{FIF} y estadísticas en \ac{JSON}};
+\node[paso, below=of epocas] (salida) {Guardado de épocas en \acs{FIF} y estadísticas en \acs{JSON}};
 
 \draw[flecha] (edf) -- (eventos);
 \draw[flecha] (eventos) -- (finales);
@@ -215,7 +215,7 @@ La salida de esta etapa queda formada por dos elementos principales: por un lado
 
 \end{tikzpicture}
 }
-\caption{Resumen del flujo de preprocesado aplicado a cada registro \ac{EEG}.}
+\caption{Resumen del flujo de preprocesado aplicado a cada registro \acs{EEG}.}
 \label{fig:flujo_preprocesado}
 \end{figure}
 
@@ -469,9 +469,9 @@ Además del guardado, el script realiza un diagnóstico final del conjunto gener
     flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
 ]
 
-\node[paso] (entrada) {Épocas preprocesadas en \ac{FIF} y sujetos válidos};
-\node[paso, below=of entrada] (carga) {Carga de épocas y selección de canales \ac{EEG}};
-\node[paso, below=of carga] (psd) {Cálculo de \ac{PSD} mediante Welch entre 1 y 40 Hz};
+\node[paso] (entrada) {Épocas preprocesadas en \acs{FIF} y sujetos válidos};
+\node[paso, below=of entrada] (carga) {Carga de épocas y selección de canales \acs{EEG}};
+\node[paso, below=of carga] (psd) {Cálculo de \acs{PSD} mediante Welch entre 1 y 40 Hz};
 \node[paso, below=of psd] (bandas) {Promedio de potencia en Delta, Theta, Alpha, Beta y Gamma};
 \node[paso, below=of bandas] (logdelta) {Aplicación de log10 y delta respecto a la condición NEUTRO};
 \node[paso, below=of logdelta] (bloques) {Construcción de bloques de características};
@@ -703,8 +703,8 @@ En el análisis global, estas métricas se calculan dos veces: una usando las et
 \node[pasopeq, below left=0.85cm and 0.65cm of rama] (global) {Global \textit{all-subjects}\\todas las épocas juntas};
 \node[pasopeq, below right=0.85cm and 0.65cm of rama] (within) {Por sujeto\\épocas separadas por participante};
 
-\node[pasopeq, below=of global] (globalproj) {\ac{PCA} y \ac{LDA} global\\color por condición y por sujeto};
-\node[pasopeq, below=of within] (withinproj) {\ac{PCA} y \ac{LDA} por sujeto\\cuadrículas coloreadas por condición};
+\node[pasopeq, below=of global] (globalproj) {\acs{PCA} y \acs{LDA} global\\color por condición y por sujeto};
+\node[pasopeq, below=of within] (withinproj) {\acs{PCA} y \acs{LDA} por sujeto\\cuadrículas coloreadas por condición};
 
 \node[paso, below=1.0cm of rama, yshift=-2.55cm] (metricas) {Cálculo de silhouette y ratio centroides/dispersión};
 \node[paso, below=of metricas] (salida) {Guardado de figuras, métricas CSV y resumen JSON};
@@ -748,7 +748,7 @@ Al tratarse de una regresión logística, el script utiliza una forma lineal de 
 \[
 \phi_j^{(c)}(x) = w_j^{(c)} \left(x_j - \bar{x}_{j,\mathrm{train}}\right)
 \]
-\caption{Contribución \ac{SHAP} lineal utilizada para la regresión logística en cada fold.}
+\caption{Contribución \acs{SHAP} lineal utilizada para la regresión logística en cada fold.}
 \label{eq:shap_lineal}
 \end{myequation}
 

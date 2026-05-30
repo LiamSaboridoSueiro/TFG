@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.14)  28 MAY 2026 02:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.14)  30 MAY 2026 05:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -942,12 +942,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--11
  <./figs/by-sa.png>]) (./portada/resumen.tex [3
 
 
-])
-Underfull \hbox (badness 10000) in paragraph at lines 5--8
-
+]
+Underfull \hbox (badness 1430) in paragraph at lines 5--6
+[]\OT1/cmr/m/n/12 Este Trabajo Fin de Grado presenta el desarrollo de un sistem
+a para el
  []
 
-(./portada/acronimos.tex [4
+) (./portada/acronimos.tex [4
 
 
 ]) [5
@@ -981,37 +982,9 @@ LaTeX Info: Redefining \% on input line 15.
 (./memoria.lof
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
-Package acronym Info: Label `acro:EEG' newly defined as it shall be overridden
-although it is yet undefined on input line 18.
+ [10
 
-Underfull \hbox (badness 6141) in paragraph at lines 18--18
- [][] [][]\OT1/cmr/m/n/12 Resumen del flujo de preprocesado aplicado a cada reg
-istro 
- []
-
-[10
-
-]
-Package acronym Info: Label `acro:PCA' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--25
- [][] [][][][][]\OT1/cmr/m/it/12 Principal Component Analysis \OT1/cmr/m/n/12 (
-[])[] global del espacio de 
- []
-
-Package acronym Info: Label `acro:LDA' newly defined as it shall be overridden
-although it is yet undefined on input line 27.
-
-Underfull \hbox (badness 10000) in paragraph at lines 27--27
- [][] [][][][][]\OT1/cmr/m/it/12 Linear Discriminant Analysis \OT1/cmr/m/n/12 (
-[])[] global del espacio de 
- []
-
-Package acronym Info: Label `acro:SHAP' newly defined as it shall be overridden
-
-although it is yet undefined on input line 35.
-)
+])
 \tf@lof=\write7
 \openout7 = `memoria.lof'.
 
@@ -1030,16 +1003,18 @@ LaTeX Info: Redefining \% on input line 1.
 \tf@lomyequation=\write9
 \openout9 = `memoria.lomyequation'.
 
- [13
+
+[13
 
 ]
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
- [14])
-(./capitulos/capitulo1.tex
+ [14]) (./capitulos/capitulo1.tex
 Cap\'{\i }tulo 1.
 Package newfloat Info: Setting Plan B file extension to `lof'... on input line 
 3.
+Package acronym Info: Label `acro:EEG' newly defined as it shall be overridden
+although it is yet undefined on input line 12.
 [1
 
 
@@ -1050,31 +1025,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--21
  []
 
 Package acronym Info: Label `acro:GSR' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
+although it is yet undefined on input line 24.
 Package acronym Info: Label `acro:EMG' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
+although it is yet undefined on input line 24.
 Package acronym Info: Label `acro:FC' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
+although it is yet undefined on input line 24.
 Package acronym Info: Label `acro:FR' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
+although it is yet undefined on input line 24.
 Package acronym Info: Label `acro:fMRI' newly defined as it shall be overridden
 
-although it is yet undefined on input line 25.
+although it is yet undefined on input line 24.
 Package acronym Info: Label `acro:PET' newly defined as it shall be overridden
-although it is yet undefined on input line 25.
-LaTeX Info: Redefining \. on input line 32.
-LaTeX Info: Redefining \% on input line 32.
+although it is yet undefined on input line 24.
+LaTeX Info: Redefining \. on input line 31.
+LaTeX Info: Redefining \% on input line 31.
 [2]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 44.
+(Font)              <7> on input line 42.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 44.
-LaTeX Info: Redefining \. on input line 45.
-LaTeX Info: Redefining \% on input line 45.
- [3]) (./capitulos/capitulo2.tex
+(Font)              <5> on input line 42.
+LaTeX Info: Redefining \. on input line 43.
+LaTeX Info: Redefining \% on input line 43.
+ [3]
+LaTeX Info: Redefining \. on input line 63.
+LaTeX Info: Redefining \% on input line 63.
+ [4]) (./capitulos/capitulo2.tex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [4]
+ [5]
 Cap\'{\i }tulo 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 7--8
@@ -1087,224 +1065,250 @@ Underfull \hbox (badness 1939) in paragraph at lines 16--17
 ue clasifique
  []
 
-[5
+[6
 
 ]
 LaTeX Info: Redefining \. on input line 50.
 LaTeX Info: Redefining \% on input line 50.
- [6]
+ [7]
 LaTeX Info: Redefining \. on input line 69.
 LaTeX Info: Redefining \% on input line 69.
- [7]) (./capitulos/capitulo3.tex
+ [8]) (./capitulos/capitulo3.tex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [8]
+ [9]
 Cap\'{\i }tulo 3.
-[9
+Package acronym Info: Label `acro:ERP' newly defined as it shall be overridden
+although it is yet undefined on input line 18.
+[10
 
 ]
-<figs/lobulos_cerebrales.png, id=831, 642.4pt x 458.71375pt>
+<figs/lobulos_cerebrales.png, id=860, 642.4pt x 458.71375pt>
 File: figs/lobulos_cerebrales.png Graphic file (type png)
 <use figs/lobulos_cerebrales.png>
 Package pdftex.def Info: figs/lobulos_cerebrales.png  used on input line 24.
 (pdftex.def)             Requested size: 242.5611pt x 173.20013pt.
 LaTeX Info: Redefining \. on input line 31.
 LaTeX Info: Redefining \% on input line 31.
- [10 <./figs/lobulos_cerebrales.png>]
-<figs/sistema_10_20.png, id=842, 853.1875pt x 469.755pt>
+ [11 <./figs/lobulos_cerebrales.png>]
+<figs/sistema_10_20.png, id=873, 853.1875pt x 469.755pt>
 File: figs/sistema_10_20.png Graphic file (type png)
 <use figs/sistema_10_20.png>
 Package pdftex.def Info: figs/sistema_10_20.png  used on input line 35.
 (pdftex.def)             Requested size: 286.65883pt x 157.82944pt.
-
+LaTeX Info: Redefining \. on input line 45.
+LaTeX Info: Redefining \% on input line 45.
+ [12 <./figs/sistema_10_20.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 58--59
 []|\OT1/cmr/m/n/12 Se relaciona con estados
  []
 
-LaTeX Info: Redefining \. on input line 66.
-LaTeX Info: Redefining \% on input line 66.
-[11 <./figs/sistema_10_20.png>]
-Underfull \hbox (badness 6493) in paragraph at lines 72--72
+
+Underfull \hbox (badness 6493) in paragraph at lines 71--71
 |[]\OT1/cmr/bx/n/17.28 Emociones y actividad cerebral: alegr^^S^^Pa,
  []
 
-LaTeX Info: Redefining \. on input line 75.
-LaTeX Info: Redefining \% on input line 75.
-[12]
-<figs/valencia_activacion.png, id=863, 1427.3325pt x 688.5725pt>
+LaTeX Info: Redefining \. on input line 74.
+LaTeX Info: Redefining \% on input line 74.
+[13]
+<figs/valencia_activacion.png, id=897, 1427.3325pt x 688.5725pt>
 File: figs/valencia_activacion.png Graphic file (type png)
 <use figs/valencia_activacion.png>
-Package pdftex.def Info: figs/valencia_activacion.png  used on input line 78.
+Package pdftex.def Info: figs/valencia_activacion.png  used on input line 77.
 (pdftex.def)             Requested size: 264.61333pt x 127.64658pt.
-LaTeX Info: Redefining \. on input line 98.
-LaTeX Info: Redefining \% on input line 98.
- [13 <./figs/valencia_activacion.png>]
-LaTeX Info: Redefining \. on input line 106.
-LaTeX Info: Redefining \% on input line 106.
- [14]
-LaTeX Info: Redefining \. on input line 116.
-LaTeX Info: Redefining \% on input line 116.
+LaTeX Info: Redefining \. on input line 87.
+LaTeX Info: Redefining \% on input line 87.
+ [14 <./figs/valencia_activacion.png>]
+LaTeX Info: Redefining \. on input line 104.
+LaTeX Info: Redefining \% on input line 104.
  [15]
+LaTeX Info: Redefining \. on input line 115.
+LaTeX Info: Redefining \% on input line 115.
+ [16]
 Package hyperref Info: bookmark level for unknown myequation defaults to 0 on i
-nput line 127.
-<figs/Regresion_logistica.png, id=909, 495.8525pt x 305.14pt>
+nput line 126.
+<figs/Regresion_logistica.png, id=945, 495.8525pt x 305.14pt>
 File: figs/Regresion_logistica.png Graphic file (type png)
 <use figs/Regresion_logistica.png>
-Package pdftex.def Info: figs/Regresion_logistica.png  used on input line 138.
+Package pdftex.def Info: figs/Regresion_logistica.png  used on input line 137.
 (pdftex.def)             Requested size: 198.45662pt x 122.12833pt.
-<figs/Regresion_logistica_multiclase.png, id=912, 642.4pt x 481.8pt>
+<figs/Regresion_logistica_multiclase.png, id=948, 642.4pt x 481.8pt>
 File: figs/Regresion_logistica_multiclase.png Graphic file (type png)
 <use figs/Regresion_logistica_multiclase.png>
 Package pdftex.def Info: figs/Regresion_logistica_multiclase.png  used on input
- line 143.
+ line 142.
 (pdftex.def)             Requested size: 198.45662pt x 148.84183pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []\OT1/cmr/m/n/12 (b) Regresi^^Son log^^S^^Pstica multiclase.
  []
 
-LaTeX Info: Redefining \. on input line 147.
-LaTeX Info: Redefining \% on input line 147.
-[16]
-<figs/Arbol_decision.png, id=923, 238.8925pt x 212.795pt>
+LaTeX Info: Redefining \. on input line 146.
+LaTeX Info: Redefining \% on input line 146.
+[17]
+<figs/Arbol_decision.png, id=960, 1536.74126pt x 745.78625pt>
 File: figs/Arbol_decision.png Graphic file (type png)
 <use figs/Arbol_decision.png>
-Package pdftex.def Info: figs/Arbol_decision.png  used on input line 152.
-(pdftex.def)             Requested size: 242.5611pt x 216.06093pt.
-LaTeX Info: Redefining \. on input line 158.
-LaTeX Info: Redefining \% on input line 158.
- [17 <./figs/Regresion_logistica.png> <./figs/Regresion_logistica_multiclase.pn
+Package pdftex.def Info: figs/Arbol_decision.png  used on input line 151.
+(pdftex.def)             Requested size: 418.96548pt x 203.3223pt.
+LaTeX Info: Redefining \. on input line 157.
+LaTeX Info: Redefining \% on input line 157.
+ [18 <./figs/Regresion_logistica.png> <./figs/Regresion_logistica_multiclase.pn
 g> <./figs/Arbol_decision.png>]
-<figs/K-folds_cross_validation.png, id=942, 1150.2975pt x 691.58376pt>
+<figs/K-folds_cross_validation.png, id=975, 1150.2975pt x 691.58376pt>
 File: figs/K-folds_cross_validation.png Graphic file (type png)
 <use figs/K-folds_cross_validation.png>
 Package pdftex.def Info: figs/K-folds_cross_validation.png  used on input line 
-169.
+168.
 (pdftex.def)             Requested size: 374.86775pt x 225.37411pt.
-LaTeX Info: Redefining \. on input line 173.
-LaTeX Info: Redefining \% on input line 173.
- [18]
-Underfull \hbox (badness 1412) in paragraph at lines 184--185
+LaTeX Info: Redefining \. on input line 172.
+LaTeX Info: Redefining \% on input line 172.
+ [19]
+Underfull \hbox (badness 1412) in paragraph at lines 183--184
 \OT1/cmr/m/n/12 similar a la del conjunto completo. La validaci^^Son cruzada es
 tratificada busca
  []
 
-LaTeX Info: Redefining \. on input line 187.
-LaTeX Info: Redefining \% on input line 187.
-[19 <./figs/K-folds_cross_validation.png>]
-Underfull \hbox (badness 4366) in paragraph at lines 191--192
+LaTeX Info: Redefining \. on input line 186.
+LaTeX Info: Redefining \% on input line 186.
+[20 <./figs/K-folds_cross_validation.png>]
+Underfull \hbox (badness 4366) in paragraph at lines 190--191
 []\OT1/cmr/m/n/12 La validaci^^Son cruzada tambi^^Sen puede utilizarse para com
 parar distintas
  []
 
 
-Underfull \hbox (badness 2790) in paragraph at lines 198--199
+Underfull \hbox (badness 2790) in paragraph at lines 197--198
 \OT1/cmr/m/n/12 los verdaderos negativos ($\OML/cmm/m/it/12 TN$\OT1/cmr/m/n/12 
 ), que son muestras negativas clasificadas
  []
 
-LaTeX Info: Redefining \. on input line 199.
-LaTeX Info: Redefining \% on input line 199.
-[20]
-<figs/Matrix_confusion_example.png, id=973, 447.6725pt x 257.96375pt>
+LaTeX Info: Redefining \. on input line 198.
+LaTeX Info: Redefining \% on input line 198.
+[21]
+<figs/Matrix_confusion_example.png, id=1002, 447.6725pt x 257.96375pt>
 File: figs/Matrix_confusion_example.png Graphic file (type png)
 <use figs/Matrix_confusion_example.png>
 Package pdftex.def Info: figs/Matrix_confusion_example.png  used on input line 
-203.
+202.
 (pdftex.def)             Requested size: 242.5611pt x 139.77461pt.
 
-Underfull \hbox (badness 1742) in paragraph at lines 211--212
+Underfull \hbox (badness 1742) in paragraph at lines 210--211
 []\OT1/cmr/bx/n/12 Exactitud o \OT1/cmr/bx/it/12 accuracy\OT1/cmr/bx/n/12 . \OT
 1/cmr/m/n/12 La exactitud mide la proporci^^Son de muestras
  []
 
-LaTeX Info: Redefining \. on input line 226.
-LaTeX Info: Redefining \% on input line 226.
-[21 <./figs/Matrix_confusion_example.png>]
-LaTeX Info: Redefining \. on input line 262.
-LaTeX Info: Redefining \% on input line 262.
- [22]
-<figs/topomap_ejemplo.png, id=992, 1156.32pt x 289.08pt>
+LaTeX Info: Redefining \. on input line 225.
+LaTeX Info: Redefining \% on input line 225.
+[22 <./figs/Matrix_confusion_example.png>]
+Package acronym Info: Label `acro:SHAP' newly defined as it shall be overridden
+
+although it is yet undefined on input line 260.
+LaTeX Info: Redefining \. on input line 261.
+LaTeX Info: Redefining \% on input line 261.
+ [23]
+<figs/topomap_ejemplo.png, id=1022, 1156.32pt x 289.08pt>
 File: figs/topomap_ejemplo.png Graphic file (type png)
 <use figs/topomap_ejemplo.png>
-Package pdftex.def Info: figs/topomap_ejemplo.png  used on input line 268.
+Package pdftex.def Info: figs/topomap_ejemplo.png  used on input line 267.
 (pdftex.def)             Requested size: 441.01773pt x 110.25293pt.
-<figs/shap_ejemplo.png, id=995, 867.24pt x 578.16pt>
+<figs/shap_ejemplo.png, id=1025, 867.24pt x 578.16pt>
 File: figs/shap_ejemplo.png Graphic file (type png)
 <use figs/shap_ejemplo.png>
-Package pdftex.def Info: figs/shap_ejemplo.png  used on input line 278.
+Package pdftex.def Info: figs/shap_ejemplo.png  used on input line 277.
 (pdftex.def)             Requested size: 374.86775pt x 249.9096pt.
 )
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
- [23 <./figs/topomap_ejemplo.png>] (./capitulos/capitulo4.tex
+ [24 <./figs/topomap_ejemplo.png>] (./capitulos/capitulo4.tex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [24 <./figs/shap_ejemplo.png>]
+ [25 <./figs/shap_ejemplo.png>]
 Cap\'{\i }tulo 4.
-[25
+[26
 
 ]
-<figs/habitacion_grabacion.png, id=1018, 702.625pt x 936.49875pt>
+<figs/habitacion_grabacion.png, id=1045, 702.625pt x 936.49875pt>
 File: figs/habitacion_grabacion.png Graphic file (type png)
 <use figs/habitacion_grabacion.png>
 Package pdftex.def Info: figs/habitacion_grabacion.png  used on input line 24.
 (pdftex.def)             Requested size: 198.45662pt x 264.51851pt.
-<figs/casco_eeg.png, id=1019, 702.625pt x 936.49875pt>
+<figs/casco_eeg.png, id=1046, 702.625pt x 936.49875pt>
 File: figs/casco_eeg.png Graphic file (type png)
 <use figs/casco_eeg.png>
 Package pdftex.def Info: figs/casco_eeg.png  used on input line 29.
 (pdftex.def)             Requested size: 198.45662pt x 264.51851pt.
 Package acronym Info: Label `acro:EDF' newly defined as it shall be overridden
 although it is yet undefined on input line 36.
-LaTeX Info: Redefining \. on input line 38.
-LaTeX Info: Redefining \% on input line 38.
- [26 <./figs/habitacion_grabacion.png> <./figs/casco_eeg.png>]
-LaTeX Info: Redefining \. on input line 70.
-LaTeX Info: Redefining \% on input line 70.
- [27]
+
+Underfull \hbox (badness 2326) in paragraph at lines 36--37
+\OT1/cmr/m/n/12 almacenados en formato [][][]\OT1/cmr/m/it/12 European Data For
+mat \OT1/cmr/m/n/12 (formato europeo de datos)
+ []
+
+LaTeX Info: Redefining \. on input line 39.
+LaTeX Info: Redefining \% on input line 39.
+[27 <./figs/habitacion_grabacion.png> <./figs/casco_eeg.png>]
+LaTeX Info: Redefining \. on input line 74.
+LaTeX Info: Redefining \% on input line 74.
+ [28]
 Underfull \hbox (badness 2521) in paragraph at lines 95--96
 []\OT1/cmtt/m/n/12 2[]-features/\OT1/cmr/m/n/12 : extrae las caracter^^S^^Pstic
 as utilizadas posteriormente por los
  []
 
-LaTeX Info: Redefining \. on input line 105.
-LaTeX Info: Redefining \% on input line 105.
-[28]
+LaTeX Info: Redefining \. on input line 109.
+LaTeX Info: Redefining \% on input line 109.
+[29]
 LaTeX Info: Redefining \. on input line 140.
 LaTeX Info: Redefining \% on input line 140.
- [29]
+ [30]
 Underfull \hbox (badness 1038) in paragraph at lines 145--146
 []\OT1/cmr/m/n/12 El proyecto se desarroll^^So en un entorno local organizado d
 e forma que el
  []
 
-LaTeX Info: Redefining \. on input line 157.
-LaTeX Info: Redefining \% on input line 157.
-[30]
 Package acronym Info: Label `acro:GPU' newly defined as it shall be overridden
 although it is yet undefined on input line 158.
+LaTeX Info: Redefining \. on input line 159.
+LaTeX Info: Redefining \% on input line 159.
+[31]
 Package acronym Info: Label `acro:MEG' newly defined as it shall be overridden
 although it is yet undefined on input line 165.
-LaTeX Info: Redefining \. on input line 170.
-LaTeX Info: Redefining \% on input line 170.
- [31]) (./capitulos/capitulo5.tex
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+[]\OT1/cmr/bx/n/12 MNE-Python \OT1/cmr/m/n/12 [[]]: librer^^S^^Pa especializada
+ en el an^^Salisis
+ []
+
+LaTeX Info: Redefining \. on input line 172.
+LaTeX Info: Redefining \% on input line 172.
+[32]) (./capitulos/capitulo5.tex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [32]
+ [33]
 Cap\'{\i }tulo 5.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 77.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 77.
-[33
+[34
 
 ]
 Package acronym Info: Label `acro:ICA' newly defined as it shall be overridden
 although it is yet undefined on input line 98.
-LaTeX Info: Redefining \. on input line 103.
-LaTeX Info: Redefining \% on input line 103.
- [34]
+
+Underfull \hbox (badness 1072) in paragraph at lines 98--99
+\OT1/cmr/m/n/12 reproducible de se~nales [][]/[][] que permite trabajar con reg
+istros crudos,
+ []
+
+LaTeX Info: Redefining \. on input line 100.
+LaTeX Info: Redefining \% on input line 100.
+[35]
+LaTeX Info: Redefining \. on input line 116.
+LaTeX Info: Redefining \% on input line 116.
+ [36]
 Package acronym Info: Label `acro:EOG' newly defined as it shall be overridden
 although it is yet undefined on input line 117.
 
@@ -1313,18 +1317,15 @@ Underfull \hbox (badness 2073) in paragraph at lines 117--118
 tas anat^^Somicas
  []
 
-LaTeX Info: Redefining \. on input line 118.
-LaTeX Info: Redefining \% on input line 118.
-[35]
 LaTeX Info: Redefining \. on input line 131.
 LaTeX Info: Redefining \% on input line 131.
- [36]
+[37]
 LaTeX Info: Redefining \. on input line 150.
 LaTeX Info: Redefining \% on input line 150.
- [37]
+ [38]
 LaTeX Info: Redefining \. on input line 160.
 LaTeX Info: Redefining \% on input line 160.
- [38]
+ [39]
 Underfull \hbox (badness 2065) in paragraph at lines 161--161
 |[]\OT1/cmr/bx/n/14.4 Segmentaci^^Son en ^^Sepocas y rechazo de segmentos
  []
@@ -1334,30 +1335,36 @@ although it is yet undefined on input line 173.
 Package acronym Info: Label `acro:JSON' newly defined as it shall be overridden
 
 although it is yet undefined on input line 175.
+
+Underfull \hbox (badness 2452) in paragraph at lines 175--176
+\OT1/cmr/m/n/12 (notaci^^Son de objetos de JavaScript) ([])[] con estad^^S^^Pst
+icas de control del
+ []
+
 LaTeX Info: Redefining \. on input line 176.
 LaTeX Info: Redefining \% on input line 176.
-[39]
+[40]
 LaTeX Info: Redefining \. on input line 230.
 LaTeX Info: Redefining \% on input line 230.
- [40]
+ [41]
 LaTeX Info: Redefining \. on input line 242.
 LaTeX Info: Redefining \% on input line 242.
- [41]
+ [42]
 Package acronym Info: Label `acro:FFT' newly defined as it shall be overridden
 although it is yet undefined on input line 253.
 LaTeX Info: Redefining \. on input line 264.
 LaTeX Info: Redefining \% on input line 264.
- [42]
+ [43]
 Package acronym Info: Label `acro:PSD' newly defined as it shall be overridden
 although it is yet undefined on input line 265.
-<figs/psd.png, id=1264, 493.845pt x 243.91125pt>
+<figs/psd.png, id=1275, 493.845pt x 243.91125pt>
 File: figs/psd.png Graphic file (type png)
 <use figs/psd.png>
 Package pdftex.def Info: figs/psd.png  used on input line 269.
 (pdftex.def)             Requested size: 361.63776pt x 178.61198pt.
 LaTeX Info: Redefining \. on input line 285.
 LaTeX Info: Redefining \% on input line 285.
- [43 <./figs/psd.png>]
+ [44 <./figs/psd.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 308.
 
@@ -1372,10 +1379,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 318--319
 
 LaTeX Info: Redefining \. on input line 324.
 LaTeX Info: Redefining \% on input line 324.
-[44]
+[45]
 LaTeX Info: Redefining \. on input line 356.
 LaTeX Info: Redefining \% on input line 356.
- [45]
+ [46]
 Underfull \hbox (badness 1348) in paragraph at lines 373--374
 \OT1/cmr/m/n/12 con estos valores como una tabla de datos, el script los transf
 orma en una
@@ -1383,16 +1390,16 @@ orma en una
 
 LaTeX Info: Redefining \. on input line 376.
 LaTeX Info: Redefining \% on input line 376.
-[46]
+[47]
 LaTeX Info: Redefining \. on input line 398.
 LaTeX Info: Redefining \% on input line 398.
- [47]
+ [48]
 LaTeX Info: Redefining \. on input line 432.
 LaTeX Info: Redefining \% on input line 432.
- [48]
+ [49]
 LaTeX Info: Redefining \. on input line 451.
 LaTeX Info: Redefining \% on input line 451.
- [49]
+ [50]
 Underfull \hbox (badness 3525) in paragraph at lines 499--500
 []\OT1/cmr/m/n/12 La normalizaci^^Son respecto a la condici^^Son \OT1/cmtt/m/n/
 12 NEUTRO \OT1/cmr/m/n/12 se calcula dentro del
@@ -1400,20 +1407,20 @@ Underfull \hbox (badness 3525) in paragraph at lines 499--500
 
 LaTeX Info: Redefining \. on input line 500.
 LaTeX Info: Redefining \% on input line 500.
-[50]
+[51]
 Underfull \hbox (badness 7116) in paragraph at lines 507--507
 |[]\OT1/cmr/bx/n/14.4 Construcci^^Son de caracter^^S^^Psticas dentro de cada
  []
 
 LaTeX Info: Redefining \. on input line 514.
 LaTeX Info: Redefining \% on input line 514.
-[51]
+[52]
 LaTeX Info: Redefining \. on input line 533.
 LaTeX Info: Redefining \% on input line 533.
- [52]
+ [53]
 LaTeX Info: Redefining \. on input line 546.
 LaTeX Info: Redefining \% on input line 546.
- [53]
+ [54]
 Underfull \hbox (badness 1394) in paragraph at lines 547--548
 []\OT1/cmr/m/n/12 Los clasificadores se entrenan con una configuraci^^Son fija,
  sin b^^Susqueda de
@@ -1427,7 +1434,7 @@ ifiedGroupKFold[][][]\OT1/cmr/m/n/12 , tomando el
 
 LaTeX Info: Redefining \. on input line 558.
 LaTeX Info: Redefining \% on input line 558.
-[54]
+[55]
 Underfull \hbox (badness 4001) in paragraph at lines 569--570
 []\OT1/cmr/m/n/12 En el entrenamiento \OT1/cmr/m/it/12 all-subjects\OT1/cmr/m/n
 /12 , el archivo principal es \OT1/cmtt/m/n/12 all[]-subjects[]-
@@ -1435,7 +1442,7 @@ Underfull \hbox (badness 4001) in paragraph at lines 569--570
 
 LaTeX Info: Redefining \. on input line 570.
 LaTeX Info: Redefining \% on input line 570.
-[55]
+[56]
 Underfull \hbox (badness 1122) in paragraph at lines 573--574
 []\OT1/cmr/m/n/12 Los modelos finales tambi^^Sen se guardan en formato \OT1/cmt
 t/m/n/12 joblib\OT1/cmr/m/n/12 . Cada archivo
@@ -1443,10 +1450,20 @@ t/m/n/12 joblib\OT1/cmr/m/n/12 . Cada archivo
 
 LaTeX Info: Redefining \. on input line 641.
 LaTeX Info: Redefining \% on input line 641.
-[56]
-LaTeX Info: Redefining \. on input line 653.
-LaTeX Info: Redefining \% on input line 653.
- [57]
+[57]
+Package acronym Info: Label `acro:PCA' newly defined as it shall be overridden
+although it is yet undefined on input line 642.
+Package acronym Info: Label `acro:LDA' newly defined as it shall be overridden
+although it is yet undefined on input line 642.
+
+Underfull \hbox (badness 1308) in paragraph at lines 642--643
+[]\OT1/cmr/m/n/12 El script \OT1/cmtt/m/n/12 analyze[]-separability.py \OT1/cmr
+/m/n/12 utiliza el mismo conjunto de variables
+ []
+
+LaTeX Info: Redefining \. on input line 650.
+LaTeX Info: Redefining \% on input line 650.
+[58]
 Underfull \hbox (badness 1067) in paragraph at lines 655--656
 \OT1/cmr/m/n/12 Cada proyecci^^Son se dibuja dos veces: primero coloreando los 
 puntos por
@@ -1458,24 +1475,26 @@ Underfull \hbox (badness 2635) in paragraph at lines 655--656
 ition[]-subject.png \OT1/cmr/m/n/12 y \OT1/cmtt/m/n/12 02[]-lda[]-
  []
 
-LaTeX Info: Redefining \. on input line 667.
-LaTeX Info: Redefining \% on input line 667.
-[58]
+LaTeX Info: Redefining \. on input line 665.
+LaTeX Info: Redefining \% on input line 665.
+[59]
 LaTeX Info: Redefining \. on input line 734.
 LaTeX Info: Redefining \% on input line 734.
- [59]
+ [60]
 LaTeX Info: Redefining \. on input line 756.
 LaTeX Info: Redefining \% on input line 756.
- [60]
+ [61]
 LaTeX Info: Redefining \. on input line 770.
 LaTeX Info: Redefining \% on input line 770.
- [61]
+ [62]
 Underfull \hbox (badness 3439) in paragraph at lines 781--782
 []\OT1/cmtt/m/n/12 shap[]-feature[]-importance[]-by[]-subject.csv\OT1/cmr/m/n/1
 2 : contiene las importancias por
  []
 
-
+LaTeX Info: Redefining \. on input line 782.
+LaTeX Info: Redefining \% on input line 782.
+[63]
 Underfull \hbox (badness 1735) in paragraph at lines 782--783
 []\OT1/cmtt/m/n/12 shap[]-feature[]-importance.csv\OT1/cmr/m/n/12 : almacena el
  promedio global por clase y
@@ -1494,18 +1513,19 @@ Underfull \hbox (badness 4686) in paragraph at lines 783--784
 gregaciones necesarias para
  []
 
-LaTeX Info: Redefining \. on input line 784.
-LaTeX Info: Redefining \% on input line 784.
-[62]
+
 Underfull \hbox (badness 3250) in paragraph at lines 787--788
 \OT1/cmr/m/n/12 importancia relativa por banda, topomaps globales, topomaps por
  sujeto y
  []
 
-) (./capitulos/capitulo6.tex
+)
+LaTeX Info: Redefining \. on input line 33.
+LaTeX Info: Redefining \% on input line 33.
+ [64] (./capitulos/capitulo6.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [63]
+ [65]
 Cap\'{\i }tulo 6.
 
 Underfull \hbox (badness 1314) in paragraph at lines 8--9
@@ -1513,13 +1533,13 @@ Underfull \hbox (badness 1314) in paragraph at lines 8--9
  del espacio de
  []
 
-[64
+[66
 
 ]
 LaTeX Info: Redefining \. on input line 28.
 LaTeX Info: Redefining \% on input line 28.
- [65]
-<figs/separability/PCA_global_condicion.png, id=1459, 1302.8675pt x 865.2325pt>
+ [67]
+<figs/separability/PCA_global_condicion.png, id=1473, 1302.8675pt x 865.2325pt>
 
 File: figs/separability/PCA_global_condicion.png Graphic file (type png)
 <use figs/separability/PCA_global_condicion.png>
@@ -1534,14 +1554,14 @@ coloreada por condici^^Son
 
 LaTeX Info: Redefining \. on input line 41.
 LaTeX Info: Redefining \% on input line 41.
-[66 <./figs/separability/PCA_global_condicion.png>]
-<figs/separability/PCA_global_sujeto.png, id=1470, 1220.56pt x 851.18pt>
+[68 <./figs/separability/PCA_global_condicion.png>]
+<figs/separability/PCA_global_sujeto.png, id=1484, 1220.56pt x 851.18pt>
 File: figs/separability/PCA_global_sujeto.png Graphic file (type png)
 <use figs/separability/PCA_global_sujeto.png>
 Package pdftex.def Info: figs/separability/PCA_global_sujeto.png  used on input
  line 45.
 (pdftex.def)             Requested size: 343.99329pt x 239.88731pt.
-<figs/separability/LDA_global_condicion.png, id=1476, 1299.85625pt x 848.16875p
+<figs/separability/LDA_global_condicion.png, id=1490, 1299.85625pt x 848.16875p
 t>
 File: figs/separability/LDA_global_condicion.png Graphic file (type png)
 <use figs/separability/LDA_global_condicion.png>
@@ -1550,8 +1570,8 @@ put line 57.
 (pdftex.def)             Requested size: 343.99329pt x 224.45303pt.
 LaTeX Info: Redefining \. on input line 61.
 LaTeX Info: Redefining \% on input line 61.
- [67 <./figs/separability/PCA_global_sujeto.png>]
-<figs/separability/LDA_global_sujeto.png, id=1486, 1205.50375pt x 869.2475pt>
+ [69 <./figs/separability/PCA_global_sujeto.png>]
+<figs/separability/LDA_global_sujeto.png, id=1500, 1205.50375pt x 869.2475pt>
 File: figs/separability/LDA_global_sujeto.png Graphic file (type png)
 <use figs/separability/LDA_global_sujeto.png>
 Package pdftex.def Info: figs/separability/LDA_global_sujeto.png  used on input
@@ -1559,28 +1579,28 @@ Package pdftex.def Info: figs/separability/LDA_global_sujeto.png  used on input
 (pdftex.def)             Requested size: 343.99329pt x 248.0299pt.
 LaTeX Info: Redefining \. on input line 74.
 LaTeX Info: Redefining \% on input line 74.
- [68 <./figs/separability/LDA_global_condicion.png> <./figs/separability/LDA_gl
+ [70 <./figs/separability/LDA_global_condicion.png> <./figs/separability/LDA_gl
 obal_sujeto.png>]
-<figs/separability/pca_547.png, id=1504, 1165.35374pt x 800.9925pt>
+<figs/separability/pca_547.png, id=1518, 1165.35374pt x 800.9925pt>
 File: figs/separability/pca_547.png Graphic file (type png)
 <use figs/separability/pca_547.png>
 Package pdftex.def Info: figs/separability/pca_547.png  used on input line 88.
 (pdftex.def)             Requested size: 211.68661pt x 145.49242pt.
-<figs/separability/pca_552.png, id=1505, 1165.35374pt x 800.9925pt>
+<figs/separability/pca_552.png, id=1519, 1165.35374pt x 800.9925pt>
 File: figs/separability/pca_552.png Graphic file (type png)
 <use figs/separability/pca_552.png>
 Package pdftex.def Info: figs/separability/pca_552.png  used on input line 95.
 (pdftex.def)             Requested size: 211.68661pt x 145.49242pt.
 LaTeX Info: Redefining \. on input line 104.
 LaTeX Info: Redefining \% on input line 104.
- [69 <./figs/separability/pca_547.png> <./figs/separability/pca_552.png>]
-<figs/separability/lda_547.png, id=1519, 1165.35374pt x 800.9925pt>
+ [71 <./figs/separability/pca_547.png> <./figs/separability/pca_552.png>]
+<figs/separability/lda_547.png, id=1534, 1165.35374pt x 800.9925pt>
 File: figs/separability/lda_547.png Graphic file (type png)
 <use figs/separability/lda_547.png>
 Package pdftex.def Info: figs/separability/lda_547.png  used on input line 109.
 
 (pdftex.def)             Requested size: 211.68661pt x 145.49242pt.
-<figs/separability/lda_552.png, id=1520, 1165.35374pt x 800.9925pt>
+<figs/separability/lda_552.png, id=1535, 1165.35374pt x 800.9925pt>
 File: figs/separability/lda_552.png Graphic file (type png)
 <use figs/separability/lda_552.png>
 Package pdftex.def Info: figs/separability/lda_552.png  used on input line 116.
@@ -1588,8 +1608,8 @@ Package pdftex.def Info: figs/separability/lda_552.png  used on input line 116.
 (pdftex.def)             Requested size: 211.68661pt x 145.49242pt.
 LaTeX Info: Redefining \. on input line 134.
 LaTeX Info: Redefining \% on input line 134.
- [70 <./figs/separability/lda_547.png> <./figs/separability/lda_552.png>]
-<figs/training/all_subjects/log_reg.png, id=1531, 707.64375pt x 549.05125pt>
+ [72 <./figs/separability/lda_547.png> <./figs/separability/lda_552.png>]
+<figs/training/all_subjects/log_reg.png, id=1546, 707.64375pt x 549.05125pt>
 File: figs/training/all_subjects/log_reg.png Graphic file (type png)
 <use figs/training/all_subjects/log_reg.png>
 Package pdftex.def Info: figs/training/all_subjects/log_reg.png  used on input 
@@ -1597,8 +1617,8 @@ line 143.
 (pdftex.def)             Requested size: 299.88882pt x 232.67766pt.
 LaTeX Info: Redefining \. on input line 147.
 LaTeX Info: Redefining \% on input line 147.
- [71]
-<figs/training/within/logreg.png, id=1538, 707.64375pt x 549.05125pt>
+ [73]
+<figs/training/within/logreg.png, id=1552, 707.64375pt x 549.05125pt>
 File: figs/training/within/logreg.png Graphic file (type png)
 <use figs/training/within/logreg.png>
 Package pdftex.def Info: figs/training/within/logreg.png  used on input line 15
@@ -1606,14 +1626,14 @@ Package pdftex.def Info: figs/training/within/logreg.png  used on input line 15
 (pdftex.def)             Requested size: 299.88882pt x 232.67766pt.
 LaTeX Info: Redefining \. on input line 158.
 LaTeX Info: Redefining \% on input line 158.
- [72 <./figs/training/all_subjects/log_reg.png> <./figs/training/within/logreg.
+ [74 <./figs/training/all_subjects/log_reg.png> <./figs/training/within/logreg.
 png>]
 Underfull \hbox (badness 1077) in paragraph at lines 159--160
 []\OT1/cmr/m/n/12 Tambi^^Sen se observa una estabilidad elevada entre participa
 ntes, aunque no
  []
 
-<figs/training/all_subjects/decission_tree.png, id=1548, 707.64375pt x 549.0512
+<figs/training/all_subjects/decission_tree.png, id=1562, 707.64375pt x 549.0512
 5pt>
 File: figs/training/all_subjects/decission_tree.png Graphic file (type png)
 <use figs/training/all_subjects/decission_tree.png>
@@ -1622,8 +1642,8 @@ Package pdftex.def Info: figs/training/all_subjects/decission_tree.png  used on
 (pdftex.def)             Requested size: 299.88882pt x 232.67766pt.
 LaTeX Info: Redefining \. on input line 171.
 LaTeX Info: Redefining \% on input line 171.
-[73]
-<figs/training/within/decission_tree.png, id=1554, 707.64375pt x 549.05125pt>
+[75]
+<figs/training/within/decission_tree.png, id=1568, 707.64375pt x 549.05125pt>
 File: figs/training/within/decission_tree.png Graphic file (type png)
 <use figs/training/within/decission_tree.png>
 Package pdftex.def Info: figs/training/within/decission_tree.png  used on input
@@ -1631,7 +1651,7 @@ Package pdftex.def Info: figs/training/within/decission_tree.png  used on input
 (pdftex.def)             Requested size: 299.88882pt x 232.67766pt.
 LaTeX Info: Redefining \. on input line 186.
 LaTeX Info: Redefining \% on input line 186.
- [74 <./figs/training/all_subjects/decission_tree.png> <./figs/training/within/
+ [76 <./figs/training/all_subjects/decission_tree.png> <./figs/training/within/
 decission_tree.png>]
 Underfull \hbox (badness 1509) in paragraph at lines 211--212
 []\OT1/cmr/m/n/12 Una vez seleccionado el escenario \OT1/cmr/m/it/12 within-sub
@@ -1640,8 +1660,8 @@ ject \OT1/cmr/m/n/12 con regresi^^Son log^^S^^Pstica, se
 
 LaTeX Info: Redefining \. on input line 216.
 LaTeX Info: Redefining \% on input line 216.
-[75]
-<figs/explicabilidad/01_top_features_global.png, id=1572, 867.24pt x 578.16pt>
+[77]
+<figs/explicabilidad/01_top_features_global.png, id=1587, 867.24pt x 578.16pt>
 File: figs/explicabilidad/01_top_features_global.png Graphic file (type png)
 <use figs/explicabilidad/01_top_features_global.png>
 Package pdftex.def Info: figs/explicabilidad/01_top_features_global.png  used o
@@ -1649,8 +1669,8 @@ n input line 223.
 (pdftex.def)             Requested size: 388.09775pt x 258.7316pt.
 LaTeX Info: Redefining \. on input line 229.
 LaTeX Info: Redefining \% on input line 229.
- [76 <./figs/explicabilidad/01_top_features_global.png>]
-<figs/explicabilidad/02_band_importance_by_class.png, id=1583, 722.7pt x 433.62
+ [78 <./figs/explicabilidad/01_top_features_global.png>]
+<figs/explicabilidad/02_band_importance_by_class.png, id=1598, 722.7pt x 433.62
 pt>
 File: figs/explicabilidad/02_band_importance_by_class.png Graphic file (type pn
 g)
@@ -1660,8 +1680,8 @@ sed on input line 236.
 (pdftex.def)             Requested size: 343.99329pt x 206.3951pt.
 LaTeX Info: Redefining \. on input line 246.
 LaTeX Info: Redefining \% on input line 246.
- [77 <./figs/explicabilidad/02_band_importance_by_class.png>]
-<figs/explicabilidad/04_topomap_signed_JOY.png, id=1594, 650.43pt x 289.08pt>
+ [79 <./figs/explicabilidad/02_band_importance_by_class.png>]
+<figs/explicabilidad/04_topomap_signed_JOY.png, id=1608, 650.43pt x 289.08pt>
 File: figs/explicabilidad/04_topomap_signed_JOY.png Graphic file (type png)
 <use figs/explicabilidad/04_topomap_signed_JOY.png>
 Package pdftex.def Info: figs/explicabilidad/04_topomap_signed_JOY.png  used on
@@ -1669,15 +1689,15 @@ Package pdftex.def Info: figs/explicabilidad/04_topomap_signed_JOY.png  used on
 (pdftex.def)             Requested size: 361.63776pt x 160.73242pt.
 LaTeX Info: Redefining \. on input line 259.
 LaTeX Info: Redefining \% on input line 259.
- [78 <./figs/explicabilidad/04_topomap_signed_JOY.png>]
-<figs/explicabilidad/04_topomap_signed_NEUTRO.png, id=1603, 650.43pt x 289.08pt
+ [80 <./figs/explicabilidad/04_topomap_signed_JOY.png>]
+<figs/explicabilidad/04_topomap_signed_NEUTRO.png, id=1617, 650.43pt x 289.08pt
 >
 File: figs/explicabilidad/04_topomap_signed_NEUTRO.png Graphic file (type png)
 <use figs/explicabilidad/04_topomap_signed_NEUTRO.png>
 Package pdftex.def Info: figs/explicabilidad/04_topomap_signed_NEUTRO.png  used
  on input line 262.
 (pdftex.def)             Requested size: 361.63776pt x 160.73242pt.
-<figs/explicabilidad/04_topomap_signed_SAD.png, id=1607, 650.43pt x 289.08pt>
+<figs/explicabilidad/04_topomap_signed_SAD.png, id=1621, 650.43pt x 289.08pt>
 File: figs/explicabilidad/04_topomap_signed_SAD.png Graphic file (type png)
 <use figs/explicabilidad/04_topomap_signed_SAD.png>
 Package pdftex.def Info: figs/explicabilidad/04_topomap_signed_SAD.png  used on
@@ -1685,9 +1705,9 @@ Package pdftex.def Info: figs/explicabilidad/04_topomap_signed_SAD.png  used on
 (pdftex.def)             Requested size: 361.63776pt x 160.73242pt.
 LaTeX Info: Redefining \. on input line 277.
 LaTeX Info: Redefining \% on input line 277.
- [79 <./figs/explicabilidad/04_topomap_signed_NEUTRO.png> <./figs/explicabilida
+ [81 <./figs/explicabilidad/04_topomap_signed_NEUTRO.png> <./figs/explicabilida
 d/04_topomap_signed_SAD.png>]
-<figs/explicabilidad/topomap_signed_211-000547.png, id=1618, 650.43pt x 722.7pt
+<figs/explicabilidad/topomap_signed_211-000547.png, id=1632, 650.43pt x 722.7pt
 >
 File: figs/explicabilidad/topomap_signed_211-000547.png Graphic file (type png)
 
@@ -1695,7 +1715,7 @@ File: figs/explicabilidad/topomap_signed_211-000547.png Graphic file (type png)
 Package pdftex.def Info: figs/explicabilidad/topomap_signed_211-000547.png  use
 d on input line 286.
 (pdftex.def)             Requested size: 211.68661pt x 235.20554pt.
-<figs/explicabilidad/topomap_signed_211-000552.png, id=1619, 650.43pt x 722.7pt
+<figs/explicabilidad/topomap_signed_211-000552.png, id=1633, 650.43pt x 722.7pt
 >
 File: figs/explicabilidad/topomap_signed_211-000552.png Graphic file (type png)
 
@@ -1705,9 +1725,9 @@ d on input line 293.
 (pdftex.def)             Requested size: 211.68661pt x 235.20554pt.
 LaTeX Info: Redefining \. on input line 306.
 LaTeX Info: Redefining \% on input line 306.
- [80 <./figs/explicabilidad/topomap_signed_211-000547.png> <./figs/explicabilid
+ [82 <./figs/explicabilidad/topomap_signed_211-000547.png> <./figs/explicabilid
 ad/topomap_signed_211-000552.png>]
-<figs/explicabilidad/05_cluster_importance_by_class.png, id=1626, 1011.78pt x 4
+<figs/explicabilidad/05_cluster_importance_by_class.png, id=1640, 1011.78pt x 4
 33.62pt>
 File: figs/explicabilidad/05_cluster_importance_by_class.png Graphic file (type
  png)
@@ -1717,118 +1737,120 @@ Package pdftex.def Info: figs/explicabilidad/05_cluster_importance_by_class.png
 (pdftex.def)             Requested size: 388.09775pt x 166.32556pt.
 LaTeX Info: Redefining \. on input line 325.
 LaTeX Info: Redefining \% on input line 325.
- [81]) (./capitulos/capitulo7.tex
+ [83]) (./capitulos/capitulo7.tex
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [82 <./figs/explicabilidad/05_cluster_importance_by_class.png>]
+ [84 <./figs/explicabilidad/05_cluster_importance_by_class.png>]
 LaTeX Info: Redefining \. on input line 3.
 LaTeX Info: Redefining \% on input line 3.
- [83]
+ [85]
 Cap\'{\i }tulo 7.
-[84
+[86
 
 ])
 LaTeX Info: Redefining \. on input line 37.
 LaTeX Info: Redefining \% on input line 37.
- [85]
+ [87]
 LaTeX Info: Redefining \. on input line 38.
 LaTeX Info: Redefining \% on input line 38.
- [86]
+ [88]
 No file memoria.ind.
 (./anexos/repositorio.tex
 Ap\'{e}ndice A.
-) (./memoria.bbl [87
+) (./memoria.bbl [89
 
 
 ]
-Underfull \hbox (badness 1796) in paragraph at lines 58--64
-\OT1/cmr/m/n/12 for high-resolution eeg and erp measurements.  \OT1/cmr/m/it/12
- Clinical Neurophysiology\OT1/cmr/m/n/12 ,
- []
-
-[88
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 66--71
+Underfull \hbox (badness 10000) in paragraph at lines 10--15
 []\OT1/cmr/m/n/12 Carlos No-vo, Le-ti-cia Chac^^Son Gu-ti^^Serrez, and Jos^^Se 
 Al-ber-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 66--71
+Underfull \hbox (badness 10000) in paragraph at lines 10--15
 \OT1/cmr/m/n/12 to Ba-rra-das Bri-bies-ca.  Ma-peo elec-tro-en-ce-fa-logr^^Safi
 -co y neu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 66--71
+Underfull \hbox (badness 10000) in paragraph at lines 10--15
 \OT1/cmr/m/n/12 ro-feed-back, 2010.  []$\OT1/cmtt/m/n/12 https : / / www . rese
 archgate . net / figure /
  []
 
 
-Overfull \hbox (45.58502pt too wide) in paragraph at lines 66--71
+Overfull \hbox (45.58502pt too wide) in paragraph at lines 10--15
 \OT1/cmtt/m/n/12 Figura-[]3-[]Sistema-[]Internacional-[]10-[]20-[]para-[]la-[]c
 olocacion-[]de-[]los-[]electrodos _
  []
 
 
-Underfull \hbox (badness 7796) in paragraph at lines 79--85
+Underfull \hbox (badness 2150) in paragraph at lines 23--27
+[]\OT1/cmr/m/n/12 Gladys Andrea Rodr^^S^^Pguez Guerrero.  Cross-validation, 202
+1.  []$\OT1/cmtt/m/n/12 https : / /
+ []
+
+[90
+
+]
+Underfull \hbox (badness 1796) in paragraph at lines 124--130
+\OT1/cmr/m/n/12 for high-resolution eeg and erp measurements.  \OT1/cmr/m/it/12
+ Clinical Neurophysiology\OT1/cmr/m/n/12 ,
+ []
+
+LaTeX Info: Redefining \. on input line 137.
+LaTeX Info: Redefining \% on input line 137.
+[91]
+Underfull \hbox (badness 7796) in paragraph at lines 139--145
 []\OT1/cmr/m/n/12 Arjun, Aniket Singh Rajpoot, and Mahesh Raveendranatha Panick
 er.
  []
 
 
-Underfull \hbox (badness 5359) in paragraph at lines 79--85
+Underfull \hbox (badness 5359) in paragraph at lines 139--145
 \OT1/cmr/m/n/12 Subject independent emotion recognition using EEG signals emplo
 ying
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 79--85
+Underfull \hbox (badness 1377) in paragraph at lines 139--145
 \OT1/cmr/m/n/12 75:103547, 2022.  []$\OT1/cmtt/m/n/12 https : / / www . science
 direct . com / science / article / abs /
  []
 
-
-Underfull \hbox (badness 2150) in paragraph at lines 123--127
-[]\OT1/cmr/m/n/12 Gladys Andrea Rodr^^S^^Pguez Guerrero.  Cross-validation, 202
-1.  []$\OT1/cmtt/m/n/12 https : / /
- []
-
-LaTeX Info: Redefining \. on input line 127.
-LaTeX Info: Redefining \% on input line 127.
-[89]
-Underfull \hbox (badness 10000) in paragraph at lines 154--160
+LaTeX Info: Redefining \. on input line 211.
+LaTeX Info: Redefining \% on input line 211.
+[92]
+Underfull \hbox (badness 10000) in paragraph at lines 225--231
 \OT1/cmr/m/n/12 2017.  []$\OT1/cmtt/m/n/12 https : / / proceedings . neurips . 
 cc / paper /
  []
 
-LaTeX Info: Redefining \. on input line 190.
-LaTeX Info: Redefining \% on input line 190.
-[90]
-Underfull \hbox (badness 10000) in paragraph at lines 221--225
+
+Underfull \hbox (badness 5519) in paragraph at lines 278--281
+[]\OT1/cmr/m/n/12 scikit-learn developers.  scikit-learn Documentation, 2026.  
+[]$\OT1/cmtt/m/n/12 https : / /
+ []
+
+LaTeX Info: Redefining \. on input line 281.
+LaTeX Info: Redefining \% on input line 281.
+[93]
+Underfull \hbox (badness 10000) in paragraph at lines 339--343
 []\OT1/cmr/m/n/12 scikit-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 227--231
+LaTeX Info: Redefining \. on input line 343.
+LaTeX Info: Redefining \% on input line 343.
+[94]
+Underfull \hbox (badness 10000) in paragraph at lines 345--349
 \OT1/cmr/m/n/12 2026.  []$\OT1/cmtt/m/n/12 https : / / scikit-[]learn . org / s
 table / modules / generated / sklearn .
- []
-
-LaTeX Info: Redefining \. on input line 253.
-LaTeX Info: Redefining \% on input line 253.
-[91]
-Underfull \hbox (badness 5519) in paragraph at lines 270--273
-[]\OT1/cmr/m/n/12 scikit-learn developers.  scikit-learn Documentation, 2026.  
-[]$\OT1/cmtt/m/n/12 https : / /
  []
 
 )
 LaTeX Info: Redefining \. on input line 48.
 LaTeX Info: Redefining \% on input line 48.
- [92] (./memoria.aux
+ [95] (./memoria.aux
 LaTeX Info: Redefining \. on input line 13.
 LaTeX Info: Redefining \% on input line 13.
 )
@@ -1837,16 +1859,16 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: 33F1F7C38B1997B10E4FB15A5FD0DA27;18274.
+(rerunfilecheck)             Checksum: 3328A18E662E2B1580BEE56C08E31F43;18246.
  ) 
 Here is how much of TeX's memory you used:
- 28793 strings out of 474222
- 526867 string characters out of 5748733
- 1957975 words of memory out of 5000000
- 50096 multiletter control sequences out of 15000+600000
+ 28819 strings out of 474222
+ 527390 string characters out of 5748733
+ 1960975 words of memory out of 5000000
+ 50120 multiletter control sequences out of 15000+600000
  568145 words of font info for 70 fonts, out of 8000000 for 9000
  1147 hyphenation exceptions out of 8191
- 89i,11n,96p,1193b,2065s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,11n,96p,1635b,2065s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texli
@@ -1870,10 +1892,10 @@ public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 ts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.
 pfb>
-Output written on memoria.pdf (106 pages, 6451413 bytes).
+Output written on memoria.pdf (109 pages, 6512745 bytes).
 PDF statistics:
- 1959 PDF objects out of 2073 (max. 8388607)
- 1696 compressed objects within 17 object streams
- 426 named destinations out of 1000 (max. 500000)
+ 1988 PDF objects out of 2073 (max. 8388607)
+ 1721 compressed objects within 18 object streams
+ 428 named destinations out of 1000 (max. 500000)
  876 words of extra memory for PDF output out of 10000 (max. 10000000)
 

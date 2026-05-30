@@ -2,4 +2,10 @@
 
 \chapter*{Resumen\markboth{Resumen}{Resumen}}
 
-Aun no\\
+Este Trabajo Fin de Grado presenta el desarrollo de un sistema para el reconocimiento automático de emociones a partir de señales EEG. El objetivo es distinguir entre alegría, estado neutro y tristeza, y analizar qué información de la señal utilizan los modelos para tomar sus decisiones. Para ello, se emplean clasificadores interpretables y técnicas de análisis relacionadas con canales, bandas espectrales y patrones espaciales de actividad.
+
+El sistema abarca el flujo completo de trabajo: organización de los datos crudos, preprocesado, extracción de características, entrenamiento, evaluación y explicabilidad. Las señales se segmentan en épocas asociadas a estímulos auditivos, se limpian mediante filtrado y corrección de artefactos, y después se transforman en características espectrales basadas principalmente en Alpha, Beta y asimetría Alpha.
+
+Se comparan dos escenarios: un enfoque global, con datos de varios participantes, y un enfoque dentro de sujeto, donde cada participante se entrena y evalúa de forma independiente. Los resultados muestran que la variabilidad entre sujetos dificulta la construcción de un modelo común. En cambio, el enfoque dentro de sujeto obtiene un rendimiento claramente superior, especialmente con regresión logística.
+
+Finalmente, el análisis de separabilidad y explicabilidad permite estudiar la estructura de los datos y las zonas más relevantes para la clasificación. Los resultados indican que las características seleccionadas diferencian mejor las emociones dentro de cada participante, aunque no deben interpretarse como un patrón universal de emoción en EEG. En conjunto, el trabajo demuestra que es posible construir un sistema reproducible e interpretable para analizar respuestas emocionales en un entorno controlado.
