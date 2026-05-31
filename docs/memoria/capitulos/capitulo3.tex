@@ -40,6 +40,7 @@ La colocación de los electrodos no se realiza de forma aleatoria, sino siguiend
 La nomenclatura de los electrodos indica la zona aproximada en la que se encuentran: F a la frontal, C a la central, T a la temporal, P a la parietal y O a la occipital. Además, la letra z indica posiciones situadas en la línea media, los números impares suelen corresponder al hemisferio izquierdo y los pares al hemisferio derecho. Esta localización es importante porque cada canal recoge información de una zona concreta, por lo que la posición de los electrodos influye directamente en el análisis posterior, especialmente cuando se estudia qué canales o regiones tienen más importancia en la clasificación de emociones.
 
 \section{Bandas espectrales}
+\label{sec:bandas_espectrales}
 
 La señal de \ac{EEG} puede analizarse tanto en el dominio temporal como en el dominio frecuencial. En este segundo caso, la señal se descompone en distintos rangos de frecuencia, conocidos como bandas espectrales. Estas bandas permiten estudiar qué parte de la actividad cerebral aparece con mayor presencia en cada momento y facilitan la extracción de características para su posterior uso en modelos de aprendizaje automático. Aunque los límites exactos pueden variar ligeramente según el autor, normalmente se distinguen cinco bandas principales: delta, theta, alpha, beta y gamma \cite{alarcao2019eeg}.
 
@@ -278,3 +279,5 @@ Por otro lado, \ac{SHAP} es una técnica de explicación basada en la teoría de
     \caption{Ejemplo de importancia de características mediante valores SHAP.}
     \label{fig:shap_ejemplo}
 \end{figure}
+
+Habiendo entendido la base teórica sobre \ac{EEG}, emociones, aprendizaje automático y explicabilidad, en el siguiente capítulo se detallarán los materiales, los datos de partida y el entorno de trabajo empleado.

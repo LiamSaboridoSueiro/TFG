@@ -285,7 +285,8 @@ En lugar de calcular el espectro una única vez sobre toda la señal, el script 
 
 donde \(P_k(f)\) es el periodograma de la ventana \(k\), \(K\) es el número de ventanas analizadas y \(f\) representa la frecuencia. Además, se utiliza un solapamiento del 50\%, lo que significa que una ventana comparte la mitad de sus muestras con la siguiente. Este solapamiento permite aprovechar mejor la información temporal disponible y suavizar la estimación final de la \ac{PSD}. La estimación se limita al rango entre 1 y 40 Hz, que contiene las bandas de \ac{EEG} utilizadas posteriormente.
 
-Después, la \ac{PSD} no se utiliza frecuencia a frecuencia, porque eso generaría un número elevado de variables y sería menos interpretable. En su lugar, se resume en bandas conocidas de actividad \ac{EEG}: Delta \((1-4\ \mathrm{Hz})\), Theta \((4-8\ \mathrm{Hz})\), Alpha \((8-12\ \mathrm{Hz})\), Beta \((12-30\ \mathrm{Hz})\) y Gamma \((30-40\ \mathrm{Hz})\). Para cada época, canal y banda, se calcula la potencia media de las frecuencias incluidas en ese intervalo:
+
+Después, la \ac{PSD} no se utiliza frecuencia a frecuencia, porque eso generaría un número elevado de variables y sería menos interpretable. En su lugar, se resume en las bandas de actividad \ac{EEG} introducidas en la Sección~\ref{sec:bandas_espectrales}: Delta \((1-4\ \mathrm{Hz})\), Theta \((4-8\ \mathrm{Hz})\), Alpha \((8-12\ \mathrm{Hz})\), Beta \((12-30\ \mathrm{Hz})\) y Gamma \((30-40\ \mathrm{Hz})\). Para cada época, canal y banda, se calcula la potencia media de las frecuencias incluidas en ese intervalo:
 
 \begin{myequation}[H]
 \[
@@ -832,3 +833,5 @@ Junto a estas tablas se guardan las figuras generadas: ranking de característic
 \caption{Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}
 \label{fig:flujo_explicabilidad}
 \end{figure}
+
+Habiendo explicado cómo se construye el sistema completo a partir de los registros \ac{EEG}, en el siguiente capítulo se detallarán los resultados obtenidos en separabilidad, entrenamiento y explicabilidad.
