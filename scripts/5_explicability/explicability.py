@@ -480,6 +480,18 @@ def plot_topomap_compat(data, info, ax, cmap, vmin, vmax):
     return im
 
 
+def add_topomap_colorbar(fig, im, layout="global"):
+    """Anade la barra de color fuera de la cuadricula para no tapar mapas."""
+    if layout == "subject":
+        cbar_ax = fig.add_axes([0.91, 0.16, 0.025, 0.68])
+    else:
+        cbar_ax = fig.add_axes([0.91, 0.24, 0.025, 0.50])
+
+    cbar = fig.colorbar(im, cax=cbar_ax)
+    cbar.ax.tick_params(labelsize=8)
+    return cbar
+
+
 def plot_topomap_grid(topomap_values, ch_names, mode):
     """Genera topomaps por clase y banda."""
     info = create_topomap_info(ch_names)
@@ -502,7 +514,7 @@ def plot_topomap_grid(topomap_values, ch_names, mode):
                 max_abs = 1.0
             vmin = -max_abs
             vmax = max_abs
-            title_prefix = "SHAP firmado OOF"
+            title_prefix = "SHAP con signo OOF"
             output_name = f"04_topomap_signed_{condition}.png"
 
         fig, axes = plt.subplots(1, len(SELECTED_BANDS), figsize=(9, 4))
@@ -520,11 +532,10 @@ def plot_topomap_grid(topomap_values, ch_names, mode):
             im = plot_topomap_compat(data[:, band_idx], info, ax, cmap, vmin, vmax)
             ax.set_title(band, fontsize=11)
 
+        plt.tight_layout(rect=[0, 0, 0.88, 0.92])
         if im is not None:
-            cbar = fig.colorbar(im, ax=axes.ravel().tolist(), shrink=0.75)
-            cbar.ax.tick_params(labelsize=8)
+            add_topomap_colorbar(fig, im, layout="global")
 
-        plt.tight_layout(rect=[0, 0, 1, 0.92])
         output_path = SHAP_DIR / output_name
         plt.savefig(output_path, dpi=120)
         plt.close(fig)
@@ -586,7 +597,7 @@ def plot_subject_topomap_grid(feature_subject_df, ch_names, mode):
                 max_abs = 1.0
             vmin = -max_abs
             vmax = max_abs
-            title_prefix = "SHAP firmado OOF"
+            title_prefix = "SHAP con signo OOF"
             output_name = f"topomap_signed_{subject_id}.png"
 
         fig, axes = plt.subplots(
@@ -619,11 +630,10 @@ def plot_subject_topomap_grid(feature_subject_df, ch_names, mode):
                 if col_idx == 0:
                     ax.set_ylabel(condition, fontsize=11, fontweight="bold")
 
+        plt.tight_layout(rect=[0, 0, 0.88, 0.94])
         if im is not None:
-            cbar = fig.colorbar(im, ax=axes.ravel().tolist(), shrink=0.75)
-            cbar.ax.tick_params(labelsize=8)
+            add_topomap_colorbar(fig, im, layout="subject")
 
-        plt.tight_layout(rect=[0, 0, 1, 0.94])
         output_path = SUBJECT_TOPOMAP_DIR / output_name
         plt.savefig(output_path, dpi=120)
         plt.close(fig)
