@@ -99,14 +99,50 @@ La implementación se realizó con MNE-Python, una librería orientada al análi
 
 \subsection{Carga de archivos y extracción de eventos}
 
-Cada archivo \ac{EDF} se carga inicialmente como un registro continuo, conservando la información completa de la señal y de sus canales auxiliares. A continuación, se extraen los eventos del canal \texttt{STIM}, donde se almacenan los marcadores temporales del protocolo. En estos registros pueden aparecer marcas asociadas al comienzo y al final de cada frase, por lo que antes de segmentar la señal es necesario limpiar y seleccionar los eventos que se van a utilizar como referencia.
+Cada archivo \ac{EDF} se carga inicialmente como un registro continuo, conservando la información completa de la señal y de sus canales auxiliares. A continuación, se extraen los eventos del canal \texttt{STIM}, donde se almacenan los marcadores temporales del protocolo. Este canal no contiene señal cerebral, sino marcas que indican cuándo ocurre cada evento experimental. En condiciones normales, cada frase queda representada por dos marcas principales: una asociada al inicio del estímulo auditivo y otra al final. 
 
+Sin embargo, como \texttt{STIM} registra pulsos de disparo\footnote{Marcas breves registradas en el canal \texttt{STIM} para indicar el instante exacto en el que comienza o termina un evento del protocolo.} y MNE los transforma en eventos a partir de los cambios detectados en la señal \cite{mneEventsFromRaw}, durante la exportación o lectura de algunos registros una misma activación puede aparecer duplicada como dos eventos consecutivos muy próximos. Por ello, antes de segmentar la señal es necesario limpiar posibles repeticiones y seleccionar qué marca temporal se utilizará como referencia.
 
-En primer lugar, se aplica un control sobre activaciones redundantes del mismo marcador. El canal \texttt{STIM} almacena pulsos de disparo asociados a eventos experimentales, como el inicio de un estímulo, y MNE los transforma en eventos a partir de los cambios detectados en ese canal \cite{mneEventsFromRaw}. Durante la exportación de algunos registros, un estímulo presentado una sola vez podía aparecer como dos activaciones consecutivas muy próximas. Esta comprobación se verificó sobre los archivos \ac{EDF}: en 69 de los 72 registros aparecían activaciones separadas aproximadamente 8 ms, una distancia temporal demasiado breve para corresponder a dos frases distintas dentro del protocolo. Por ello, el script conserva la primera activación y descarta las siguientes si aparecen separadas por menos de 100 ms. Con esta limpieza se evita que una misma frase pueda generar dos épocas prácticamente iguales.
+En primer lugar, se aplica un control sobre esas activaciones redundantes. Esta comprobación se verificó sobre los archivos \ac{EDF}, ya que en 69 de los 72 registros aparecían activaciones separadas aproximadamente por 8 ms, una distancia temporal demasiado breve para corresponder a dos frases distintas dentro del protocolo. Por ello, el script conserva la primera activación y descarta las siguientes si aparecen separadas por menos de 100 ms. Con esta limpieza se evita que una misma frase pueda generar dos épocas prácticamente iguales.
 
 Después de eliminar estos duplicados, el script utiliza la estructura temporal del protocolo para seleccionar las marcas de inicio de estímulo. Cada evento no representa un segmento con duración propia, sino una marca temporal concreta dentro del registro. Cada frase dura aproximadamente 2 s, tras ella se deja 1 s de silencio y después se registra una marca de final. A continuación transcurren otros 1,5 s antes del inicio de la siguiente frase. Por ello, los intervalos largos, cercanos a 3 s, aparecen entre el inicio y el final de una frase, mientras que los intervalos cortos, cercanos a 1,5 s, aparecen entre el final de una frase y el inicio de la siguiente.
 
-Con esta lógica, el script conserva el primer evento del archivo y, después, aquellos eventos que aparecen tras un intervalo inferior a 2 s, ya que corresponden al comienzo de un nuevo estímulo auditivo. Esta selección permite crear las épocas alrededor del inicio de la frase, que es el punto más adecuado para analizar la respuesta auditivo-emocional evocada. Si se tomara como referencia la marca final, la ventana se desplazaría hacia actividad posterior al estímulo, más relacionada con procesos cognitivos complejos como razonamiento, asociación o memoria.
+\begin{figure}[H]
+\centering
+\resizebox{0.9\textwidth}{!}{
+\begin{tikzpicture}[
+    timeline/.style={-{Latex[length=2mm]}, thick, draw=black!65},
+    marca/.style={thick, draw=black!80},
+    bloque/.style={rectangle, rounded corners=2pt, minimum height=0.55cm, align=center, font=\scriptsize, draw=black!35},
+    etiqueta/.style={font=\scriptsize, align=center}
+]
+    \draw[timeline] (0,0) -- (9.8,0);
+
+    \draw[marca] (0,0.18) -- (0,-0.18);
+    \draw[marca] (6,0.18) -- (6,-0.18);
+    \draw[marca] (9,0.18) -- (9,-0.18);
+
+    \node[etiqueta, above=0.15cm] at (0,0.18) {Inicio\\frase};
+    \node[etiqueta, above=0.15cm] at (6,0.18) {Marca\\final};
+    \node[etiqueta, above=0.15cm] at (9,0.18) {Inicio\\siguiente};
+
+    \node[bloque, fill=blue!10, minimum width=4cm] at (2, -0.55) {Frase auditiva\\aprox. 2 s};
+    \node[bloque, fill=gray!12, minimum width=2cm] at (5, -0.55) {Silencio\\1 s};
+    \node[bloque, fill=gray!20, minimum width=3cm] at (7.5, -0.55) {Pausa\\1,5 s};
+
+    \draw[{Latex[length=2mm]}-{Latex[length=2mm]}, draw=black!55] (0,-1.05) -- (6,-1.05);
+    \node[etiqueta, below=0.04cm] at (3,-1.05) {intervalo inicio--final: aprox. 3 s};
+
+    \draw[{Latex[length=2mm]}-{Latex[length=2mm]}, draw=black!55] (6,-1.45) -- (9,-1.45);
+    \node[etiqueta, below=0.04cm] at (7.5,-1.45) {intervalo final--siguiente inicio: aprox. 1,5 s};
+\end{tikzpicture}
+}
+\caption{Esquema temporal de las marcas de inicio y final utilizadas en el protocolo.}
+\label{fig:esquema_marcas_temporales}
+\end{figure}
+
+
+Con esta lógica, el script conserva el primer evento del archivo y, después, aquellos eventos que aparecen tras un intervalo inferior a 2 s, ya que corresponden al comienzo de un nuevo estímulo auditivo. Esta regla no define la duración de la época, sino que permite identificar qué marcas son inicios de frase dentro de la secuencia inicio-final-inicio. A partir de esas marcas se crean las épocas alrededor del comienzo del estímulo, para analizar la respuesta inicial auditivo-emocional. Esta elección es importante porque la información emocional de la voz puede estar presente en rasgos acústicos y prosódicos desde el propio estímulo \cite{scherer1986vocal}. Si se tomara como referencia la marca final, la ventana se desplazaría hacia actividad posterior al estímulo, más relacionada con procesos cognitivos complejos como razonamiento, asociación o memoria \cite{luck2014erp}.
 
 De esta forma, las etapas posteriores trabajan con segmentos temporales comparables entre archivos, sujetos y condiciones emocionales, todos ellos alineados con el inicio de la estimulación auditiva.
 
@@ -134,10 +170,10 @@ Antes de aplicar la referencia promedio y la corrección de artefactos, el siste
 Para cada canal se calculan varias medidas sobre la señal continua y se comparan con el comportamiento global del resto de canales. La idea no es eliminar canales por tener una amplitud distinta, sino detectar casos claramente anómalos, como electrodos sin contacto, señales casi planas o canales con picos excesivos. Esta lógica multicriterio se planteó tomando como inspiración el procedimiento de detección automática de canales malos descrito por Marta Aguilar Díaz \cite{aguilar2026eeg}, adaptándolo en este trabajo a un conjunto más reducido de métricas temporales.
 
 \begin{itemize}
-    \item \textbf{Amplitud pico a pico}: mide la diferencia entre el valor máximo y mínimo de la señal en un canal. Si esta amplitud es extremadamente baja, el canal puede estar prácticamente plano, lo que suele indicar falta de contacto o ausencia de señal útil.
-    \item \textbf{Varianza}: resume cuánto cambia la señal a lo largo del tiempo. Una varianza demasiado baja también puede indicar un canal plano, mientras que una varianza muy distinta a la del resto puede señalar ruido o comportamiento inestable.
-    \item \textbf{Log-varianza}: se calcula aplicando el logaritmo a la varianza para comparar mejor canales con escalas diferentes. Sobre esta medida se obtiene una puntuación tipo z-score\footnote{Medida que expresa cuántas desviaciones típicas separan un valor de la media del conjunto \cite{wikipediaStandardScore}.} interna, de forma que los canales muy alejados del conjunto puedan marcarse como anómalos.
-    \item \textbf{Curtosis}\footnote{Medida estadística relacionada con la presencia de colas o valores extremos en una distribución \cite{wikipediaKurtosis}.}: describe si la distribución de la señal presenta picos o colas muy pronunciadas. Una curtosis alta puede aparecer cuando un canal contiene artefactos bruscos o valores extremos repetidos.
+    \item \textbf{Amplitud pico a pico}: mide la diferencia entre el valor máximo y mínimo de la señal en un canal. Esta medida se calcula para todos los canales y se obtiene la mediana global como referencia. Un canal se considera casi plano si su amplitud pico a pico queda por debajo de un mínimo absoluto de \(1 \cdot 10^{-6}\) o por debajo del 2\% de la mediana del conjunto. Este criterio permite detectar electrodos sin contacto o canales que apenas registran variación útil.
+    \item \textbf{Varianza}: resume cuánto cambia la señal a lo largo del tiempo. Igual que en la amplitud pico a pico, se compara cada canal con el comportamiento típico del resto. Si la varianza queda por debajo del 2\% de la varianza mediana, el canal también se marca como posible señal plana. Además, para detectar canales con energía anormalmente alta o baja se analiza la log-varianza mediante z-score.
+    \item \textbf{Log-varianza}: se calcula aplicando el logaritmo a la varianza para comparar mejor canales con escalas diferentes. Sobre esta medida se obtiene una puntuación tipo z-score\footnote{Medida que expresa cuántas desviaciones típicas separan un valor de la media del conjunto \cite{wikipediaStandardScore}.} interna. Si el valor absoluto del z-score supera 3,5, el canal se marca con una señal de varianza anormal.
+    \item \textbf{Curtosis}\footnote{Medida estadística relacionada con la presencia de colas o valores extremos en una distribución \cite{wikipediaKurtosis}.}: describe si la distribución de la señal presenta picos o colas muy pronunciadas. La curtosis de cada canal se compara mediante z-score con la del resto de canales. Si este valor supera 5, el canal se marca con una señal de curtosis alta, lo que puede indicar artefactos bruscos o valores extremos repetidos.
 \end{itemize}
 
 El z-score se utiliza para expresar cuánto se aleja el valor de un canal respecto al comportamiento medio del conjunto de canales:
@@ -152,7 +188,7 @@ z_i = \frac{x_i - \mu_x}{\sigma_x}
 
 donde \(x_i\) es el valor de la métrica en el canal \(i\), \(\mu_x\) es la media de esa métrica en todos los canales y \(\sigma_x\) es su desviación típica. De esta forma, un valor alto de \(|z_i|\) indica que el canal se aleja mucho del comportamiento habitual del resto.
 
-El criterio final combina estas comprobaciones. Un canal se marca como malo si presenta una señal casi plana, detectada mediante una amplitud pico a pico o una varianza demasiado bajas, o si acumula al menos dos indicadores de comportamiento anómalo. En concreto, se consideran señales de problema la varianza anormal y la curtosis elevada. Esta regla evita descartar un canal por una única medida aislada, pero permite retirar aquellos que muestran varios signos de mala calidad. Los canales detectados se almacenan en la lista de canales malos de MNE, lo que permite que las operaciones posteriores los tengan en cuenta de forma automática.
+El criterio final combina estas comprobaciones en dos niveles. Si un canal presenta una señal casi plana, detectada mediante amplitud pico a pico o varianza por debajo de los umbrales anteriores, se marca directamente como malo, ya que indica ausencia clara de señal útil. Para el resto de indicadores, como varianza anormal o curtosis elevada, se exige que el canal acumule al menos dos señales de problema antes de descartarlo. De esta forma, las señales planas se eliminan de forma directa, mientras que las anomalías estadísticas aisladas se tratan con más prudencia. Los canales detectados se almacenan en la lista de canales malos de MNE, lo que permite que las operaciones posteriores los tengan en cuenta de forma automática.
 
 Después de esta detección se aplica una rereferenciación al promedio. En este paso, cada canal se expresa respecto a la media de los canales \ac{EEG} disponibles, excluyendo los que ya han sido marcados como malos. Realizar primero la detección de canales problemáticos evita que un canal roto o claramente contaminado influya en la referencia común utilizada para el resto de la señal.
 
@@ -230,10 +266,11 @@ El control aplica tres criterios principales:
 \begin{itemize}
     \item \textbf{Completitud por sujeto}: se comprueba que cada participante tenga épocas preprocesadas para las tres condiciones emocionales del trabajo: alegría, estado neutro y tristeza. También se revisan los archivos crudos disponibles, lo que permite distinguir entre una condición no grabada y una condición que existía en crudo pero no llegó a generar épocas válidas.
     \item \textbf{Balance de épocas}: para los sujetos completos se cuenta el número de épocas válidas en cada emoción. Se utiliza la relación entre la condición con menos épocas y la condición con más épocas para detectar desequilibrios importantes, ya que las diferencias fuertes entre clases pueden afectar al entrenamiento y a la interpretación de las métricas \cite{he2009learning}. El valor del 50\% se eligió como umbral operativo de aviso, no como criterio de exclusión automática: permite detectar casos en los que una condición tiene menos de la mitad de muestras que la condición mayoritaria, sin marcar como problemáticas pequeñas variaciones esperables entre registros. Este criterio no descarta automáticamente al sujeto, pero permite identificar casos que podrían necesitar una inspección más cuidadosa.
-    \item \textbf{Revisión espectral automática}: se calcula el espectro medio de cada sujeto y condición entre 1 y 40 Hz. Como control de calidad, se comprueba que exista un pico mínimo en la banda Alpha, situada aproximadamente entre 8 y 12 Hz y asociada habitualmente a estados de reposo o baja demanda \cite{alarcao2019eeg}. Para ello, el script compara el máximo de potencia Alpha con la potencia media de la banda Beta, entre 15 y 25 Hz. La relación alfa/beta mínima de 1,30 se utiliza como umbral operativo del sistema: exige que el pico Alpha sea al menos un 30\% superior a la potencia media Beta. Este valor se apoya en trabajos que emplean un criterio equivalente para detectar actividad Alpha considerable, exigiendo que el pico Alpha sea al menos 1,3 veces la potencia media de bandas vecinas \cite{difronso2019dryeeg}. También se comprueba que la potencia al inicio del espectro analizado, alrededor de 1 Hz, sea al menos tres veces mayor que la potencia al final, alrededor de 40 Hz. Esta relación se calcula como \(P_{1Hz}/P_{40Hz}\) y permite detectar señales con un espectro demasiado plano o poco compatible con la forma habitual de una señal \ac{EEG}. Si un sujeto no supera esta revisión espectral, se excluye de las etapas posteriores.
+    \item \textbf{Revisión espectral automática}: se calcula el espectro medio de cada sujeto para cada emoción entre 1 y 40 Hz. Como control de calidad, se comprueba que exista un pico mínimo en la banda Alpha, situada aproximadamente entre 8 y 12 Hz y asociada habitualmente a estados de reposo o baja demanda \cite{alarcao2019eeg}. Para ello, se compara el máximo de potencia Alpha con la potencia media de la banda Beta, entre 15 y 25 Hz. La relación alfa/beta mínima de 1,30 se utiliza como umbral operativo del sistema: exige que el pico Alpha sea al menos un 30\% superior a la potencia media Beta. Este valor se apoya en trabajos que emplean un criterio equivalente para detectar actividad Alpha considerable, exigiendo que el pico Alpha sea al menos 1,3 veces la potencia media de bandas vecinas \cite{difronso2019dryeeg}. También se comprueba que la potencia al inicio del espectro analizado, alrededor de 1 Hz, sea al menos tres veces mayor que la potencia al final, alrededor de 40 Hz. Esta relación se calcula como \(P_{1Hz}/P_{40Hz}\) y permite detectar señales con un espectro demasiado plano o poco compatible con la forma habitual de una señal \ac{EEG}. Si un sujeto no supera esta revisión espectral, se excluye de las etapas posteriores.
 \end{itemize}
 
 Como salida, el sistema genera una lista de sujetos aptos, una lista de sujetos descartados con el motivo correspondiente, un resumen en formato \ac{JSON} y figuras de apoyo para revisar el balance de épocas y los espectros individuales. De esta forma, las siguientes etapas trabajan con participantes que mantienen información comparable entre condiciones y una calidad mínima de señal.
+
 
 
 \section{Extracción de características}
@@ -543,7 +580,7 @@ La diferencia entre los dos scripts no está en los clasificadores utilizados, s
 
 La estrategia \textit{within-subject} evalúa el comportamiento de los modelos dentro de cada participante de forma independiente. Para ello, el script recorre los sujetos disponibles y, en cada caso, selecciona únicamente sus épocas de \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. Así, el modelo de un sujeto se entrena y se evalúa solo con datos de ese mismo sujeto.
 
-Antes de entrenar, se comprueba que el participante tenga muestras suficientes de las tres clases. Si alguna emoción tiene menos épocas que el número de particiones necesarias, ese sujeto se descarta para evitar una validación incompleta. En los sujetos válidos se construyen cinco particiones temporales. Dentro de cada emoción, las épocas se ordenan mediante \texttt{epoch\_idx} y se dividen en cinco tramos contiguos, sin mezclar aleatoriamente las muestras.
+Antes de entrenar, se comprueba que el participante tenga muestras suficientes de las tres clases. Como la validación se realiza con cinco \textit{folds}, cada emoción debe aportar al menos cinco épocas para poder incluir una muestra de esa clase en cada partición. Si alguna emoción no alcanza ese mínimo, el sujeto se descarta para evitar una validación incompleta. En los sujetos válidos se construyen cinco particiones temporales. Dentro de cada emoción, las épocas se ordenan mediante \texttt{epoch\_idx} y se dividen en cinco tramos contiguos, sin mezclar aleatoriamente las muestras.
 
 En cada \textit{fold} se reserva como prueba un tramo temporal de cada emoción y se entrena con los tramos restantes. Esta organización mantiene las tres clases representadas en cada evaluación y evita que el conjunto de prueba se forme con épocas elegidas al azar de toda la sesión. Después de separar entrenamiento y prueba, se calcula la referencia \texttt{NEUTRO}, se aplica el escalado correspondiente y se construyen las características Alpha, Beta y asimetría Alpha descritas en la sección anterior.
 
@@ -771,7 +808,7 @@ Además de guardar la importancia de cada característica individual, el código
 
 Con las tablas de importancia ya construidas, el script genera varias figuras destinadas a facilitar la revisión posterior de resultados. La primera muestra las características con mayor \ac{SHAP} absoluto medio, ofreciendo una vista directa de las variables que más peso tienen en conjunto. También se calcula la importancia relativa de las bandas Alpha y Beta por clase, expresada como porcentaje dentro de las características de potencia por banda.
 
-Para construir cada topomap, el script toma únicamente las características de potencia por canal y banda, ya que son las que pueden asociarse directamente a una posición espacial del montaje \ac{EEG}. Las importancias se agregan por condición, canal y banda, y después se colocan sobre el montaje \texttt{standard\_1005}. De esta forma, cada mapa representa cómo se distribuye espacialmente la contribución del modelo para una emoción y una banda concreta. Las características de asimetría no se dibujan directamente como topomap, porque pertenecen a pares de electrodos y no a un único canal. En los mapas absolutos se observa dónde se concentran las contribuciones más grandes, sin distinguir si son positivas o negativas. En los mapas firmado se conserva el signo, por lo que se puede revisar si una zona tiende a aumentar o reducir la evidencia a favor de una clase concreta. 
+Para construir cada topomap, el script toma únicamente las características de potencia por canal y banda, ya que son las que pueden asociarse directamente a una posición espacial del montaje \ac{EEG}. Las importancias se agregan por condición, canal y banda, y después se colocan sobre el montaje \texttt{standard\_1005}. De esta forma, cada mapa representa cómo se distribuye espacialmente la contribución del modelo para una emoción y una banda concreta. Las características de asimetría no se dibujan directamente como topomap, porque pertenecen a pares de electrodos y no a un único canal. En los mapas absolutos se observa dónde se concentran las contribuciones más grandes, sin distinguir si son positivas o negativas. En los mapas con signo se conserva la dirección de la contribución, por lo que se puede revisar si una zona tiende a aumentar o reducir la evidencia a favor de una clase concreta. 
 
 El script también crea topomaps individuales por sujeto, útiles para comprobar si el patrón agregado es consistente o si depende mucho de algunos participantes. Por último, las importancias se agrupan por clusters cerebrales y por banda, generando un gráfico de importancia por cluster y un mapa de calor cluster-banda. La interpretación concreta de estas figuras corresponde al capítulo de resultados; aquí solo se recoge cómo se producen.
 
@@ -793,45 +830,41 @@ Junto a estas tablas se guardan las figuras generadas: ranking de característic
 
 \begin{figure}[H]
 \centering
-\resizebox{0.88\textwidth}{!}{
+\resizebox{0.78\textwidth}{!}{
 \begin{tikzpicture}[
-    node distance=0.58cm,
+    node distance=0.38cm,
     paso/.style={
         rectangle,
         rounded corners=3pt,
-        minimum width=7.0cm,
-        minimum height=0.58cm,
+        minimum width=6.7cm,
+        minimum height=0.48cm,
         align=center,
-        font=\small,
+        font=\scriptsize,
         draw=black!45,
         fill=orange!22
     },
-    flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!55}
+    flecha/.style={-{Latex[length=2mm]}, thick, draw=black!55}
 ]
 
 \node[paso] (entrada) {\texttt{features\_X.npy}, etiquetas y metadatos};
-\node[paso, below=of entrada] (sujetos) {Recorrido por sujetos válidos};
-\node[paso, below=of sujetos] (folds) {Construcción de \textit{folds} temporales estratificados por condición};
-\node[paso, below=of folds] (train) {Normalización con train y entrenamiento de LogReg};
-\node[paso, below=of train] (test) {Predicción del test y cálculo de SHAP lineal out-of-fold};
-\node[paso, below=of test] (agregacion) {Agregación por sujeto, clase y característica};
-\node[paso, below=of agregacion] (bloques) {Resumen por feature, canal, banda y cluster};
-\node[paso, below=of bloques] (figuras) {Generación de top features, topomaps y mapas por cluster};
-\node[paso, below=of figuras] (salida) {Guardado de tablas CSV, resumen JSON y figuras};
+\node[paso, below=of entrada] (folds) {Sujetos válidos y \textit{folds} temporales estratificados};
+\node[paso, below=of folds] (modelo) {Normalización con train, LogReg y predicción del test};
+\node[paso, below=of modelo] (shap) {Cálculo de SHAP lineal out-of-fold};
+\node[paso, below=of shap] (agregacion) {Agregación por sujeto, clase, característica, canal, banda y cluster};
+\node[paso, below=of agregacion] (figuras) {Top features, topomaps y mapas por cluster};
+\node[paso, below=of figuras] (salida) {Tablas CSV, resumen JSON y figuras};
 
-\draw[flecha] (entrada) -- (sujetos);
-\draw[flecha] (sujetos) -- (folds);
-\draw[flecha] (folds) -- (train);
-\draw[flecha] (train) -- (test);
-\draw[flecha] (test) -- (agregacion);
-\draw[flecha] (agregacion) -- (bloques);
-\draw[flecha] (bloques) -- (figuras);
+\draw[flecha] (entrada) -- (folds);
+\draw[flecha] (folds) -- (modelo);
+\draw[flecha] (modelo) -- (shap);
+\draw[flecha] (shap) -- (agregacion);
+\draw[flecha] (agregacion) -- (figuras);
 \draw[flecha] (figuras) -- (salida);
 
 \end{tikzpicture}
 }
-\caption{Flujo seguido por el script de explicabilidad para calcular importancias out-of-fold y generar las salidas de interpretación.}
+\caption{Flujo resumido del análisis de explicabilidad.}
 \label{fig:flujo_explicabilidad}
 \end{figure}
 
-Habiendo explicado cómo se construye el sistema completo a partir de los registros \ac{EEG}, en el siguiente capítulo se detallarán los resultados obtenidos en separabilidad, entrenamiento y explicabilidad.
+Habiendo explicado cómo se construye el sistema completo, en el siguiente capítulo se detallarán los resultados de separabilidad, entrenamiento y explicabilidad.

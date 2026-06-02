@@ -7,7 +7,6 @@ En este capítulo se presentan los resultados obtenidos durante la evaluación d
 
 Antes de entrenar los modelos, se estudió la separabilidad del espacio de características para observar cómo se organizaban los datos. El objetivo de este análisis es comprobar si las muestras tienden a agruparse de forma natural según la emoción presentada o si, por el contrario, la variabilidad entre sujetos domina la distribución. Esta revisión permite orientar e interpretar mejor la comparación posterior entre el entrenamiento \textit{all-subjects} y el entrenamiento \textit{within-subject}.
 
-
 \subsection{Interpretación de las representaciones}
 
 Para interpretar esta sección conviene recordar brevemente el flujo seguido por el análisis. El programa parte de la matriz de características ya generada y utiliza el mismo conjunto de variables que después se emplea en los clasificadores: potencia Alpha, potencia Beta y asimetría Alpha, características habituales en estudios de reconocimiento emocional con \ac{EEG} \cite{alarcao2019eeg,smith2017frontal}. A partir de ese espacio, genera proyecciones bidimensionales con \ac{PCA} y \ac{LDA}, tanto con todas las épocas juntas como separando el análisis por sujeto.
@@ -30,6 +29,8 @@ Por último, para apoyar esta lectura visual se utilizaron dos métricas. El \te
 
 La primera comprobación consistió en representar todas las épocas en un único espacio común, equivalente al escenario \textit{all-subjects}. En este análisis, la normalización se ajusta de forma global; la referencia \texttt{NEUTRO} se calcula con todas las épocas neutras disponibles, agregando todos los participantes. Por tanto, cuando una figura aparece coloreada por sujeto, no se está recalculando un espacio distinto para cada participante; se muestran las mismas coordenadas globales, pero cambiando el color para comprobar si la estructura se organiza mejor por emoción o por sujeto.
 
+En la Figura~\ref{fig:pca_global_condicion}, la proyección \ac{PCA} coloreada por condición muestra una mezcla considerable entre \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. Aunque existen zonas con mayor densidad de algunas clases, no aparecen grupos emocionales claramente separados. Esto indica que las direcciones de máxima varianza del conjunto no están dominadas principalmente por la condición emocional.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figs/separability/PCA_global_condicion.png}
@@ -37,8 +38,7 @@ La primera comprobación consistió en representar todas las épocas en un únic
     \label{fig:pca_global_condicion}
 \end{figure}
 
-En la Figura~\ref{fig:pca_global_condicion}, la proyección \ac{PCA} coloreada por condición muestra una mezcla considerable entre \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. Aunque existen zonas con mayor densidad de algunas clases, no aparecen grupos emocionales claramente separados. Esto indica que las direcciones de máxima varianza del conjunto no están dominadas principalmente por la condición emocional.
-
+La misma proyección, coloreada por participante, se muestra en la Figura~\ref{fig:pca_global_sujeto}. En este caso se aprecia una organización más marcada: varias regiones del plano concentran épocas de sujetos concretos. Esta comparación sugiere que una parte importante de la variabilidad recogida por la \ac{PCA} está relacionada con diferencias individuales entre participantes, más que con la separación directa entre las tres emociones, algo coherente con la dificultad descrita en modelos independientes del sujeto \cite{rajpoot2022subject}.
 
 \begin{figure}[H]
     \centering
@@ -47,9 +47,7 @@ En la Figura~\ref{fig:pca_global_condicion}, la proyección \ac{PCA} coloreada p
     \label{fig:pca_global_sujeto}
 \end{figure}
 
-La misma proyección, coloreada por participante, se muestra en la Figura~\ref{fig:pca_global_sujeto}. En este caso se aprecia una organización más marcada: varias regiones del plano concentran épocas de sujetos concretos. Esta comparación sugiere que una parte importante de la variabilidad recogida por la \ac{PCA} está relacionada con diferencias individuales entre participantes, más que con la separación directa entre las tres emociones, algo coherente con la dificultad descrita en modelos independientes del sujeto \cite{rajpoot2022subject}.
-
-
+En la Figura~\ref{fig:lda_global_condicion} se observa una separación más clara que en \ac{PCA}: \texttt{JOY} tiende a desplazarse hacia una zona del plano, \texttt{SAD} hacia otra y \texttt{NEUTRO} queda en una región intermedia con solapamiento. Esta mejora visual indica que las características contienen información útil para discriminar emociones, aunque la separación no sea perfecta.
 
 
 \begin{figure}[H]
@@ -59,9 +57,7 @@ La misma proyección, coloreada por participante, se muestra en la Figura~\ref{f
     \label{fig:lda_global_condicion}
 \end{figure}
 
-En la Figura~\ref{fig:lda_global_condicion} se observa una separación más clara que en \ac{PCA}: \texttt{JOY} tiende a desplazarse hacia una zona del plano, \texttt{SAD} hacia otra y \texttt{NEUTRO} queda en una región intermedia con solapamiento. Esta mejora visual indica que las características contienen información útil para discriminar emociones, aunque la separación no sea perfecta.
-
-
+La Figura~\ref{fig:lda_global_sujeto} utiliza las mismas coordenadas \ac{LDA}, pero coloreadas por sujeto. En este caso los colores aparecen más mezclados que en la \ac{PCA} coloreada por sujeto, porque la proyección está orientada a separar emociones y no participantes. Aun así, la dispersión sigue siendo elevada, lo que refuerza la idea de que el análisis global contiene información emocional, pero continúa afectado por la variabilidad intersujeto.
 
 \begin{figure}[H]
     \centering
@@ -69,8 +65,6 @@ En la Figura~\ref{fig:lda_global_condicion} se observa una separación más clar
     \caption{\acs{LDA} global del espacio de características coloreada por sujeto.}
     \label{fig:lda_global_sujeto}
 \end{figure}
-
-La Figura~\ref{fig:lda_global_sujeto} utiliza las mismas coordenadas \ac{LDA}, pero coloreadas por sujeto. En este caso los colores aparecen más mezclados que en la \ac{PCA} coloreada por sujeto, porque la proyección está orientada a separar emociones y no participantes. Aun así, la dispersión sigue siendo elevada, lo que refuerza la idea de que el análisis global contiene información emocional, pero continúa afectado por la variabilidad intersujeto.
 
 
 En el espacio original, el ratio centroides/dispersión para las emociones es 0,10 y la \textit{silhouette} es prácticamente nula, por lo que las tres condiciones aparecen muy mezcladas. Sin embargo, al usar el sujeto como etiqueta, el ratio aumenta hasta 2,46, lo que indica que las épocas se agrupan mejor por participante que por emoción. En \ac{PCA} ocurre algo similar: la separación por emoción sigue siendo baja, mientras que la organización por sujeto resulta más evidente. En \ac{LDA}, al usar las etiquetas emocionales para construir la proyección, el ratio por condición aumenta hasta 1,34. Por tanto, el espacio global no carece de información emocional, pero esta queda diluida cuando se mezclan todos los participantes en una única representación.
@@ -80,6 +74,8 @@ En el espacio original, el ratio centroides/dispersión para las emociones es 0,
 Al repetir el análisis de forma individual, la referencia \texttt{NEUTRO} se calcula con las épocas neutras del propio participante. De esta forma, cada sujeto se compara consigo mismo y no contra una media global formada por todos los registros.
 
 Las Figuras~\ref{fig:pca_within_547_552} y~\ref{fig:lda_within_547_552} muestran dos ejemplos representativos: los sujetos 211-000547 y 211-000552. Se han elegido los mismos participantes para \ac{PCA} y \ac{LDA} con el objetivo de observar cómo cambia la estructura cuando se analiza cada registro dentro de su propio contexto.
+
+En la Figura~\ref{fig:pca_within_547_552} las emociones aparecen más organizadas que en la proyección global, aunque la separación no es idéntica en los dos casos. En el sujeto 211-000547 las condiciones muestran cierto solapamiento, mientras que en el 211-000552 los grupos quedan más definidos. Esta diferencia es esperable: cada participante puede presentar una respuesta fisiológica distinta ante los estímulos \cite{alarcao2019eeg,rajpoot2022subject}, y la \ac{PCA} solo muestra las direcciones de mayor variabilidad, no necesariamente las que mejor separan las emociones. Aun así, los valores de separabilidad aumentan respecto al análisis global por emoción: el \textit{ratio} centroides/dispersión pasa de 0,09 en la \ac{PCA} global a 1,77 en el sujeto 211-000547 y a 2,52 en el sujeto 211-000552.
 
 \begin{figure}[H]
     \centering
@@ -100,7 +96,7 @@ Las Figuras~\ref{fig:pca_within_547_552} y~\ref{fig:lda_within_547_552} muestran
     \label{fig:pca_within_547_552}
 \end{figure}
 
-En la Figura~\ref{fig:pca_within_547_552} las emociones aparecen más organizadas que en la proyección global, aunque la separación no es idéntica en los dos casos. En el sujeto 211-000547 las condiciones muestran cierto solapamiento, mientras que en el 211-000552 los grupos quedan más definidos. Esta diferencia es esperable: cada participante puede presentar una respuesta fisiológica distinta ante los estímulos \cite{alarcao2019eeg,rajpoot2022subject}, y la \ac{PCA} solo muestra las direcciones de mayor variabilidad, no necesariamente las que mejor separan las emociones. Aun así, los valores de separabilidad aumentan respecto al análisis global por emoción: el \textit{ratio} centroides/dispersión pasa de 0,09 en la \ac{PCA} global a 1,77 en el sujeto 211-000547 y a 2,52 en el sujeto 211-000552.
+La Figura~\ref{fig:lda_within_547_552} muestra una separación mucho más clara entre \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. De nuevo, los dos sujetos no tienen exactamente la misma geometría: las clases se distribuyen con formas y distancias diferentes, lo que confirma que la estructura emocional no se manifiesta igual en todos los participantes. Sin embargo, en ambos casos la separación es claramente superior a la observada al mezclar todos los sujetos. Esto también se refleja en las métricas: el \textit{ratio} centroides/dispersión alcanza 11,24 para el sujeto 211-000547 y 14,68 para el 211-000552, con valores de \textit{silhouette} cercanos a 0,84 en ambos casos.
 
 \begin{figure}[H]
     \centering
@@ -121,8 +117,6 @@ En la Figura~\ref{fig:pca_within_547_552} las emociones aparecen más organizada
     \label{fig:lda_within_547_552}
 \end{figure}
 
-La Figura~\ref{fig:lda_within_547_552} muestra una separación mucho más clara entre \texttt{JOY}, \texttt{NEUTRO} y \texttt{SAD}. De nuevo, los dos sujetos no tienen exactamente la misma geometría: las clases se distribuyen con formas y distancias diferentes, lo que confirma que la estructura emocional no se manifiesta igual en todos los participantes. Sin embargo, en ambos casos la separación es claramente superior a la observada al mezclar todos los sujetos. Esto también se refleja en las métricas: el \textit{ratio} centroides/dispersión alcanza 11,24 para el sujeto 211-000547 y 14,68 para el 211-000552, con valores de \textit{silhouette} cercanos a 0,84 en ambos casos.
-
 \subsection{Resumen de separabilidad}
 
 El análisis de separabilidad muestra una tendencia clara: al representar todos los participantes en un mismo espacio, las diferencias individuales tienen un peso muy alto y la separación entre emociones pierde claridad. En cambio, al analizar cada sujeto con su propia referencia neutra, las condiciones emocionales aparecen más organizadas y las métricas de separación aumentan. Por ello, antes de observar las métricas de clasificación, ya se espera que los modelos \textit{within-subject} obtengan una precisión mayor que los modelos \textit{all-subjects}.
@@ -130,13 +124,15 @@ El análisis de separabilidad muestra una tendencia clara: al representar todos 
 
 \section{Resultados de entrenamiento y evaluación}
 
-Una vez estudiada la separabilidad del espacio de características, se evaluaron los dos clasificadores utilizados en el sistema: regresión logística y árbol de decisión. En ambos casos se empleó el mismo conjunto de entrada, que en el programa anterior. La evaluación se realizó en dos escenarios: \textit{all-subjects}, donde se entrena un modelo común separando los sujetos entre folds, y \textit{within-subject}, donde cada participante se evalúa de forma independiente.
+Una vez estudiada la separabilidad del espacio de características, se evaluaron los dos clasificadores utilizados en el sistema: regresión logística y árbol de decisión. En ambos casos se empleó el mismo conjunto de entrada utilizado en el análisis anterior. La evaluación se realizó en dos escenarios: \textit{all-subjects}, donde se entrena un modelo común separando los sujetos entre \textit{folds}, y \textit{within-subject}, donde cada participante se evalúa de forma independiente.
 
 Las métricas principales fueron la exactitud y el \textit{F1-score} macro, calculadas a partir de las predicciones de validación cruzada \cite{sklearnMetrics}. En las matrices de confusión, las filas representan la emoción real y las columnas la emoción predicha. La matriz normalizada permite leer porcentajes por clase; por ejemplo, un valor de 0,96 en la celda \texttt{JOY}-\texttt{JOY} significa que el 96\% de las épocas reales de \texttt{JOY} fueron clasificadas correctamente como \texttt{JOY}.
 
 \subsection{Regresión logística}
 
 En el escenario \textit{all-subjects}, la regresión logística obtuvo una exactitud media de 0,346 y un \textit{F1-score} macro de 0,324. Estos valores están muy próximos al azar para un problema de tres clases, donde una clasificación aleatoria equilibrada estaría alrededor de 0,33. La matriz global muestra además un sesgo claro hacia la clase \texttt{SAD}: muchas épocas reales de \texttt{JOY} y \texttt{NEUTRO} terminan clasificándose como \texttt{SAD}. Esto indica que el modelo común no consigue separar de forma consistente las emociones cuando debe generalizar a sujetos no vistos.
+
+La Figura~\ref{fig:confusion_logreg_all} refleja este comportamiento: la diagonal principal no domina la matriz y la última columna concentra muchas predicciones. En concreto, solo el 25\% de las épocas reales de \texttt{JOY} y el 29\% de las de \texttt{NEUTRO} se clasifican correctamente, mientras que \texttt{SAD} alcanza un 51\%. Por tanto, el modelo no aprende una frontera estable entre emociones cuando se evalúa sobre sujetos distintos a los usados en entrenamiento.
 
 \begin{figure}[H]
     \centering
@@ -145,7 +141,7 @@ En el escenario \textit{all-subjects}, la regresión logística obtuvo una exact
     \label{fig:confusion_logreg_all}
 \end{figure}
 
-La Figura~\ref{fig:confusion_logreg_all} refleja este comportamiento: la diagonal principal no domina la matriz y la última columna concentra muchas predicciones. En concreto, solo el 25\% de las épocas reales de \texttt{JOY} y el 29\% de las de \texttt{NEUTRO} se clasifican correctamente, mientras que \texttt{SAD} alcanza un 51\%. Por tanto, el modelo no aprende una frontera estable entre emociones cuando se evalúa sobre sujetos distintos a los usados en entrenamiento.
+La situación cambia claramente en el escenario \textit{within-subject}. La exactitud media por sujeto aumenta hasta 0,944, con un \textit{F1-score} macro de 0,940. En la matriz agregada de la Figura~\ref{fig:confusion_logreg_within}, la diagonal principal concentra la mayor parte de las predicciones: \texttt{JOY} alcanza un 0,96 de acierto por clase, \texttt{NEUTRO} un 0,92 y \texttt{SAD} un 0,94. Aunque todavía existe cierta confusión entre \texttt{NEUTRO} y \texttt{SAD}, los errores son mucho menores que en el modelo global.
 
 \begin{figure}[H]
     \centering
@@ -154,13 +150,11 @@ La Figura~\ref{fig:confusion_logreg_all} refleja este comportamiento: la diagona
     \label{fig:confusion_logreg_within}
 \end{figure}
 
-La situación cambia claramente en el escenario \textit{within-subject}. La exactitud media por sujeto aumenta hasta 0,944, con un \textit{F1-score} macro de 0,940. En la matriz agregada de la Figura~\ref{fig:confusion_logreg_within}, la diagonal principal concentra la mayor parte de las predicciones: \texttt{JOY} alcanza un 0,96 de acierto por clase, \texttt{NEUTRO} un 0,92 y \texttt{SAD} un 0,94. Aunque todavía existe cierta confusión entre \texttt{NEUTRO} y \texttt{SAD}, los errores son mucho menores que en el modelo global.
-
 También se observa una estabilidad elevada entre participantes, aunque no uniforme. Algunos sujetos alcanzan valores perfectos de exactitud media, mientras que otros se sitúan alrededor de 0,80. Esta variabilidad no invalida el resultado, pero sí confirma que el reconocimiento emocional con \ac{EEG} sigue dependiendo mucho del sujeto analizado. Para consultar todos los resultados de cada modelo en este escenario, puede revisarse el archivo \path{results/within_subject/within_subject_results.json}, disponible en el repositorio del proyecto indicado en el Anexo~\ref{anexo:repositorio}.
 
 \subsection{Árbol de decisión}
 
-El árbol de decisión fue el mejor clasificador en el escenario \textit{all-subjects}, aunque la mejora respecto a la regresión logística fue pequeña. Obtuvo una exactitud media de 0,358 y un \textit{F1-score} macro de 0,346. La matriz de confusión muestra una distribución algo más equilibrada que la de la regresión logística, sin un sesgo tan fuerte hacia una única clase, pero la diagonal sigue siendo débil: los aciertos por clase se mantienen entre 0,33 y 0,39. Por tanto, aunque este clasificador sea ligeramente superior en el modelo común, el rendimiento continúa siendo bajo.
+El árbol de decisión fue el mejor clasificador en el escenario \textit{all-subjects}, aunque la mejora respecto a la regresión logística fue pequeña. Obtuvo una exactitud media de 0,358 y un \textit{F1-score} macro de 0,346. La matriz de confusión de la Figura~\ref{fig:confusion_tree_all} muestra una distribución algo más equilibrada que la de la regresión logística, sin un sesgo tan fuerte hacia una única clase, pero la diagonal sigue siendo débil: los aciertos por clase se mantienen entre 0,33 y 0,39. Por tanto, aunque este clasificador sea ligeramente superior en el modelo común, el rendimiento continúa siendo bajo.
 
 \begin{figure}[H]
     \centering
@@ -246,38 +240,38 @@ Antes de interpretar los mapas, conviene aclarar qué representa la media global
 
 Entrenar un modelo \textit{all-subjects} obliga al clasificador a aprender una frontera de decisión común para todos los participantes, y esa frontera puede quedar afectada por la variabilidad intersujeto, un problema habitual en \ac{EEG} \cite{rajpoot2022subject}. En cambio, promediar topomaps es una operación descriptiva posterior: no sirve para tomar decisiones sobre nuevas épocas, sino para observar qué zonas aparecen con mayor frecuencia en las explicaciones individuales. Por tanto, la media global ayuda a visualizar patrones compartidos, mientras que los mapas por sujeto siguen siendo necesarios para comprobar cuánto cambia esa distribución entre participantes.
 
-Los mapas topográficos firmados permiten observar dónde contribuyen más las características hacia cada clase. En estas figuras, los colores rojizos representan contribuciones positivas hacia la emoción indicada y los azulados contribuciones negativas. Al estar basados en \ac{SHAP}, no muestran potencia cerebral absoluta, sino cómo las características de cada zona empujan la decisión del modelo hacia una clase concreta.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_JOY.png}
-    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{JOY}.}
-    \label{fig:topomap_signed_joy}
-\end{figure}
+Los mapas topográficos con signo permiten observar dónde contribuyen más las características hacia cada clase. En estas figuras, los colores rojizos representan contribuciones positivas hacia la emoción indicada y los azulados contribuciones negativas. Al estar basados en \ac{SHAP}, no muestran potencia cerebral absoluta, sino cómo las características de cada zona empujan la decisión del modelo hacia una clase concreta.
 
 En la Figura~\ref{fig:topomap_signed_joy}, \texttt{JOY} muestra contribuciones positivas destacadas en Beta sobre zonas frontales y posteriores. Esta distribución es compatible con una mayor implicación del participante durante los estímulos de alegría: aparecen regiones frontales, relacionadas de forma general con atención y control cognitivo, junto con zonas temporales/posteriores implicadas en el procesamiento auditivo y del contenido escuchado. No se debe afirmar que estas áreas estén ``activadas'' en sentido clínico, pero sí que el modelo encuentra información discriminativa en esa distribución espacial.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_NEUTRO.png}
-    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{NEUTRO}.}
-    \label{fig:topomap_signed_neutro}
+    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_JOY.png}
+    \caption{Topomap con signo de \acs{SHAP} para la clase \texttt{JOY}.}
+    \label{fig:topomap_signed_joy}
 \end{figure}
 
 La Figura~\ref{fig:topomap_signed_neutro} presenta una distribución más localizada. Aunque Beta sigue siendo la banda dominante, la contribución aparece menos extendida que en \texttt{JOY}. Esto encaja con la idea de que la condición neutra actúa como una referencia de menor carga emocional: el modelo no necesita una respuesta espacial tan amplia, sino patrones concretos que diferencian estas épocas de las otras dos condiciones.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_SAD.png}
-    \caption{Topomap firmado de \acs{SHAP} para la clase \texttt{SAD}.}
-    \label{fig:topomap_signed_sad}
+    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_NEUTRO.png}
+    \caption{Topomap con signo de \acs{SHAP} para la clase \texttt{NEUTRO}.}
+    \label{fig:topomap_signed_neutro}
 \end{figure}
 
 En la Figura~\ref{fig:topomap_signed_sad}, \texttt{SAD} mantiene contribuciones relevantes en Beta, pero con una distribución distinta a la de \texttt{JOY}. Se aprecian zonas temporales y posteriores, junto con un patrón frontal menos homogéneo. Esta diferencia espacial ayuda a explicar por qué el modelo distingue bien las tres clases dentro de sujeto: no solo cambia la magnitud de las contribuciones, sino también la localización relativa de las características que empujan la predicción.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{figs/explicabilidad/04_topomap_signed_SAD.png}
+    \caption{Topomap con signo de \acs{SHAP} para la clase \texttt{SAD}.}
+    \label{fig:topomap_signed_sad}
+\end{figure}
+
 \subsection{Diferencias entre sujetos}
 
-La explicabilidad también confirma que los patrones no son idénticos entre participantes. Las Figuras~\ref{fig:topomap_subject_547_552} muestran los topomaps firmados de los sujetos 211-000547 y 211-000552, dos participantes que ya se habían utilizado como ejemplo en el análisis de separabilidad. Ambos obtienen buen rendimiento en el modelo \textit{within-subject}, pero la distribución espacial de las contribuciones no es igual.
+La explicabilidad también confirma que los patrones no son idénticos entre participantes. Las Figuras~\ref{fig:topomap_subject_547_552} muestran los topomaps con signo de los sujetos 211-000547 y 211-000552, dos participantes que ya se habían utilizado como ejemplo en el análisis de separabilidad. Ambos obtienen buen rendimiento en el modelo \textit{within-subject}, pero la distribución espacial de las contribuciones no es igual.
 
 \begin{figure}[H]
     \centering
@@ -294,7 +288,7 @@ La explicabilidad también confirma que los patrones no son idénticos entre par
 
         \small Sujeto 211-000552
     \end{minipage}
-    \caption{Topomaps firmados por sujeto para dos participantes representativos.}
+    \caption{Topomaps con signo por sujeto para dos participantes representativos.}
     \label{fig:topomap_subject_547_552}
 \end{figure}
 
@@ -302,7 +296,7 @@ En el sujeto 211-000547, las contribuciones aparecen más concentradas en zonas 
 
 \subsection{Agrupación por clusters}
 
-Para interpretar los mapas sin depender de electrodos aislados, las características se agruparon en clusters funcionales de canales. Estos clusters no deben entenderse como regiones anatómicas exactas, sino como agrupaciones prácticas de electrodos próximos o funcionalmente relacionados: temporal izquierdo, temporal derecho, frontal inferior izquierdo, frontal bilateral, centro-parietal izquierdo, parietal medio y occipital.
+Para interpretar los mapas sin depender de electrodos aislados, las características se agruparon en clusters funcionales de canales. Estos clusters no deben entenderse como regiones anatómicas exactas, sino como agrupaciones prácticas de electrodos próximos o funcionalmente relacionados: temporal izquierdo, temporal derecho, frontal inferior izquierdo, frontal bilateral, centro-parietal izquierdo, parietal medio y occipital. Esta agrupación se apoya en la organización espacial del montaje de electrodos \ac{EEG}, en el uso habitual de bandas y canales para estudiar emoción, y en la relación de las zonas temporales con el procesamiento auditivo y del habla \cite{oostenveld2001five,alarcao2019eeg,koelstra2012deap,hickok2007cortical}.
 
 De forma resumida, los grupos utilizados tienen la siguiente interpretación:
 
@@ -316,14 +310,14 @@ De forma resumida, los grupos utilizados tienen la siguiente interpretación:
     \item \textbf{Occipital}: incluye \texttt{O1}, \texttt{Oz}, \texttt{O2} y canales próximos. No es el núcleo de una tarea auditiva, pero puede aparecer asociado a atención, visualización mental o diferencias individuales durante la escucha.
 \end{itemize}
 
+La Figura~\ref{fig:cluster_importance_class} muestra que el cluster frontal bilateral es el más relevante en las tres condiciones, con mayor peso en \texttt{NEUTRO} y \texttt{JOY} y algo menor en \texttt{SAD}. También aparecen contribuciones importantes en el cluster occipital y en los clusters temporales. La presencia de canales temporales es esperable en una tarea basada en estímulos auditivos, ya que estas zonas participan en el procesamiento de información sonora y lingüística. La contribución frontal puede interpretarse de forma prudente como una señal de participación atencional o procesamiento activo del estímulo.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figs/explicabilidad/05_cluster_importance_by_class.png}
     \caption{Importancia relativa por cluster y condición emocional.}
     \label{fig:cluster_importance_class}
 \end{figure}
-
-La Figura~\ref{fig:cluster_importance_class} muestra que el cluster frontal bilateral es el más relevante en las tres condiciones, con mayor peso en \texttt{NEUTRO} y \texttt{JOY} y algo menor en \texttt{SAD}. También aparecen contribuciones importantes en el cluster occipital y en los clusters temporales. La presencia de canales temporales es esperable en una tarea basada en estímulos auditivos, ya que estas zonas participan en el procesamiento de información sonora y lingüística. La contribución frontal puede interpretarse de forma prudente como una señal de participación atencional o procesamiento activo del estímulo.
 
 El cluster occipital no es el núcleo principal de una tarea auditiva, pero su aparición no debe descartarse automáticamente. Puede reflejar diferencias de atención, visualización mental o variabilidad individual durante la escucha. Aun así, se interpreta con cautela, porque los topomaps no permiten afirmar procesos cognitivos complejos como empatía, imaginación o teoría de la mente sin medidas neuropsicológicas adicionales.
 
