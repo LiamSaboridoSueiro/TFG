@@ -4,7 +4,6 @@ En este capítulo se presentan los resultados obtenidos durante la evaluación d
 
 \section{Análisis de separabilidad}
 
-
 Antes de entrenar los modelos, se estudió la separabilidad del espacio de características para observar cómo se organizaban los datos. El objetivo de este análisis es comprobar si las muestras tienden a agruparse de forma natural según la emoción presentada o si, por el contrario, la variabilidad entre sujetos domina la distribución. Esta revisión permite orientar e interpretar mejor la comparación posterior entre el entrenamiento \textit{all-subjects} y el entrenamiento \textit{within-subject}.
 
 \subsection{Interpretación de las representaciones}
@@ -123,6 +122,7 @@ El análisis de separabilidad muestra una tendencia clara: al representar todos 
 
 
 \section{Resultados de entrenamiento y evaluación}
+\enlargethispage{\baselineskip}
 
 Una vez estudiada la separabilidad del espacio de características, se evaluaron los dos clasificadores utilizados en el sistema: regresión logística y árbol de decisión. En ambos casos se empleó el mismo conjunto de entrada utilizado en el análisis anterior. La evaluación se realizó en dos escenarios: \textit{all-subjects}, donde se entrena un modelo común separando los sujetos entre \textit{folds}, y \textit{within-subject}, donde cada participante se evalúa de forma independiente.
 
