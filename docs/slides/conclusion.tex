@@ -1,0 +1,47 @@
+\section{Conclusiones}
+
+\begin{frame}{Conclusiones y líneas futuras}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \begin{tikzpicture}[
+                caja/.style={
+                    rectangle,
+                    rounded corners=6pt,
+                    fill=urjcred!7,
+                    draw=urjcred!30,
+                    text width=5.35cm,
+                    minimum height=0.86cm,
+                    align=left,
+                    font=\small,
+                    inner xsep=8pt
+                }
+            ]
+                \node[font=\large\bfseries, text=urjcred, anchor=west] at (0,0) {Conclusiones};
+                \node[caja, anchor=north west] (a) at (0,-0.42) {Sistema completo: dato crudo, preprocesado, entrenamiento y explicabilidad.};
+                \node[caja, anchor=north west] (b) at (0,-1.42) {El modelo por sujeto supera al modelo general.};
+                \node[caja, anchor=north west] (c) at (0,-2.42) {La variabilidad entre participantes condiciona el análisis de EEG emocional.};
+            \end{tikzpicture}
+        \end{column}
+
+        \begin{column}{0.49\textwidth}
+            \begin{tikzpicture}[
+                caja/.style={
+                    rectangle,
+                    rounded corners=6pt,
+                    fill=softblue!8,
+                    draw=softblue!35,
+                    text width=5.35cm,
+                    minimum height=0.86cm,
+                    align=left,
+                    font=\small,
+                    inner xsep=8pt
+                }
+            ]
+                \node[font=\large\bfseries, text=softblue, anchor=west] at (0,0) {Líneas futuras};
+                \node[caja, anchor=north west] (a) at (0,-0.42) {Probar con más participantes y emociones para validar el sistema.};
+                \node[caja, anchor=north west] (b) at (0,-1.42) {Estudiar transferencia entre sujetos.};
+                \node[caja, anchor=north west] (c) at (0,-2.42) {Calibración rápida para acercarlo a contextos clínicos.};
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}

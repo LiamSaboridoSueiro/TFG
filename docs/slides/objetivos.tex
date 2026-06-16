@@ -1,0 +1,50 @@
+\section{Objetivos}
+
+\begin{frame}{Objetivos}
+    \centering
+    \begin{tikzpicture}[
+        general/.style={
+            rectangle,
+            rounded corners=6pt,
+            fill=urjcred!9,
+            draw=urjcred!45,
+            text width=10.4cm,
+            minimum height=1.15cm,
+            align=center,
+            font=\large
+        },
+        card/.style={
+            rectangle,
+            rounded corners=6pt,
+            minimum width=3.25cm,
+            minimum height=1.75cm,
+            align=center,
+            font=\small,
+            draw=black!25
+        },
+        flecha/.style={-{Latex[length=2.2mm]}, thick, draw=black!45}
+    ]
+        \node[general] (g) {
+            Reconocer emociones a partir de señales EEG\\
+            usando modelos interpretables
+        };
+
+        \node[card, fill=blue!12, below=0.75cm of g, xshift=-3.75cm] (a) {
+            {\bfseries Procesar}\\[1mm]
+            dato crudo\\
+            a características
+        };
+        \node[card, fill=green!13, below=0.75cm of g] (b) {
+            {\bfseries Clasificar}\\[1mm]
+            JOY\\NEUTRO\\SAD
+        };
+        \node[card, fill=orange!18, below=0.75cm of g, xshift=3.75cm] (c) {
+            {\bfseries Explicar}\\[1mm]
+            bandas, canales\\
+            y topomaps
+        };
+
+        \draw[flecha] (a) -- (b);
+        \draw[flecha] (b) -- (c);
+    \end{tikzpicture}
+\end{frame}

@@ -1,0 +1,115 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+\definecolor{urjcred}{RGB}{164, 0, 39}
+\definecolor{softblue}{RGB}{43, 116, 181}
+\definecolor{softgreen}{RGB}{65, 150, 95}
+\definecolor{softorange}{RGB}{214, 124, 47}
+
+\setbeamercolor{structure}{fg=urjcred}
+\setbeamercolor{title}{fg=white,bg=urjcred}
+\setbeamercolor{frametitle}{fg=white,bg=urjcred}
+\setbeamercolor{section in head/foot}{fg=white,bg=urjcred}
+\setbeamertemplate{navigation symbols}{}
+\makeatletter
+\setbeamertemplate{footline}{%
+    \leavevmode%
+    \hbox{%
+        \begin{beamercolorbox}[wd=.78\paperwidth,ht=2.4ex,dp=1ex,leftskip=0.35cm]{section in head/foot}%
+            \usebeamerfont{section in head/foot}\insertsection
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.22\paperwidth,ht=2.4ex,dp=1ex,rightskip=0.35cm plus1fil]{section in head/foot}%
+            \usebeamerfont{section in head/foot}\hfill\insertframenumber/\inserttotalframenumber
+        \end{beamercolorbox}%
+    }%
+}
+\makeatother
+
+\title[IA explicativa y EEG]{IA explicativa aplicada a la detección de emociones a través de señales EEG}
+\author[Liam Saborido Sueiro]{Liam Saborido Sueiro}
+\institute[URJC]{Grado en Ingeniería de Robótica Software\\Escuela de Ingeniería de Fuenlabrada}
+\date{Curso académico 2025--2026}
+
+\AtBeginSection[]{
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[align=center, text=urjcred, font=\Huge\bfseries, text width=11.5cm]
+                at (current page.center)
+                {\insertsection};
+
+            \draw[urjcred, line width=1.1pt]
+                ([xshift=-2.1cm,yshift=-0.72cm]current page.center)
+                -- ([xshift=2.1cm,yshift=-0.72cm]current page.center);
+        \end{tikzpicture}
+    \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[urjcred] ([xshift=1.25cm,yshift=-2.0cm]current page.north west)
+            rectangle ([xshift=-1.25cm,yshift=-4.2cm]current page.north east);
+
+        \node[align=center, text=white, font=\Large\bfseries, text width=11.5cm]
+            at ([yshift=-3.1cm]current page.north)
+            {IA explicativa aplicada a la detección\\[1mm]
+            de emociones a través de señales EEG};
+
+        \node[anchor=south west] at ([xshift=0.75cm,yshift=0.45cm]current page.south west)
+            {\includegraphics[width=0.16\textwidth]{../memoria/figs/logo_urjc.jpg}};
+
+        \node[anchor=south east, align=right, font=\small] at ([xshift=-0.75cm,yshift=0.62cm]current page.south east)
+            {Curso académico 2025--2026};
+    \end{tikzpicture}
+
+    \vspace{4.55cm}
+    \begin{center}
+        {\small Trabajo Fin de Grado}
+
+        \vspace{0.18cm}
+        {\small Escuela de Ingeniería de Fuenlabrada}\\
+        {\small Grado en Ingeniería de Robótica Software}
+
+        \vspace{0.45cm}
+        {\normalsize Liam Saborido Sueiro}
+
+        \vspace{0.25cm}
+        {\small Tutor: Álvaro García López}\\
+        {\small Co-tutor: Julio Salvador Lora Millán}
+    \end{center}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south east, align=right] at ([xshift=-0.65cm,yshift=0.55cm]current page.south east) {
+            \includegraphics[width=0.10\textwidth]{../memoria/figs/by-sa.png}\\[1.5mm]
+            {\scriptsize Creative Commons}\\[-0.5mm]
+            {\scriptsize Attribution-ShareAlike 4.0 International}
+        };
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Índice}
+    \tableofcontents
+\end{frame}
+
+\input{introduccion}
+\input{fundamentos}
+\input{objetivos}
+\input{materiales_datos}
+\input{desarrollo}
+\input{resultados}
+\input{conclusion}
+
+\end{document}
