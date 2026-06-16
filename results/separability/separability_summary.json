@@ -27,7 +27,7 @@
       "centroid_ratio": 2.4573546175607395
     },
     "pca_2d_condition": {
-      "silhouette": -0.014149048365652561,
+      "silhouette": -0.01414905022829771,
       "centroid_ratio": 0.09224977035980833
     },
     "pca_2d_subject": {
@@ -35,12 +35,12 @@
       "centroid_ratio": 2.8133478261452365
     },
     "lda_2d_condition": {
-      "silhouette": 0.11016022558648308,
-      "centroid_ratio": 1.3400375850609285
+      "silhouette": 0.11016054463579955,
+      "centroid_ratio": 1.340038213171609
     },
     "lda_2d_subject": {
-      "silhouette": -0.20800288197794256,
-      "centroid_ratio": 0.4741577340069579
+      "silhouette": -0.20800366428427958,
+      "centroid_ratio": 0.4741584452508608
     }
   },
   "within_subject_mean": {
@@ -53,50 +53,50 @@
       "centroid_ratio": 1.6039813501977909
     },
     "lda_2d": {
-      "silhouette": 0.8008627139733424,
-      "centroid_ratio": 11.761203403067354
+      "silhouette": 0.8008627148882809,
+      "centroid_ratio": 11.761203493942574
     }
   },
   "within_subject_top_lda": [
     {
       "subject_id": "211-000546",
-      "silhouette": 0.9053358880436021,
-      "centroid_ratio": 24.93912098348669
+      "silhouette": 0.905335895327056,
+      "centroid_ratio": 24.939122558035056
     },
     {
       "subject_id": "211-000531",
-      "silhouette": 0.9267382391906942,
-      "centroid_ratio": 21.37269595514349
+      "silhouette": 0.926738240784771,
+      "centroid_ratio": 21.37269639034008
     },
     {
       "subject_id": "211-000548",
-      "silhouette": 0.8036403978694779,
-      "centroid_ratio": 19.875714056031534
+      "silhouette": 0.8036404110555913,
+      "centroid_ratio": 19.875714490558266
     },
     {
       "subject_id": "211-000550",
-      "silhouette": 0.9110588212360005,
-      "centroid_ratio": 17.720001018998683
+      "silhouette": 0.9110588189885683,
+      "centroid_ratio": 17.72000074827588
     },
     {
       "subject_id": "211-000552",
-      "silhouette": 0.8427913764635636,
-      "centroid_ratio": 14.675127069774666
+      "silhouette": 0.8427913733421498,
+      "centroid_ratio": 14.675127101207346
     },
     {
       "subject_id": "211-000537",
-      "silhouette": 0.8670948332529635,
-      "centroid_ratio": 13.833377580450144
+      "silhouette": 0.8670948321856659,
+      "centroid_ratio": 13.833377645570744
     },
     {
       "subject_id": "211-000539",
-      "silhouette": 0.8163165189709175,
-      "centroid_ratio": 13.093039419473392
+      "silhouette": 0.8163165284669971,
+      "centroid_ratio": 13.093039351852825
     },
     {
       "subject_id": "211-000540",
-      "silhouette": 0.8792787446000103,
-      "centroid_ratio": 12.853975389305976
+      "silhouette": 0.8792787437117755,
+      "centroid_ratio": 12.853975378808807
     }
   ]
 }
