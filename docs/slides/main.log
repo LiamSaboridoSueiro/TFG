@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.14)  16 JUN 2026 03:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.14)  17 JUN 2026 22:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1009,7 +1009,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Info: Redefining \. on input line 57.
 LaTeX Info: Redefining \% on input line 57.
  (./main.nav)
-<../memoria/figs/logo_urjc.jpg, id=41, 525.965pt x 210.7875pt>
+<../memoria/figs/logo_urjc.jpg, id=33, 525.965pt x 210.7875pt>
 File: ../memoria/figs/logo_urjc.jpg Graphic file (type jpg)
 <use ../memoria/figs/logo_urjc.jpg>
 Package pdftex.def Info: ../memoria/figs/logo_urjc.jpg  used on input line 91.
@@ -1018,302 +1018,286 @@ Package pdftex.def Info: ../memoria/figs/logo_urjc.jpg  used on input line 91.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
 dvips/cm-super/cm-super-t1.enc} <../memoria/figs/logo_urjc.jpg>]
-<../memoria/figs/by-sa.png, id=51, 323.609pt x 113.223pt>
+<../memoria/figs/by-sa.png, id=43, 323.609pt x 113.223pt>
 File: ../memoria/figs/by-sa.png Graphic file (type png)
 <use ../memoria/figs/by-sa.png>
 Package pdftex.def Info: ../memoria/figs/by-sa.png  used on input line 101.
 (pdftex.def)             Requested size: 43.52705pt x 15.22916pt.
  [2
 
- <../memoria/figs/by-sa.png>] (./main.toc
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
-) [3
+ <../memoria/figs/by-sa.png>] [3
+
+] (./introduccion.tex
+[4
 
 ]
-(./introduccion.tex [4
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
 
-]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 34.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 34.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inp
-ut line 34.
+ut line 40.
 
 (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-<../memoria/figs/sistema_10_20.png, id=91, 853.1875pt x 469.755pt>
+<../memoria/figs/sistema_10_20.png, id=70, 853.1875pt x 469.755pt>
 File: ../memoria/figs/sistema_10_20.png Graphic file (type png)
 <use ../memoria/figs/sistema_10_20.png>
 Package pdftex.def Info: ../memoria/figs/sistema_10_20.png  used on input line 
-34.
-(pdftex.def)             Requested size: 175.92622pt x 96.85948pt.
+40.
+(pdftex.def)             Requested size: 106.37479pt x 58.5687pt.
+<figs/channels.png, id=71, 1696.3375pt x 773.89125pt>
+File: figs/channels.png Graphic file (type png)
+<use figs/channels.png>
+Package pdftex.def Info: figs/channels.png  used on input line 40.
+(pdftex.def)             Requested size: 159.56062pt x 72.7883pt.
 
 [5
 
- <../memoria/figs/sistema_10_20.png>]
-<figs/channels.png, id=101, 834.11626pt x 415.5525pt>
-File: figs/channels.png Graphic file (type png)
-<use figs/channels.png>
-Package pdftex.def Info: figs/channels.png  used on input line 44.
-(pdftex.def)             Requested size: 356.9033pt x 177.80905pt.
- [6
-
- <./figs/channels.png>]
-<figs/prueba_sueno.png, id=110, 1027.84pt x 685.56125pt>
-File: figs/prueba_sueno.png Graphic file (type png)
-<use figs/prueba_sueno.png>
-Package pdftex.def Info: figs/prueba_sueno.png  used on input line 72.
-(pdftex.def)             Requested size: 232.24648pt x 154.90366pt.
- [7
-
- <./figs/prueba_sueno.png>] [8
+ <../memoria/figs/sistema_10_20.png> <./figs/channels.png>] [6
 
 ]
-<figs/akinator.png, id=127, 521.95pt x 652.4375pt>
+<figs/akinator.png, id=89, 521.95pt x 652.4375pt>
 File: figs/akinator.png Graphic file (type png)
 <use figs/akinator.png>
-Package pdftex.def Info: figs/akinator.png  used on input line 193.
+Package pdftex.def Info: figs/akinator.png  used on input line 161.
 (pdftex.def)             Requested size: 44.38507pt x 55.48277pt.
-<../memoria/figs/Arbol_decision.png, id=128, 1536.74126pt x 745.78625pt>
+<../memoria/figs/Arbol_decision.png, id=90, 1536.74126pt x 745.78625pt>
 File: ../memoria/figs/Arbol_decision.png Graphic file (type png)
 <use ../memoria/figs/Arbol_decision.png>
 Package pdftex.def Info: ../memoria/figs/Arbol_decision.png  used on input line
- 193.
+ 161.
 (pdftex.def)             Requested size: 189.41599pt x 91.91437pt.
-<figs/chatgpt.png, id=129, 259.97125pt x 194.7275pt>
+<figs/chatgpt.png, id=91, 259.97125pt x 194.7275pt>
 File: figs/chatgpt.png Graphic file (type png)
 <use figs/chatgpt.png>
-Package pdftex.def Info: figs/chatgpt.png  used on input line 193.
+Package pdftex.def Info: figs/chatgpt.png  used on input line 161.
 (pdftex.def)             Requested size: 66.47227pt x 49.79231pt.
- [9
+ [7
 
  <./figs/akinator.png> <../memoria/figs/Arbol_decision.png> <./figs/chatgpt.png
->] [10
-
-]) (./fundamentos.tex [11
+>] [8
 
 ]
-<../memoria/figs/lobulos_cerebrales.png, id=153, 642.4pt x 458.71375pt>
-File: ../memoria/figs/lobulos_cerebrales.png Graphic file (type png)
-<use ../memoria/figs/lobulos_cerebrales.png>
-Package pdftex.def Info: ../memoria/figs/lobulos_cerebrales.png  used on input 
-line 31.
-(pdftex.def)             Requested size: 200.21185pt x 142.96272pt.
- [12
-
- <../memoria/figs/lobulos_cerebrales.png>] [13
-
-]
-<../memoria/figs/topomap_ejemplo.png, id=172, 1156.32pt x 289.08pt>
-File: ../memoria/figs/topomap_ejemplo.png Graphic file (type png)
-<use ../memoria/figs/topomap_ejemplo.png>
-Package pdftex.def Info: ../memoria/figs/topomap_ejemplo.png  used on input lin
-e 97.
-(pdftex.def)             Requested size: 175.92622pt x 43.97766pt.
- [14
-
- <../memoria/figs/topomap_ejemplo.png>])
-(./objetivos.tex [15
-
-] [16
-
-]) (./materiales_datos.tex [17
-
-]
-<../memoria/figs/habitacion_grabacion.png, id=202, 702.625pt x 936.49875pt>
+<../memoria/figs/habitacion_grabacion.png, id=110, 702.625pt x 936.49875pt>
 File: ../memoria/figs/habitacion_grabacion.png Graphic file (type png)
 <use ../memoria/figs/habitacion_grabacion.png>
 Package pdftex.def Info: ../memoria/figs/habitacion_grabacion.png  used on inpu
-t line 40.
+t line 244.
 (pdftex.def)             Requested size: 99.05298pt x 132.02538pt.
-<../memoria/figs/casco_eeg.png, id=203, 702.625pt x 936.49875pt>
+<../memoria/figs/casco_eeg.png, id=111, 702.625pt x 936.49875pt>
 File: ../memoria/figs/casco_eeg.png Graphic file (type png)
 <use ../memoria/figs/casco_eeg.png>
-Package pdftex.def Info: ../memoria/figs/casco_eeg.png  used on input line 40.
+Package pdftex.def Info: ../memoria/figs/casco_eeg.png  used on input line 244.
+
 (pdftex.def)             Requested size: 82.54236pt x 110.02177pt.
- [18
 
- <../memoria/figs/habitacion_grabacion.png> <../memoria/figs/casco_eeg.png>] [1
-9
+[9
 
-])
-(./desarrollo.tex [20
+ <../memoria/figs/habitacion_grabacion.png> <../memoria/figs/casco_eeg.png>]
+<../memoria/figs/lobulos_cerebrales.png, id=121, 642.4pt x 458.71375pt>
+File: ../memoria/figs/lobulos_cerebrales.png Graphic file (type png)
+<use ../memoria/figs/lobulos_cerebrales.png>
+Package pdftex.def Info: ../memoria/figs/lobulos_cerebrales.png  used on input 
+line 356.
+(pdftex.def)             Requested size: 157.20677pt x 112.25636pt.
 
-] [21
+[10
+
+ <../memoria/figs/lobulos_cerebrales.png>]) (./objetivos.tex [11
 
 ]
-<figs/edf_raw_marcas_temporales.png, id=236, 1043.5788pt x 647.17786pt>
+<figs/eeg.png, id=138, 9970.24875pt x 7042.31pt>
+File: figs/eeg.png Graphic file (type png)
+<use figs/eeg.png>
+Package pdftex.def Info: figs/eeg.png  used on input line 79.
+(pdftex.def)             Requested size: 81.09052pt x 57.2745pt.
+ [12
+
+ <./figs/eeg.png>]) (./desarrollo.tex [13
+
+] [14
+
+] [15
+
+]
+<figs/edf_raw_marcas_temporales.png, id=170, 1043.5788pt x 647.17786pt>
 File: figs/edf_raw_marcas_temporales.png Graphic file (type png)
 <use figs/edf_raw_marcas_temporales.png>
 Package pdftex.def Info: figs/edf_raw_marcas_temporales.png  used on input line
- 114.
-(pdftex.def)             Requested size: 265.49913pt x 164.64796pt.
- [22
+ 162.
+(pdftex.def)             Requested size: 213.27197pt x 132.25755pt.
+<figs/epocas_consecutivas_marcas.png, id=171, 1148.73164pt x 535.5207pt>
+File: figs/epocas_consecutivas_marcas.png Graphic file (type png)
+<use figs/epocas_consecutivas_marcas.png>
+Package pdftex.def Info: figs/epocas_consecutivas_marcas.png  used on input lin
+e 162.
+(pdftex.def)             Requested size: 213.27197pt x 99.42114pt.
+ [16
 
- <./figs/edf_raw_marcas_temporales.png>]
-[23
+ <./figs/edf_raw_marcas_temporales.png> <./figs/epocas_consecutivas_marcas.png>
+] [17
 
 ]
-<../memoria/figs/psd.png, id=252, 493.845pt x 243.91125pt>
+<../memoria/figs/psd.png, id=188, 493.845pt x 243.91125pt>
 File: ../memoria/figs/psd.png Graphic file (type png)
 <use ../memoria/figs/psd.png>
-Package pdftex.def Info: ../memoria/figs/psd.png  used on input line 232.
+Package pdftex.def Info: ../memoria/figs/psd.png  used on input line 284.
 (pdftex.def)             Requested size: 210.57162pt x 104.00145pt.
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
-32.
- (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+84.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [24
+) [18
 
- <../memoria/figs/psd.png>] [25
+ <../memoria/figs/psd.png>] [19
 
-] [26
+] [20
 
-] [27
+] [21
 
-] [28
+]) (./resultados.tex [22
 
-]) (./resultados.tex [29
-
-] [30
+] [23
 
 ]
-<../memoria/figs/separability/PCA_global_condicion.png, id=305, 1302.8675pt x 8
+<../memoria/figs/separability/PCA_global_condicion.png, id=235, 1302.8675pt x 8
 65.2325pt>
 File: ../memoria/figs/separability/PCA_global_condicion.png Graphic file (type 
 png)
 <use ../memoria/figs/separability/PCA_global_condicion.png>
 Package pdftex.def Info: ../memoria/figs/separability/PCA_global_condicion.png 
- used on input line 33.
+ used on input line 42.
 (pdftex.def)             Requested size: 200.47617pt x 133.13268pt.
-<../memoria/figs/separability/PCA_global_sujeto.png, id=306, 1220.56pt x 851.18
+<../memoria/figs/separability/PCA_global_sujeto.png, id=236, 1220.56pt x 851.18
 pt>
 File: ../memoria/figs/separability/PCA_global_sujeto.png Graphic file (type png
 )
 <use ../memoria/figs/separability/PCA_global_sujeto.png>
 Package pdftex.def Info: ../memoria/figs/separability/PCA_global_sujeto.png  us
-ed on input line 33.
+ed on input line 42.
 (pdftex.def)             Requested size: 200.47617pt x 139.80222pt.
- [31
+ [24
 
  <../memoria/figs/separability/PCA_global_condicion.png> <../memoria/figs/separ
 ability/PCA_global_sujeto.png>]
-<../memoria/figs/separability/LDA_global_condicion.png, id=317, 1299.85625pt x 
+<../memoria/figs/separability/LDA_global_condicion.png, id=246, 1299.85625pt x 
 848.16875pt>
 File: ../memoria/figs/separability/LDA_global_condicion.png Graphic file (type 
 png)
 <use ../memoria/figs/separability/LDA_global_condicion.png>
 Package pdftex.def Info: ../memoria/figs/separability/LDA_global_condicion.png 
- used on input line 56.
+ used on input line 65.
 (pdftex.def)             Requested size: 200.47617pt x 130.80475pt.
-<../memoria/figs/separability/LDA_global_sujeto.png, id=318, 1205.50375pt x 869
+<../memoria/figs/separability/LDA_global_sujeto.png, id=247, 1205.50375pt x 869
 .2475pt>
 File: ../memoria/figs/separability/LDA_global_sujeto.png Graphic file (type png
 )
 <use ../memoria/figs/separability/LDA_global_sujeto.png>
 Package pdftex.def Info: ../memoria/figs/separability/LDA_global_sujeto.png  us
-ed on input line 56.
+ed on input line 65.
 (pdftex.def)             Requested size: 200.47617pt x 144.54706pt.
- [32
+ [25
 
  <../memoria/figs/separability/LDA_global_condicion.png> <../memoria/figs/separ
 ability/LDA_global_sujeto.png>]
-<../memoria/figs/separability/pca_547.png, id=328, 520.344pt x 390.258pt>
+<../memoria/figs/separability/pca_547.png, id=258, 520.344pt x 390.258pt>
 File: ../memoria/figs/separability/pca_547.png Graphic file (type png)
 <use ../memoria/figs/separability/pca_547.png>
 Package pdftex.def Info: ../memoria/figs/separability/pca_547.png  used on inpu
-t line 79.
+t line 88.
 (pdftex.def)             Requested size: 187.68037pt x 140.76073pt.
-<../memoria/figs/separability/pca_552.png, id=329, 520.344pt x 390.258pt>
+<../memoria/figs/separability/pca_552.png, id=259, 520.344pt x 390.258pt>
 File: ../memoria/figs/separability/pca_552.png Graphic file (type png)
 <use ../memoria/figs/separability/pca_552.png>
 Package pdftex.def Info: ../memoria/figs/separability/pca_552.png  used on inpu
-t line 79.
+t line 88.
 (pdftex.def)             Requested size: 187.68037pt x 140.76073pt.
- [33
+ [26
 
  <../memoria/figs/separability/pca_547.png> <../memoria/figs/separability/pca_5
 52.png>]
-<../memoria/figs/separability/lda_547.png, id=339, 520.344pt x 390.258pt>
+<../memoria/figs/separability/lda_547.png, id=269, 520.344pt x 390.258pt>
 File: ../memoria/figs/separability/lda_547.png Graphic file (type png)
 <use ../memoria/figs/separability/lda_547.png>
 Package pdftex.def Info: ../memoria/figs/separability/lda_547.png  used on inpu
-t line 102.
+t line 111.
 (pdftex.def)             Requested size: 187.68037pt x 140.76073pt.
-<../memoria/figs/separability/lda_552.png, id=340, 520.344pt x 390.258pt>
+<../memoria/figs/separability/lda_552.png, id=270, 520.344pt x 390.258pt>
 File: ../memoria/figs/separability/lda_552.png Graphic file (type png)
 <use ../memoria/figs/separability/lda_552.png>
 Package pdftex.def Info: ../memoria/figs/separability/lda_552.png  used on inpu
-t line 102.
+t line 111.
 (pdftex.def)             Requested size: 187.68037pt x 140.76073pt.
- [34
+ [27
 
  <../memoria/figs/separability/lda_547.png> <../memoria/figs/separability/lda_5
 52.png>]
-<../memoria/figs/training/all_subjects/log_reg.png, id=350, 707.64375pt x 549.0
+<../memoria/figs/training/all_subjects/log_reg.png, id=280, 707.64375pt x 549.0
 5125pt>
 File: ../memoria/figs/training/all_subjects/log_reg.png Graphic file (type png)
 
 <use ../memoria/figs/training/all_subjects/log_reg.png>
 Package pdftex.def Info: ../memoria/figs/training/all_subjects/log_reg.png  use
-d on input line 121.
+d on input line 130.
 (pdftex.def)             Requested size: 196.20982pt x 152.23366pt.
-<../memoria/figs/training/within/logreg.png, id=351, 707.64375pt x 549.05125pt>
+<../memoria/figs/training/within/logreg.png, id=281, 707.64375pt x 549.05125pt>
 
 File: ../memoria/figs/training/within/logreg.png Graphic file (type png)
 <use ../memoria/figs/training/within/logreg.png>
 Package pdftex.def Info: ../memoria/figs/training/within/logreg.png  used on in
-put line 121.
+put line 130.
 (pdftex.def)             Requested size: 196.20982pt x 152.23366pt.
-
-[35
+ [28
 
  <../memoria/figs/training/all_subjects/log_reg.png> <../memoria/figs/training/
 within/logreg.png>]
-<../memoria/figs/explicabilidad/04_topomap_signed_JOY.png, id=362, 650.43pt x 2
+<../memoria/figs/explicabilidad/04_topomap_signed_JOY.png, id=291, 650.43pt x 2
 89.08pt>
 File: ../memoria/figs/explicabilidad/04_topomap_signed_JOY.png Graphic file (ty
 pe png)
 <use ../memoria/figs/explicabilidad/04_topomap_signed_JOY.png>
 Package pdftex.def Info: ../memoria/figs/explicabilidad/04_topomap_signed_JOY.p
-ng  used on input line 160.
+ng  used on input line 169.
 (pdftex.def)             Requested size: 121.4313pt x 53.96858pt.
-<../memoria/figs/explicabilidad/04_topomap_signed_NEUTRO.png, id=363, 650.43pt 
+<../memoria/figs/explicabilidad/04_topomap_signed_NEUTRO.png, id=292, 650.43pt 
 x 289.08pt>
 File: ../memoria/figs/explicabilidad/04_topomap_signed_NEUTRO.png Graphic file 
 (type png)
 <use ../memoria/figs/explicabilidad/04_topomap_signed_NEUTRO.png>
 Package pdftex.def Info: ../memoria/figs/explicabilidad/04_topomap_signed_NEUTR
-O.png  used on input line 160.
+O.png  used on input line 169.
 (pdftex.def)             Requested size: 121.4313pt x 53.96858pt.
-<../memoria/figs/explicabilidad/04_topomap_signed_SAD.png, id=364, 650.43pt x 2
+<../memoria/figs/explicabilidad/04_topomap_signed_SAD.png, id=293, 650.43pt x 2
 89.08pt>
 File: ../memoria/figs/explicabilidad/04_topomap_signed_SAD.png Graphic file (ty
 pe png)
 <use ../memoria/figs/explicabilidad/04_topomap_signed_SAD.png>
 Package pdftex.def Info: ../memoria/figs/explicabilidad/04_topomap_signed_SAD.p
-ng  used on input line 160.
+ng  used on input line 169.
 (pdftex.def)             Requested size: 121.4313pt x 53.96858pt.
- [36
+ [29
 
  <../memoria/figs/explicabilidad/04_topomap_signed_JOY.png> <../memoria/figs/ex
 plicabilidad/04_topomap_signed_NEUTRO.png> <../memoria/figs/explicabilidad/04_t
-opomap_signed_SAD.png>]) (./conclusion.tex [37
+opomap_signed_SAD.png>]) (./conclusion.tex [30
+
+] [31
+
+] [32
 
 ]
-[38
+[33
 
 ])
 \tf@nav=\write6
@@ -1334,33 +1318,32 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 20A33C81C2212B58765B6B6137AF6AEC;837.
+(rerunfilecheck)             Checksum: 1D55CA8469526406ADDA1E5403878F92;549.
  ) 
 Here is how much of TeX's memory you used:
- 27747 strings out of 474222
- 548863 string characters out of 5748733
- 1937975 words of memory out of 5000000
- 49353 multiletter control sequences out of 15000+600000
- 576150 words of font info for 69 fonts, out of 8000000 for 9000
+ 27697 strings out of 474222
+ 547635 string characters out of 5748733
+ 1944975 words of memory out of 5000000
+ 49323 multiletter control sequences out of 15000+600000
+ 576135 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,14n,123p,379b,1150s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/share/texmf/fonts/type1/public/cm-super/sfsi0700.pfb></usr/share/texmf/fonts/
-type1/public/cm-super/sfsi0900.pfb></usr/share/texmf/fonts/type1/public/cm-supe
-r/sfss0500.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0700.pfb></usr
-/share/texmf/fonts/type1/public/cm-super/sfss0900.pfb></usr/share/texmf/fonts/t
-ype1/public/cm-super/sfss1000.pfb></usr/share/texmf/fonts/type1/public/cm-super
-/sfss1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1440.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfsx0700.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfsx0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/
-sfsx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/s
-hare/texmf/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/fonts/typ
-e1/public/cm-super/sfsx2074.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-fsx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on main.pdf (38 pages, 6551143 bytes).
+ 128i,14n,123p,379b,1305s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf/fonts/type1/public/cm-super/sfsi0700.pfb></usr/share/texmf/
+fonts/type1/public/cm-super/sfsi0900.pfb></usr/share/texmf/fonts/type1/public/c
+m-super/sfss0500.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss0700.pfb
+></usr/share/texmf/fonts/type1/public/cm-super/sfss0900.pfb></usr/share/texmf/f
+onts/type1/public/cm-super/sfss1000.pfb></usr/share/texmf/fonts/type1/public/cm
+-super/sfss1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx0700.pfb>
+</usr/share/texmf/fonts/type1/public/cm-super/sfsx0900.pfb></usr/share/texmf/fo
+nts/type1/public/cm-super/sfsx1000.pfb></usr/share/texmf/fonts/type1/public/cm-
+super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb><
+/usr/share/texmf/fonts/type1/public/cm-super/sfsx1728.pfb></usr/share/texmf/fon
+ts/type1/public/cm-super/sfsx2488.pfb></usr/share/texmf/fonts/type1/public/cm-s
+uper/sftt0800.pfb>
+Output written on main.pdf (33 pages, 6245081 bytes).
 PDF statistics:
- 484 PDF objects out of 1000 (max. 8388607)
- 311 compressed objects within 4 object streams
- 84 named destinations out of 1000 (max. 500000)
- 240 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 414 PDF objects out of 1000 (max. 8388607)
+ 257 compressed objects within 3 object streams
+ 72 named destinations out of 1000 (max. 500000)
+ 218 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,47 +1,126 @@
 \section{Conclusiones}
 
-\begin{frame}{Conclusiones y líneas futuras}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.49\textwidth}
-            \begin{tikzpicture}[
-                caja/.style={
-                    rectangle,
-                    rounded corners=6pt,
-                    fill=urjcred!7,
-                    draw=urjcred!30,
-                    text width=5.35cm,
-                    minimum height=0.86cm,
-                    align=left,
-                    font=\small,
-                    inner xsep=8pt
-                }
-            ]
-                \node[font=\large\bfseries, text=urjcred, anchor=west] at (0,0) {Conclusiones};
-                \node[caja, anchor=north west] (a) at (0,-0.42) {Sistema completo: dato crudo, preprocesado, entrenamiento y explicabilidad.};
-                \node[caja, anchor=north west] (b) at (0,-1.42) {El modelo por sujeto supera al modelo general.};
-                \node[caja, anchor=north west] (c) at (0,-2.42) {La variabilidad entre participantes condiciona el análisis de EEG emocional.};
-            \end{tikzpicture}
-        \end{column}
+\begin{frame}{Conclusiones}
+    \centering
+    \vspace{0.1cm}
+    \begin{tikzpicture}[
+        caja/.style={
+            rectangle,
+            rounded corners=7pt,
+            minimum width=3.65cm,
+            minimum height=2.25cm,
+            align=center,
+            font=\small,
+            draw=black!22,
+            inner sep=8pt
+        },
+    ]
+        \node[caja, fill=blue!8] at (-4.1,0.75) {
+            {\bfseries Flujo completo}\\[2mm]
+            Del dato crudo\\
+            a características,\\
+            modelos y topomaps
+        };
 
-        \begin{column}{0.49\textwidth}
-            \begin{tikzpicture}[
-                caja/.style={
-                    rectangle,
-                    rounded corners=6pt,
-                    fill=softblue!8,
-                    draw=softblue!35,
-                    text width=5.35cm,
-                    minimum height=0.86cm,
-                    align=left,
-                    font=\small,
-                    inner xsep=8pt
-                }
-            ]
-                \node[font=\large\bfseries, text=softblue, anchor=west] at (0,0) {Líneas futuras};
-                \node[caja, anchor=north west] (a) at (0,-0.42) {Probar con más participantes y emociones para validar el sistema.};
-                \node[caja, anchor=north west] (b) at (0,-1.42) {Estudiar transferencia entre sujetos.};
-                \node[caja, anchor=north west] (c) at (0,-2.42) {Calibración rápida para acercarlo a contextos clínicos.};
-            \end{tikzpicture}
-        \end{column}
-    \end{columns}
+        \node[caja, fill=green!10] at (0,0.75) {
+            {\bfseries Buen rendimiento}\\[2mm]
+            La clasificación\\
+            por sujeto obtiene\\
+            mayor precisión
+        };
+
+        \node[caja, fill=orange!10] at (4.1,0.75) {
+            {\bfseries Interpretación}\\[2mm]
+            Bandas, canales\\
+            y zonas relevantes\\
+            son analizables
+        };
+
+        \node[
+            rectangle,
+            rounded corners=5pt,
+            fill=black!4,
+            draw=black!18,
+            text width=9.9cm,
+            minimum height=0.62cm,
+            align=center,
+            font=\scriptsize
+        ] at (0,-1.75) {La variabilidad entre participantes refuerza el uso de modelos por sujeto en este conjunto de datos.};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Líneas futuras}
+    \centering
+    \vspace{0.1cm}
+    \begin{tikzpicture}[
+        caja/.style={
+            rectangle,
+            rounded corners=7pt,
+            minimum width=3.65cm,
+            minimum height=2.35cm,
+            align=center,
+            font=\small,
+            draw=black!22,
+            inner sep=8pt
+        },
+    ]
+        \node[
+            rectangle,
+            rounded corners=7pt,
+            fill=softblue!8,
+            draw=softblue!35,
+            text width=10.7cm,
+            minimum height=0.82cm,
+            align=center,
+            font=\large\bfseries
+        ] at (0,2.0) {Siguientes pasos para acercar el sistema a un uso más robusto};
+
+        \node[caja, fill=green!9] at (-4.1,-0.25) {
+            {\bfseries Más validación}\\[2mm]
+            Ampliar participantes\\
+            y emociones para\\
+            comprobar generalización
+        };
+
+        \node[caja, fill=blue!8] at (0,-0.25) {
+            {\bfseries Transferencia}\\[2mm]
+            Estudiar si un modelo\\
+            puede adaptarse\\
+            entre personas
+        };
+
+        \node[caja, fill=orange!10] at (4.1,-0.25) {
+            {\bfseries Calibración rápida}\\[2mm]
+            Ajustar modelos\\
+            individuales con\\
+            menos tiempo de registro
+        };
+
+        \node[
+            rectangle,
+            rounded corners=5pt,
+            fill=black!4,
+            draw=black!18,
+            text width=9.9cm,
+            minimum height=0.62cm,
+            align=center,
+            font=\scriptsize
+        ] at (0,-2.45) {A largo plazo: mejorar la detección emocional cuando las señales externas no son suficientes.};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[align=center, text=urjcred, font=\Huge\bfseries]
+            at ([yshift=0.55cm]current page.center)
+            {Gracias};
+
+        \node[align=center, text=black!75, font=\Large]
+            at ([yshift=-0.35cm]current page.center)
+            {¿Alguna pregunta?};
+
+        \draw[urjcred, line width=1.1pt]
+            ([xshift=-2.0cm,yshift=-0.92cm]current page.center)
+            -- ([xshift=2.0cm,yshift=-0.92cm]current page.center);
+    \end{tikzpicture}
 \end{frame}

@@ -1,44 +1,5 @@
 \section{Materiales y datos}
 
-\begin{frame}{Registro de los datos}
-    \begin{columns}[c,onlytextwidth]
-        \begin{column}{0.42\textwidth}
-            \begin{tikzpicture}[
-                dato/.style={
-                    rectangle,
-                    rounded corners=4pt,
-                    fill=urjcred!8,
-                    draw=urjcred!35,
-                    text width=4.55cm,
-                    minimum height=0.78cm,
-                    align=left,
-                    font=\small,
-                    inner xsep=8pt
-                }
-            ]
-                \node[dato] (a) {\textbf{Entorno controlado}\\Sala aislada y completamente oscura};
-                \node[dato, below=0.25cm of a] (b) {\textbf{Registro EEG}\\Casco con electrodos húmedos};
-                \node[dato, below=0.25cm of b] (c) {\textbf{Audios}\\Frases con prosodia emocional};
-                \node[dato, below=0.25cm of c] (d) {\textbf{Duración}\\Sesiones de 1--1,5 horas};
-            \end{tikzpicture}
-        \end{column}
-
-        \begin{column}{0.55\textwidth}
-            \centering
-            \begin{columns}[c,onlytextwidth]
-                \begin{column}{0.52\textwidth}
-                    \centering
-                    \includegraphics[height=0.54\textheight]{../memoria/figs/habitacion_grabacion.png}
-                \end{column}
-                \begin{column}{0.43\textwidth}
-                    \centering
-                    \includegraphics[height=0.45\textheight]{../memoria/figs/casco_eeg.png}
-                \end{column}
-            \end{columns}
-        \end{column}
-    \end{columns}
-\end{frame}
-
 \begin{frame}{Conjunto de datos}
     \centering
     \begin{tikzpicture}[

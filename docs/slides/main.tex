@@ -101,13 +101,33 @@
 \end{frame}
 
 \begin{frame}{Índice}
-    \tableofcontents
+    \centering
+    \vspace{0.05cm}
+    \begin{tikzpicture}[
+        numero/.style={
+            circle,
+            minimum size=0.62cm,
+            fill=urjcred,
+            text=white,
+            font=\large\bfseries
+        }
+    ]
+        \foreach \texto [count=\n] in {
+            Introducción,
+            Objetivos,
+            Desarrollo del sistema,
+            Resultados,
+            Conclusiones
+        } {
+            \node[numero] at (-3.55,{1.65-0.86*(\n-1)}) {\n};
+            \node[anchor=west, font=\LARGE\bfseries, text=black!88]
+                at (-3.0,{1.65-0.86*(\n-1)}) {\texto};
+        }
+    \end{tikzpicture}
 \end{frame}
 
 \input{introduccion}
-\input{fundamentos}
 \input{objetivos}
-\input{materiales_datos}
 \input{desarrollo}
 \input{resultados}
 \input{conclusion}

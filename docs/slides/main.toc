@@ -1,8 +1,6 @@
 \babel@toc {spanish}{}\relax 
 \beamer@sectionintoc {1}{Introducción}{4}{0}{1}
-\beamer@sectionintoc {2}{Fundamentos teóricos}{11}{0}{2}
-\beamer@sectionintoc {3}{Objetivos}{15}{0}{3}
-\beamer@sectionintoc {4}{Materiales y datos}{17}{0}{4}
-\beamer@sectionintoc {5}{Desarrollo del sistema}{20}{0}{5}
-\beamer@sectionintoc {6}{Resultados}{29}{0}{6}
-\beamer@sectionintoc {7}{Conclusiones}{37}{0}{7}
+\beamer@sectionintoc {2}{Objetivos}{11}{0}{2}
+\beamer@sectionintoc {3}{Desarrollo del sistema}{13}{0}{3}
+\beamer@sectionintoc {4}{Resultados}{22}{0}{4}
+\beamer@sectionintoc {5}{Conclusiones}{30}{0}{5}

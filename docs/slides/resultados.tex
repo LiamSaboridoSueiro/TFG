@@ -2,10 +2,19 @@
 
 \begin{frame}[plain]
     \begin{tikzpicture}[remember picture,overlay]
-        \node[align=center, text=black, font=\huge\bfseries, text width=13cm]
-            at (current page.center)
-            {¿La variabilidad entre sujetos\\[2mm]
-            oculta la separación emocional?};
+        \node[
+            align=center,
+            text=black!88,
+            font=\Huge\bfseries
+        ] at ([yshift=0.45cm]current page.center)
+        {¿La variabilidad entre sujetos};
+
+        \node[
+            align=center,
+            text=black!88,
+            font=\Huge\bfseries
+        ] at ([yshift=-0.45cm]current page.center)
+        {oculta la separación emocional?};
     \end{tikzpicture}
 \end{frame}
 
@@ -155,6 +164,6 @@
 
     \vspace{0.25cm}
     \begin{center}
-        {\scriptsize Topomaps de importancia: muestran qué zonas y bandas usa el modelo para diferenciar clases.}
+        {\scriptsize Topomaps de importancia: muestran qué zonas y bandas usa el modelo; los patrones fueron supervisados y resultan coherentes.}
     \end{center}
 \end{frame}

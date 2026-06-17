@@ -25,48 +25,16 @@
 
         \begin{column}{0.47\textwidth}
             \centering
-            \includegraphics[width=0.86\textwidth]{../memoria/figs/sistema_10_20.png}
+            \includegraphics[width=0.52\textwidth]{../memoria/figs/sistema_10_20.png}
 
-            \vspace{0.1cm}
+            \vspace{0.02cm}
             {\scriptsize Sistema internacional 10--20}
-        \end{column}
-    \end{columns}
-\end{frame}
 
-\begin{frame}{Señal por canales}
-    \centering
-    \includegraphics[width=0.82\textwidth]{figs/channels.png}
+            \vspace{0.15cm}
+            \includegraphics[width=0.78\textwidth]{figs/channels.png}
 
-    \vspace{0.25cm}
-    \begin{center}
-        {\small Cada canal registra una señal temporal distinta, asociada a una posición del montaje.}
-    \end{center}
-\end{frame}
-
-\begin{frame}{Motivación}
-    \begin{columns}[c,onlytextwidth]
-        \begin{column}{0.38\textwidth}
-            \begin{tikzpicture}[
-                motivo/.style={
-                    rectangle,
-                    rounded corners=3pt,
-                    fill=urjcred!8,
-                    draw=urjcred!35,
-                    text width=4.0cm,
-                    minimum height=1.0cm,
-                    align=left,
-                    font=\small,
-                    inner xsep=8pt
-                }
-            ]
-                \node[motivo] (a) {\textbf{Prueba del sueño}\\Primer contacto con señales EEG};
-                \node[motivo, below=0.4cm of a] (b) {\textbf{Pregunta}\\¿Puede un modelo de IA entender estas señales?};
-            \end{tikzpicture}
-        \end{column}
-
-        \begin{column}{0.58\textwidth}
-            \centering
-            \includegraphics[width=0.92\textwidth]{figs/prueba_sueno.png}
+            \vspace{0.02cm}
+            {\scriptsize Señal temporal registrada en distintos canales}
         \end{column}
     \end{columns}
 \end{frame}
@@ -213,7 +181,7 @@
         };
         \node[emocion, fill=green!16, draw=green!35!black, right=0.55cm of joy] (neutro) {
             {\Large\bfseries NEUTRO}\\[2mm]
-            estado de referencia
+            estado de referencia/basal
         };
         \node[emocion, fill=blue!14, draw=blue!35, right=0.55cm of neutro] (sad) {
             {\Large\bfseries SAD}\\[2mm]
@@ -234,4 +202,155 @@
             font=\small
         ] {Tres clases simples para comprobar si el sistema distingue cambios emocionales respecto a una condición neutra.};
     \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Registro de los datos}
+    \begin{columns}[c,onlytextwidth]
+        \begin{column}{0.42\textwidth}
+            \begin{tikzpicture}[
+                dato/.style={
+                    rectangle,
+                    rounded corners=4pt,
+                    fill=urjcred!8,
+                    draw=urjcred!35,
+                    text width=4.55cm,
+                    minimum height=0.78cm,
+                    align=left,
+                    font=\small,
+                    inner xsep=8pt
+                }
+            ]
+                \node[dato] (a) {\textbf{Entorno controlado}\\Sala aislada y completamente oscura};
+                \node[dato, below=0.25cm of a] (b) {\textbf{Registro EEG}\\Casco con electrodos húmedos};
+                \node[dato, below=0.25cm of b] (c) {\textbf{Audios}\\Frases con prosodia emocional};
+                \node[dato, below=0.25cm of c] (d) {\textbf{Duración}\\Sesiones de 1--1,5 horas};
+            \end{tikzpicture}
+        \end{column}
+
+        \begin{column}{0.55\textwidth}
+            \centering
+            \begin{columns}[c,onlytextwidth]
+                \begin{column}{0.52\textwidth}
+                    \centering
+                    \includegraphics[height=0.54\textheight]{../memoria/figs/habitacion_grabacion.png}
+                \end{column}
+                \begin{column}{0.43\textwidth}
+                    \centering
+                    \includegraphics[height=0.45\textheight]{../memoria/figs/casco_eeg.png}
+                \end{column}
+            \end{columns}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Referencia anatómica y bandas espectrales}
+    \vspace{-0.02cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.43\textwidth}
+            \centering
+            \begin{tikzpicture}[
+                titulo/.style={
+                    rectangle,
+                    rounded corners=3pt,
+                    fill=urjcred!10,
+                    draw=urjcred!35,
+                    text width=4.8cm,
+                    minimum height=0.42cm,
+                    align=center,
+                    font=\scriptsize\bfseries
+                }
+            ]
+                \node[titulo] {Zonas cerebrales de referencia};
+            \end{tikzpicture}
+
+            \vspace{0.10cm}
+            \includegraphics[width=0.84\textwidth]{../memoria/figs/lobulos_cerebrales.png}
+
+            \vspace{0.10cm}
+            \begin{tikzpicture}[
+                zona/.style={
+                    rectangle,
+                    rounded corners=3pt,
+                    fill=black!4,
+                    draw=black!20,
+                    text width=2.32cm,
+                    minimum width=2.32cm,
+                    minimum height=1.02cm,
+                    align=center,
+                    font=\scriptsize,
+                    inner xsep=2pt,
+                    outer sep=0pt
+                }
+            ]
+                \node[zona] at (-1.40,0) {\textbf{Frontal}\\pensamiento\\consciente};
+                \node[zona] at (1.40,0) {\textbf{Temporal}\\oído y estímulos\\complejos};
+                \node[zona] at (-1.40,-1.18) {\textbf{Parietal}\\integración\\sensorial};
+                \node[zona] at (1.40,-1.18) {\textbf{Occipital}\\visión};
+            \end{tikzpicture}
+        \end{column}
+
+        \begin{column}{0.54\textwidth}
+            \centering
+            \vspace{0.22cm}
+            \begin{tikzpicture}[
+                titulo/.style={
+                    rectangle,
+                    rounded corners=3pt,
+                    fill=softblue!10,
+                    draw=softblue!35,
+                    text width=6.35cm,
+                    minimum height=0.42cm,
+                    align=center,
+                    font=\scriptsize\bfseries
+                },
+                fila/.style={
+                    rectangle,
+                    rounded corners=4pt,
+                    fill=black!3,
+                    draw=black!15,
+                    text width=6.45cm,
+                    minimum height=0.64cm,
+                    align=left,
+                    font=\scriptsize,
+                    inner xsep=6pt
+                },
+                banda/.style={
+                    rectangle,
+                    rounded corners=3pt,
+                    minimum width=1.25cm,
+                    minimum height=0.38cm,
+                    align=center,
+                    font=\scriptsize\bfseries
+                }
+            ]
+                \node[titulo] at (0,0) {Bandas espectrales};
+
+                \node[fila] at (0,-0.76) {\hspace{1.58cm}\textbf{1--4 Hz}\hspace{0.35cm} sueño / baja actividad};
+                \node[banda, fill=blue!10, draw=blue!35] at (-2.55,-0.76) {Delta};
+
+                \node[fila] at (0,-1.50) {\hspace{1.58cm}\textbf{4--8 Hz}\hspace{0.35cm} somnolencia o relajación};
+                \node[banda, fill=cyan!12, draw=cyan!40!black] at (-2.55,-1.50) {Theta};
+
+                \node[fila] at (0,-2.24) {\hspace{1.58cm}\textbf{8--12 Hz}\hspace{0.25cm} despierto, tranquilo};
+                \node[banda, fill=green!12, draw=green!40!black] at (-2.55,-2.24) {Alpha};
+
+                \node[fila] at (0,-2.98) {\hspace{1.58cm}\textbf{12--30 Hz}\hspace{0.15cm} atención o concentración};
+                \node[banda, fill=orange!16, draw=orange!45!black] at (-2.55,-2.98) {Beta};
+
+                \node[fila] at (0,-3.72) {\hspace{1.58cm}\textbf{>30 Hz}\hspace{0.42cm} procesos cognitivos complejos};
+                \node[banda, fill=red!10, draw=red!35] at (-2.55,-3.72) {Gamma};
+
+                \node[
+                    rectangle,
+                    rounded corners=4pt,
+                    fill=urjcred!7,
+                    draw=urjcred!25,
+                    text width=6.35cm,
+                    minimum height=0.58cm,
+                    align=center,
+                    font=\scriptsize
+                ] at (0,-4.62) {El cerebro no graba: reacciona a estímulos.};
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
 \end{frame}
